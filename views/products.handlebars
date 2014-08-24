@@ -1,0 +1,126 @@
+<div class="mod-products W-100">
+    <div>
+        <h1>{{h1}}</h1>
+        <div>
+            <div class="cart">
+                <div class="hd">購物車</div>
+                <div class="bd"></div>
+                <div class="ft">
+                    <a href="/{{brand}}/checkout" class="checkout">櫃檯結帳</a>
+                </div>
+            </div>
+            <ul>
+            {{#products}}
+                <li>
+                    <div class="">{{productName}}</div>
+
+                        {{#if sale}}
+                        <div class="sale">
+                        {{/if}}
+
+                        <div class="retail">{{retail}}</div>
+
+                        {{#if sale}}
+                        <div class="sale-price">{{sale}}</div>
+                        {{/if}}
+
+                        {{#sale}}
+                        </div>
+                        {{/sale}}
+
+                    <ul>
+                        {{#images}}
+                        <li>
+                            <img src="{{.}}" />
+                        </li>
+                        {{/images}}
+                    </ul>
+                    {{#cats.male}}
+                    <h2>男尺寸</h2>
+                    <table class="W-100 Ta-c">
+                        <tr>
+                            {{#size}}
+                            <th>{{.}}</th>
+                            {{/size}}
+                        </tr>
+                        <tr>
+                            {{#chest_diameter}}
+                            <td>{{.}}</td>
+                            {{/chest_diameter}}
+                        </tr>
+                        <tr>
+                            {{#waist_diameter}}
+                            <td>{{.}}</td>
+                            {{/waist_diameter}}
+                        </tr>
+                            {{#hip_diameter}}
+                            <td>{{.}}</td>
+                            {{/hip_diameter}}
+                        </tr>
+                    </table>
+                    {{/cats.male}}
+
+                    {{#cats.female}}
+                    <h2>女尺寸</h2>
+                    <table class="W-100 Ta-c">
+                        <tr>
+                            {{#size}}
+                            <th>{{.}}</th>
+                            {{/size}}
+                        </tr>
+                        <tr>
+                            {{#chest_diameter}}
+                            <td>{{.}}</td>
+                            {{/chest_diameter}}
+                        </tr>
+                        <tr>
+                            {{#waist_diameter}}
+                            <td>{{.}}</td>
+                            {{/waist_diameter}}
+                        </tr>
+                            {{#hip_diameter}}
+                            <td>{{.}}</td>
+                            {{/hip_diameter}}
+                        </tr>
+                    </table>
+                    {{/cats.female}}
+
+                    {{#cats.unisex}}
+                    <table class="W-100 Ta-c">
+                        <tr>
+                            {{#size}}
+                            <th>{{.}}</th>
+                            {{/size}}
+                        </tr>
+                        <tr>
+                            {{#chest_diameter}}
+                            <td>{{.}}</td>
+                            {{/chest_diameter}}
+                        </tr>
+                        <tr>
+                            {{#waist_diameter}}
+                            <td>{{.}}</td>
+                            {{/waist_diameter}}
+                        </tr>
+                            {{#hip_diameter}}
+                            <td>{{.}}</td>
+                            {{/hip_diameter}}
+                        </tr>
+                    </table>
+                    {{/cats.unisex}}
+
+                    <div class="add">
+                        <select class="add-select">
+                            <option value="0">選擇尺寸</option>
+                            {{#productList}}
+                            <option value={{key}}>{{name}}</option>
+                            {{/productList}}
+                        </select>
+                        <button class="add-button D-n">加入購物車</button>
+                    </div>
+                </li>
+            {{/products}}
+            </ul>
+        </div>
+    </div>
+</div>

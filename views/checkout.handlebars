@@ -1,0 +1,149 @@
+<div class="mod-checkout W-100">
+    <div class="main">
+        <div class="hd">
+            <h1>{{h1}}</h1>
+        </div>
+        <div class="bd">
+            {{#if content.cart }}
+            <table class="cart">
+                <tr>
+                    <th>品名</th>
+                    <th>性別</th>
+                    <th>尺寸</th>
+                    <th>數量</th>
+                    <th>價格</th>
+                    <th>加總</th>
+                </tr>
+                {{#content.cart}}
+                <tr class="item" data-pid="pid_{{id}}">
+                    <td class="name">
+                        {{name}}
+                    </td>
+                    <td class="sex">
+                        {{sex}}
+                    </td>
+                    <td class="size">
+                        {{size}}
+                    </td>
+                    <td class="count">
+                        <button class="count-btn minus">-</button>
+                        <input type="text" value="{{count}}" class="count-input" />
+                        <button class="count-btn plus">+</button>
+                    </td>
+                    <td class="price">
+                        <span class="retail">{{retail}}</span>
+                        {{#if sale}}
+                        <span class="sale">特價 {{sale}}</span>
+                        {{/if}}
+                    </td>
+                    <td class="item-sum">
+                        
+                    </td>
+                </tr>
+                {{/content.cart}}
+            </table>
+            <button class="refresh-cart">更新購物車</button>
+            <div class="calculator">
+                <div class="shipping">{{content.shipping}}</div>
+                <div class="retailSum"></div>
+                <div class="saleSum"></div>
+                <div class="subtotal"></div>
+            </div>
+            <ul>
+                {{#content.form}}
+                <li class="li-input">
+                    <div class="hd">
+                        <label for="{{key}}">{{label}}</label>
+                    </div>
+                    {{#inputs}}
+                    <div class="bd">
+                        {{#sublabel}}
+                        <label for="{{key}}">{{sublabel}}</label>
+                        {{/sublabel}}
+                        <input type="{{type}}" name="{{key}}" class="{{key}} {{#toValidate}}toValidate{{/toValidate}}" value=""/>
+                    </div>
+                    <div class="ft">
+                        {{#errormsg}}
+                        <div class="error">{{.}}</div>
+                        {{/errormsg}}
+                    </div>
+                    {{/inputs}}
+                </li>
+                {{/content.form}}
+                <li class="li-input">
+                    <div class="hd">
+                        <label for="address">地址</label>
+                    </div>
+                    <div class="bd">
+                        <ul class="">
+                            <li class="li-input">
+                                <div class="hd">
+                                    <label for="zip">郵遞區號</label>
+                                </div>
+                                <div class="bd">
+                                    <input type="text" name="zip" class="zip toValidate" value="" />
+                                </div>
+                                <div class="ft">
+                                    <div class="error">請輸入郵遞區號</div>
+                                </div>
+                            </li>
+                            <li class="li-input">
+                                <div class="hd">
+                                    <label for="address">地址</label>
+                                </div>
+                                <div class="bd">
+                                    <input type="text" name="address" class="address toValidate" value="" />
+                                </div>
+                                <div class="ft">
+                                    <div class="error">請輸入寄件地址</div>
+                                </div>
+                            </li>
+                            <li class="li-input">
+                                <div class="hd">
+                                    <label for="country">國家</label>
+                                </div>
+                                <div class="bd">
+                                    <input name="country" class="country" type="radio" value="台灣" checked="checked" />台灣
+                                </div>
+                                <div class="ft">
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ft">
+                    </div>
+                </li>
+                <li class="li-input">
+                    <div class="hd">
+                        <label for="payment">付款方式</label>
+                    </div>
+                    <div class="bd">
+                        <input name="payment_type" type="radio" checked="checked" />銀行轉帳
+                    </div>
+                    <div class="ft"></div>
+                </li>
+                <li class="li-input">
+                    <div class="hd">
+                        <label for="note">備註</label>
+                    </div>
+                    <div class="bd">
+                        <input type="text" name="note" class="note" value="" />
+                    </div>
+                    <div class="ft">
+                    </div>
+                </li>
+            </ul>
+            {{ else }}
+            購物車空的
+            {{/if}}
+            {{#if content.cart }}
+            <button class="submit-order">送出</button>
+            {{else}}
+            <a href="/{{brand}}/">回上頁</a>
+            {{/if}}
+        </div>
+        <div class="ft">
+        </div>
+    </div>
+</div>

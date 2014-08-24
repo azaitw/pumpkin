@@ -1,0 +1,55 @@
+<div class="mod-account W-100">
+<h1>{{h1}}</h1>
+{{#content}}
+    <table>
+        <tr>
+            <th>收件人</th>
+            <th>電話</th>
+            <th>地址</th>
+            <th>訂購項目</th>
+            <th>運費</th>
+            <th>小計</th>
+            <th>備註</th>
+            <th>訂單</th>
+        </tr>
+        {{#each orders}}
+        <tr>
+            <td>{{recipient}}</td>
+            <td>{{phone}}</td>
+            <td>{{zip}} {{address}}</td>
+            <td>
+                <ul>
+                {{#each items}}
+                    <li>
+                        <span>name</span>
+                        {{#if sale}}
+                        <span>{{sale}}</span>
+                        {{else}}
+                        <span>{{retail}}</span>
+                        {{/if}}
+                        x <span>{{count}}</span>
+                    </li>
+                {{/each}}
+                </ul>
+            </td>
+            <td>{{shipping}}</td>
+            <td>{{subtotal}}</td>
+            <td>{{note}}</td>
+            <td>
+                {{#if bankAccountTail}}
+                    {{#if paymentVerified}}
+                        轉帳確認
+                    {{else}}
+                        已通知轉帳
+                    {{/if}}
+                {{else}}
+                <button class="verify-btn" data-index={{@index}}>通知已轉帳</button>
+                {{/if}}
+                <a href="#">取消訂單</a>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+{{/content}}
+<div class="D-n Pos-a pop" style="width: 400px; top: 10%; border: 1px solid #999;background:#fff"></div>
+</div>

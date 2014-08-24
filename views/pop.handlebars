@@ -1,0 +1,49 @@
+<div class="hd">
+    <h2>轉出銀行</h2>
+    <button class="close-btn">關閉</button>
+</div>
+
+<ul>
+    <li class="li-input">
+        <div class="bd">
+            <input type="text" class="bankCode toValidate" value="{{bankCode}}" />銀行代碼
+        </div>
+        <div class="ft">
+            <div class="error">請填入轉帳用的銀行代碼</div>
+        </div>
+    </li>
+    <li class="li-input">
+        <div class="bd">
+            <input type="text" class="bankAccountTail toValidate" value="{{bankAccountTail}}" />帳號後五碼
+        </div>
+        <div class="ft">
+            <div class="error">請填入轉帳用的銀行帳號後五碼</div>
+        </div>
+    </li>
+    <li class="li-input">
+        <div class="bd">
+            <input type="text" class="transferAmount toValidate" value="{{transferAmount}}" />轉出金額
+        </div>
+        <div class="ft">
+            <div class="error">請填入轉帳金額</div>
+        </div>
+    </li>
+</ul>
+<div class="li-input checkbox-input">
+    <div class="bd">
+        <ul class="">
+            {{#each orders}}
+            <li class="li-input">
+                <div class="bd">
+                    <input type="checkbox" name="order-to-verify-{{@index}}" class="order-to-verify order-to-verify-{{@index}}" data-index="{{@index}}" {{#if checked}}checked{{/if}} {{#if disabled}}checked disabled{{/if}} />
+                    {{subtotal}}
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="ft">
+        <div class="error">請勾選要進行轉帳確認的訂單</div>
+    </div>
+</div>
+<button class="verify-submit">送出</button>

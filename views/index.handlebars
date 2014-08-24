@@ -1,0 +1,31 @@
+<!DOCTTYPE html>
+<html>
+    {{> head }}
+<body>
+    <div class="hd main">
+        {{> header }}
+    </div>
+    <div class="bd main">
+        {{> body }}
+    </div>
+</body>
+<script>
+    var X = {
+        params: {
+            brand: '{{brand}}',
+            uuid: '{{uuid}}',
+            readUuid: true,
+            json: {{#if json}} {{{json}}} {{else}} '' {{/if}}
+        }
+    };
+    {{#if templates}}
+    X.templates = {{templates}};
+    {{/if}}
+</script>
+<!--SCRIPTS-->
+<script src="/min/production.js"></script>
+<!--SCRIPTS END-->
+{{#js}}
+<script src="/js/page/{{.}}"></script>
+{{/js}}
+</html>

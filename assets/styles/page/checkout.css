@@ -1,0 +1,9 @@
+.li-input .error {
+    display: none;
+}
+.li-input.showErr input {
+    border: 1px solid red;
+}
+.li-input.showErr .error {
+    display: block;
+}

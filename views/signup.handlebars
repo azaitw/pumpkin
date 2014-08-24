@@ -1,0 +1,33 @@
+<div class="mod-signup W-100">
+    <div style="height: 300px;width:400px;">
+        <h1>{{h1}}</h1>
+        {{#message}}
+            <div style="border:1px solid red">
+                <ul>
+                    <li>{{message}}</li>
+                </ul>
+            </div>
+        {{/message}}
+        <ul>
+        {{#form}}
+        <li class="li-input">
+            <div class="hd">
+                <label for="{{key}}">{{label}}</label>
+            </div>
+            <div class="bd">
+                {{#sublabel}}
+                <label for="{{key}}">{{sublabel}}</label>
+                {{/sublabel}}
+                <input type="{{type}}" name="{{key}}" class="{{key}} {{#toValidate}}toValidate{{/toValidate}}" value="" style="{{style}}" {{params}} />
+            </div>
+            <div class="ft">
+                {{#errormsg}}
+                <div class="error">{{.}}</div>
+                {{/errormsg}}
+            </div>
+        </li>
+        {{/form}}
+        </ul>
+            <input class="submitBtn" type="submit"/>
+    </div>
+</div>
