@@ -13,8 +13,7 @@ var product = {
             required: true
         },
         brand: {
-            type: 'string',
-            required: true
+            model: 'brand'
         },
         type: {
             type: 'string',

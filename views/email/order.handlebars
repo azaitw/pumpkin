@@ -1,0 +1,73 @@
+<html>
+<head>
+<!--STYLES-->
+<link rel="stylesheet" href="/styles/bricks.css">
+<link rel="stylesheet" href="/styles/grid.css">
+<link rel="stylesheet" href="/styles/normalize.css">
+<link rel="stylesheet" href="/styles/page/checkout.css">
+<!--STYLES END-->
+</head>
+<body>
+<h1>訂單</h1>
+
+<div><a href="{{link}}">查詢訂單或通知已轉帳</a></div>
+
+<div>
+    轉帳帳號：
+    <ul>
+        <li><span>銀行代碼：</span><span>{{brand.bankCode}}</span></li>
+        <li><span>帳號：</span><span>{{brand.bankAccountNumber}}</span></li>
+        <li><span>戶名：</span><span>{{brand.bankAccountName}}</span></li>
+        <li><span>金額：</span><span>{{sum}}</span></li>
+    </ul>
+</div>
+<div>
+    <dl>
+        <dt>
+            收件人：
+        </dt>
+        <dd>
+            <ul>
+                <li>{{recipient}}</li>
+                <li>{{zip}} {{address}}, {{country}}</li>
+                <li>{{phone}}</li>
+            </ul>
+        </dd>
+    </dl>
+</div>
+
+<table>
+    <tr>
+        <th>品名</th>
+        <th>單價</th>
+        <th>數量</th>
+        <th>小計</th>
+    </tr>
+    {{#each items}}
+    <tr>
+        <td>{{name}} {{sex}}</td>
+        {{#if sale}}
+        <td>{{sale}}</td>
+        {{else}}
+        <td>{{retail}}</td>
+        {{/if}}
+        <td>{{count}}</td>
+        <td>{{sum}}</td>
+    </tr>
+    {{/each}}
+    <tr>
+        <td>運費</td>
+        <td></td>
+        <td></td>
+        <td>{{shipping}}</td>
+    </tr>
+    <tr>
+        <td>加總</td>
+        <td></td>
+        <td></td>
+        <td>{{sum}}</td>
+    </tr>
+</table>
+備註：{{note}}
+</body>
+</html>

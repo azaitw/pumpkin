@@ -31,8 +31,9 @@
     "sails": "0.10.4",
     "sails-disk": "~0.10.1",
     "node-uuid": "*",
+    "q": "*",
     "sails-mysql": "~0.10.0",
-    "email-templates": "~1.1.0"
+    "emailjs": "~0.3.11"
   },
   "devdependencies": {
       "jshint": "*"

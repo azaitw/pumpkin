@@ -5,8 +5,8 @@ X.account = {
             X.account.generateResult(X.params.json);
         }
         submitBtn.click(function (e) {
-            var phone = $('.phone').val();
-            X.account.getOrderData({phone: phone}, function (err, data) {
+            var val = $('.email').val();
+            X.account.getOrderData({email: val}, function (err, data) {
                 X.account.generateResult(data);
             });
         });

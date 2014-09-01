@@ -12,6 +12,10 @@ var brand = {
             type: 'string',
             required: true
         },
+        email: {
+            type: 'string',
+            required: true
+        },
         business: 'string',
         phone: 'string',
         address: 'string',

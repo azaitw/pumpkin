@@ -12,6 +12,9 @@ var order = {
             type: 'string',
             required: true
         },
+        brand: {
+            model: 'brand'
+        },
         customer: {
             model: 'customer'
         },

@@ -1,26 +1,26 @@
 /**
- * Customer
+ * OrderItems
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var customer = {
+var orderItems = {
     attributes: {
-        brand: {
-            model: 'brand'
+        order: {
+            model: 'order'
         },
-        email: {
+        itemName: {
             type: 'string',
             required: true
         },
-        customerName: 'string',
-        phone: 'string',
-        zip: 'string',
-        address: 'string',
-        country: 'string',
-        password: 'string'
+        sex: 'string',
+        size: 'string',
+        retail: 'string',
+        sale: 'string',
+        count: 'integer'
+
     }
 };
-module.exports = customer;
+module.exports = orderItems;

@@ -37,6 +37,9 @@ X.checkout = {
         for (i in obj) {
             placeholder = obj[i];
             resultObj[i] = {
+                name: placeholder.name,
+                sex: placeholder.sex,
+                size: placeholder.size,
                 count: placeholder.count,
                 retail: placeholder.retail,
                 sale: placeholder.sale

@@ -11,7 +11,7 @@ X.signup = {
                 bankAccountName = $('.bankAccountName').val();
 
                 $.post(
-                    '/register',
+                    '/signup',
                     {
                         brandName: brandName,
                         phone: phone,

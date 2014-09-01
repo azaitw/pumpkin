@@ -15,130 +15,131 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var brandController = {
-    signup: function (req, res) {
-        res.render('index', {
-            partials: {
-                head: 'head',
-                header: 'header',
-                body: 'signup'
-            },
-            title: 'Register a Pumpkin Lab account',
-            h1: '註冊 Pumpkin Lab 帳號',
-            action: 'register',
-            js: ['signup.js'],
-            form: [{
-                    type: 'text',
-                    key: 'brandName',
-                    label: '品牌名稱'
-                },
-                {
-                    type: 'text',
-                    key: 'phone',
-                    label: '電話'
-                },
-                {
-                    type: 'text',
-                    key: 'email',
-                    label: 'Email'
-                },
-                {
-                    type: 'password',
-                    key: 'password',
-                    label: '密碼'
-                },
-                {
-                    type: 'text',
-                    key: 'bankCode',
-                    label: '銀行代碼'
-                },
-                {
-                    type: 'text',
-                    key: 'bankAccountNumber',
-                    label: '銀行帳號'
-                },
-                {
-                    type: 'text',
-                    key: 'bankAccountName',
-                    label: '銀行帳戶名稱'
+var Q = require('q'),
+    brandController = {
+        createBrand: function (brandData) {
+            var deferred = Q.defer();
+            brand.findOne({brandName: brandData.brandName})
+            .then(function (D) {
+                if (typeof D !== 'undefined') {
+                    return deferred.reject('brand exists');
                 }
-            ]
-        });
-        return;
-    },
-    createBrand: function (data, callback) {
-        brand.findOne({brandName: data.brandName}, function (err, result) {
-            if (typeof result !== 'undefined') {
-                return callback('brand exists');
-            }
-            brand.create({
-                brandName: data.brandName,
-                phone: data.phone,
-                creator: data.creator
-            }).exec(function (err, data) {
-                if (err) {
-                    callback(err);
-                }
-                callback(null, data);
+                return brand.create(brandData);
+            })
+            .catch(function (E) {
+                deferred.reject(E);
+            })
+            .then(function (D1) {
+               deferred.resolve(D1);
             });
-        });
-    },
-    managePage: function (req, res) {
-        res.send('manage page: ' + req.params.brand);
-    },
-    register: function (req, res) {
-        var results = req.body,
-            password = results.password,
-            email = results.email,
-            phone = results.phone,
-            brandName = results.brandName,
-            brandData,
-            userData;
-        brand.findOne({brandName: brandName}, function (err, result) {
-            if (typeof result !== 'undefined') {
-                res.send({
-                    status: 0,
-                    message: 'brand exists'
-                });
-                return;
-            }
-            userData = {
-                email: email,
-                password: password,
-                phone: phone
-            };
-            sails.controllers.user.createUser(userData, function (err, userData) {
-                if (err) {
-                    res.send({
-                        status: 0,
-                        message: 'user exists'
-                    });
-                    return;
-                }
-                brandData = {
-                    brandName: brandName,
-                    phone: phone,
-                    bankCode: bankCode,
-                    bankAccountNumber: bankAccountNumber,
-                    bankAccountName: bankAccountName,
-                    creator: userData.id
-                };
-                brandController.createBrand(brandData, function (err, brandData) {
-                    var response;
-                    if (err) {
-                        console.log('Create brand error: ', err);
+            return deferred.promise;
+        },
+        readBrand: function (input) {
+            var deferred = Q.defer();
+            brand.findOne({brandName: input.brandName})
+            .then(function (D) {
+                deferred.resolve(D);
+            });
+            return deferred.promise;
+        },
+        generateSignupForm: function () {
+            var form = [{
+                        type: 'text',
+                        key: 'brandName',
+                        label: '品牌名稱'
+                    },
+                    {
+                        type: 'text',
+                        key: 'phone',
+                        label: '電話'
+                    },
+                    {
+                        type: 'text',
+                        key: 'email',
+                        label: 'Email'
+                    },
+                    {
+                        type: 'password',
+                        key: 'password',
+                        label: '密碼'
+                    },
+                    {
+                        type: 'text',
+                        key: 'bankCode',
+                        label: '銀行代碼'
+                    },
+                    {
+                        type: 'text',
+                        key: 'bankAccountNumber',
+                        label: '銀行帳號'
+                    },
+                    {
+                        type: 'text',
+                        key: 'bankAccountName',
+                        label: '銀行帳戶名稱'
                     }
-                    response = {
-                        status: 1,
-                        email: userData.email,
-                        brandName: brandData.brandName,
-                        phone: brandData.phone
-                    };
-                    res.send(response);
+                ];
+            return form;
+        },
+        signup: function (req, res) {
+            var results = req.body;
+            if (typeof results !== 'undefined') {
+                brandController.register(req, res);
+            } else {
+                renderService.html(res, 'signup', {
+                    title: '註冊 Pumpkin Lab 帳號',
+                    js: ['signup.js'],
+                    form: brandController.generateSignupForm()
                 });
+            }
+        },
+        register: function (req, res) {
+            var results = req.body;
+
+            brandController.readBrand({brandName: results.brandName}) // Make sure brand doesn't exist
+            .then(function (D) {
+                if (typeof result !== 'undefined') {
+                    return res.send({
+                        status: 0,
+                        message: 'brand exists'
+                    });
+                }
+                return sails.controllers.user.createUser({ // If brand doesn't exist, create user first
+                    email: results.email,
+                    phone: results.phone,
+                    password: results.password
+                });
+            })
+            .catch(function (E) { // If user exists, assume user creating another brand
+                return sails.controllers.user.readUser({email: results.email});
+                //return res.send(E);
+            })
+            .then(function (D1) { // Create brand
+                return brandController.createBrand({
+                    brandName: results.brandName,
+                    creator: D1.id,
+                    email: results.email,
+                    phone: results.phone,
+                    bankCode: results.bankCode,
+                    bankAccountNumber: results.bankAccountNumber,
+                    bankAccountName: results.bankAccountName
+                });
+            })
+            .catch(function (E1) { // If creating brand has error
+                return res.send(E1);
+            })
+            .then(function (D2) { // Return brand
+                D2.status = 1;
+                return res.send(D2);
             });
-        });
-    }
+        },
+        managePage: function (req, res) {
+            var brand = req.params.brand;
+            renderService.html(res, 'manage', {
+                title: brand + ' 管理頁面',
+                brand: brand
+            });
+        }
 };
 
 module.exports = brandController;

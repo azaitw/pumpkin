@@ -3,13 +3,13 @@ module.exports.routes = {
         controller: 'portalController',
         action: 'index'
     },
+    '/_test': {
+        controller: 'testController',
+        action: 'index'
+    },
     '/signup': {
         controller: 'brandController',
         action: 'signup'
-    },
-    '/register': {
-        controller: 'brandController',
-        action: 'register'
     },
     '/:brand': {
         controller: 'productController',
@@ -50,14 +50,33 @@ module.exports.routes = {
         controller: 'brandController',
         action: 'managePage'
     },
+    // product: create
     '/:brand/manage/addProduct': {
         controller: 'productController',
         action: 'addProductPage'
     },
+    // merge with addProduct
     '/:brand/manage/addedProduct': {
         controller: 'productController',
         action: 'addedProductPage'
+    },
+    '/:brand/manage/customer': {
+        controller: 'customerController',
+        action: 'manageCustomerPage'
+    },
+    '/:brand/manage/customer/:action': {
+        controller: 'customerController',
+        action: 'manageCustomerPage'
+    },
+    '/:brand/manage/order': {
+        controller: 'orderController',
+        action: 'manageOrderPage'
+    },
+    '/:brand/manage/order/:action': {
+        controller: 'orderController',
+        action: 'manageOrderPage'
     }
+    
     // Admin page END
 
   /*

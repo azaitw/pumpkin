@@ -16,13 +16,44 @@ module.exports.policies = {
 
   // Default policy for all controllers and actions
   // (`true` allows public access) 
-//  '*': true
-  productController: {
-      addProductPage: 'isAdmin'
-  },
+//  '*': false,
   brandController: {
-      managePage: 'isAdmin'
+
+//      managePage: 'isAdmin'
+  },
+  cartController: {
+//      managePage: 'isAdmin'
+  },
+  customer: {
+      'create': false, 
+       'find': false,
+       'findAll': false,
+       'update': false,
+       'destroy': false
+//      managePage: 'isAdmin'
+  },
+  orderController: {
+//      managePage: 'isAdmin'
+  },
+  pageController: {
+//      managePage: 'isAdmin'
+  },
+  portalController: {
+//      managePage: 'isAdmin'
+  },
+  productController: {
+//      addProductPage: 'isAdmin'
+  },
+  productSpecificController: {
+//      managePage: 'isAdmin'
+  },
+  testController: {
+//      managePage: 'isAdmin'
+  },
+  userController: {
+//      managePage: 'isAdmin'
   }
+
   /*
 	// Here's an example of adding some policies to a controller
 	RabbitController: {
