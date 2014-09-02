@@ -274,7 +274,11 @@ module.exports = function (grunt) {
       dist: {
         src: ['.tmp/public/concat/production.css'],
         dest: '.tmp/public/min/production.css'
-      }
+      }/*,
+      email: {
+          src: ['assets/styles/email/order.css'],
+          dest: 'assets/styles/email/order_min.css'
+      }*/
     },
 
     'sails-linker': {
