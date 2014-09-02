@@ -34,14 +34,6 @@ var Q = require('q'),
             });
             return deferred.promise;
         },
-        readBrand: function (input) {
-            var deferred = Q.defer();
-            brand.findOne({brandName: input.brandName})
-            .then(function (D) {
-                deferred.resolve(D);
-            });
-            return deferred.promise;
-        },
         generateSignupForm: function () {
             var form = [{
                         type: 'text',
@@ -96,7 +88,8 @@ var Q = require('q'),
         register: function (req, res) {
             var results = req.body;
 
-            brandController.readBrand({brandName: results.brandName}) // Make sure brand doesn't exist
+            //brandController.readBrand({brandName: results.brandName}) // Make sure brand doesn't exist
+            brand.findOne({brandName: results.brandName}) // Make sure brand doesn't exist
             .then(function (D) {
                 if (typeof result !== 'undefined') {
                     return res.send({

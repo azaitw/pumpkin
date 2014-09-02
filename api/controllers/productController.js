@@ -317,8 +317,7 @@ var Q = require('q'),
             });
         },
         checkout: function (uuid, callback) {
-            var async = require('async'),
-                i,
+            var i,
                 j,
                 productSpecificIds = [],
                 funcs = [];
@@ -377,9 +376,11 @@ var Q = require('q'),
         checkoutPage: function (req, res) {
             var uuidRaw = req.cookies.uuid,
                 uuid,
-                brand = req.params.brand,
+                brandName = req.params.brand,
                 content,
+                finalResult = {},
                 renderPage = function (result) {
+                    console.log('result: ', result);
                     //Shipping use model
                     content = {
                         cart: (result) ? result.content : null,
@@ -393,7 +394,8 @@ var Q = require('q'),
                             body: 'checkout'
                         },
                         uuid: uuid,
-                        brand: brand,
+                        brand: brandName,
+                        brandId: result.brandId,
                         title: 'Checkout',
                         h1: 'Checkout',
                         content: content,
@@ -404,9 +406,16 @@ var Q = require('q'),
                 };
             if (typeof uuidRaw !== 'undefined') {
                 uuid = uuidRaw.substring(1, uuidRaw.length - 1);
+
                 productController.checkout(uuid, function (err, result) {
-                    renderPage(result);
+                    finalResult = result;
+                    brand.findOne({brandName: brandName}, function (err, brandInfo) {
+                        finalResult.brandId = brandInfo.id;
+                        console.log('finalResult: ', finalResult);
+                        renderPage(finalResult);
+                    });
                 });
+
             } else {
                 renderPage();
             }

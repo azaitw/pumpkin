@@ -168,11 +168,14 @@ X.checkout = {
                 address: $('.address').val(),
                 country: $('.country').val()
             },
+            brandId: $('.b_id').data('b_id'),
             shipping: X.params.shipping,
             order: cart,
             note: $('.note').val()
-        }
+        };
         this.submitOrderAjax(order, function (err, data) {
+            console.log('err: ', err);
+            console.log('data: ', data);
             var msg = '訂單送出, 確認信已寄到' + order.recipient.email;
             $('.main>.bd').text(msg);
             X.uuid.delete();

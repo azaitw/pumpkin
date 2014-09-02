@@ -17,7 +17,7 @@
 
 訂購項目：
 {{#each items}}
-    • {{name}} {{sex}} :{{#if sale}}{{sale}}{{else}}{{retail}}{{/if}} x {{count}} = {{sum}} 元
+    • {{name}} {{sex}} {{size}} :{{#if sale}}{{sale}}{{else}}{{retail}}{{/if}} x {{count}} = {{sum}} 元
 {{/each}}
   運費： {{shipping}}
   加總： {{sum}}

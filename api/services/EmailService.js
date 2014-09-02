@@ -1,52 +1,79 @@
-module.exports = {
-    _config: {
-        server: {
-            user: 'info+beardude.com',
-            password: 'Aspera123_bryan!',
-            host: 'mail.beardude.com',
-            ssl: false
-        }
-    },
-    
-    /*
-        input: {
-            to: 'email',
-            subject: 'text',
-            body: 'html'
-        }
-    */
-    sendMail: function (input, callback) {
-        var email   = require('emailjs'),
-            serverConf = this._config.server,
-            server  = email.server.connect({
+var email = require('emailjs'),
+    Q = require('q'),
+    emailService = {
+        _config: {
+            server: {
+                user: 'info+beardude.com',
+                password: 'Aspera123_bryan!',
+                host: 'mail.beardude.com',
+                ssl: false
+            }
+        },
+        // Prepare email server
+        returnEmailServer: function (emailServer) {
+            var serverConf = (emailServer) ? emailServer : this._config.server;
+            return email.server.connect({
                 user: serverConf.user,
                 password: serverConf.password,
                 host: serverConf.host,
                 ssl: serverConf.ssl
             });
-
-        // send the message and get a callback with an error or details of the message that was sent
-        server.send({
-           text: input.text,
-           from: input.brand.brandName + ' <' + input.brand.email + '>',
-           to: input.to,
-           subject: input.subject,
-           attachment: [
-               {
-                   data: input.body,
-                   alternative: true
-               }/*,
-               {
-                   path: 'path/to/file.zip',
-                   type: 'application/zip',
-                   name: 'renamed.zip'
-               }*/
-           ]
-        }, function (err, message) {
-            if (err) {
-                console.log(err);
+        },
+        /*
+            inputObj: {
+                brand: {
+                    brandName
+                    email
+                },
+                to: 'email',
+                subject: 'text',
+                body: 'html body'
+                text: 'text body'
             }
-            callback(null, message);
-        });
-    }
-};
+        */
+        sendMail: function (inputObj, emailServer) {
+            var q = Q.defer(),
+                server = this.returnEmailServer(emailServer);
+
+            server.send({
+               from: inputObj.brand.brandName + ' <' + inputObj.brand.email + '>',
+               to: inputObj.to,
+               subject: inputObj.subject,
+               text: inputObj.text,
+               attachment: [{
+                   data: inputObj.body,
+                   alternative: true
+               }]
+            }, function (err, message) {
+                if (err) {
+                    return q.reject(err);
+                }
+                return q.resolve(message);
+            });
+            return q.promise;
+        },
+        sendOrderConfirm: function (inputObj) {
+            var q = Q.defer(),
+                that = this,
+                html,
+                text;
+            sails.renderView('email/order', inputObj, function (err, D) {
+                html = D;
+                sails.renderView('email/order_plaintext', inputObj, function (err, D1) {
+                    text = D1;
+                    that.sendMail({
+                        to: inputObj.email,
+                        subject: '您的訂單',
+                        body: html,
+                        text: text,
+                        brand: inputObj.brand
+                    })
+                    .then(function (D2) {
+                        return q.resolve(inputObj.email); 
+                    });
+                    return q.promise;
+                });
+            });
+        }
+    };
+module.exports = emailService;

@@ -25,7 +25,11 @@ var Q = require('q'),
         }
     */
     createOrderItem: function (inputObj) {
-        var q = Q.defer();
+        var i,
+            q = Q.defer();
+        for (i in inputObj) {
+            
+        }
     }
 };
 module.exports = orderItemController;

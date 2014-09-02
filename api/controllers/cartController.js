@@ -9,7 +9,8 @@
         }
     }
 */
-var cartController = {
+var Q = require('q'),
+    cartController = {
     access: function (params, callback) { // Switch between read and update
         var uuid = params.uuid;
         if (typeof params.itemKey === 'undefined' && typeof params.items === 'undefined') { // read

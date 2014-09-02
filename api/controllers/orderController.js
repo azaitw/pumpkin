@@ -15,7 +15,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var async = require('async'),
+var Q = require('q'),
     orderController = {
     /* 
         orderItemObj: {
@@ -24,113 +24,105 @@ var async = require('async'),
         }
     */
     // Calculate order's sum
-    calcSum: function (orderItemObj, shipping) {
+    calcSum: function (orderItemObj) {
         var i,
             placeholder,
-            sum,
+            price,
             output = 0;
 
         for (i in orderItemObj) {
             placeholder = orderItemObj[i];
+            price = placeholder.retail;
             if (typeof placeholder.sale !== 'undefined') {
-                sum = placeholder.sale * placeholder.count;
-            } else {
-                sum = placeholder.retail * placeholder.count;
+                price = placeholder.sale;
             }
-            output += sum;
+            output += (price * placeholder.count);
         }
-        output += shipping;
         return output;
     },
-    // submit order and create customer if necessary
-    submitOrder: function (obj, callback) {
-        var recipient = obj.recipient,
+    getCustomerForOrder: function (obj) {
+        var q = Q.defer(),
+            recipient = obj.recipient,
             customerObj = {
-//                brand: obj.brand,
+                brand: obj.brandId, // TO DO: we only need brand id, maybe add brand id in form to skip this query
                 email: recipient.email,
                 customerName: recipient.name,
                 phone: recipient.phone,
                 zip: recipient.zip,
                 address: recipient.address,
                 country: recipient.country
-            },
-            shipping = parseInt(obj.shipping),
-            sum = orderController.calcSum(obj.order, shipping),
-            createOrder = function (orderForm, callback) {
-                order.create(orderForm).exec(function (err, orderResult) {
-                    sails.controllers.cart.closeCart(obj.uuid, function (err, data) {});
-                    orderResult.email = customerObj.email;
-                    return callback(null, orderResult);
-                });
             };
-        // Lookup if customer exists
-        brand.findOne({brandName: obj.brand})
-        .then(function (D1) {
-            customerObj.brand = D1.id;
-            customer.findOne({brand: D1.id, email: customerObj.email}, function (err, D2) {
-                var orderForm = {
-                    orderNumber: obj.uuid + '-' + DateTimeService.getDate(),
-                    brand: D1.id,
-                    items: obj.order,
-                    recipient: recipient.name,
-                    phone: recipient.phone,
-                    zip: recipient.zip,
-                    address: recipient.address,
-                    country: recipient.country,
-                    sum: sum,
-                    shipping: shipping,
-                    subtotal: sum + shipping,
-                    paymentType: 'bank transfer',
-                    note: obj.note
-                };
-
-                if (typeof D2 === 'undefined') { // if customer doesn't exist, create customer
-                    customer.create(customerObj).exec(function (err, D3) {
-                        orderForm.customer = D3.id;
-                        createOrder(orderForm, function (err, D4) {
-                            return callback(null, D4);
-                        });
-                    });
-                } else {
-                    orderForm.customer = D2.id;
-                    createOrder(orderForm, function (err, D4) {
-                        return callback(null, D4);
-                    });
-                }
-            });
+        sails.controllers.customer.createCustomer(customerObj)
+        .then(function (D) {
+            console.log('customer created');
+            return q.resolve(D);
+        })
+        .catch(function (D) {
+            console.log('customer exist');
+            return q.resolve(D);
         });
+        return q.promise;
+    },
+    // submit order and create customer if necessary
+    submitOrder: function (obj) {
+        var q = Q.defer(),
+            recipient = obj.recipient,
+            shipping = parseInt(obj.shipping),
+            sum = orderController.calcSum(obj.order);
+
+        this.getCustomerForOrder(obj) // create or get customer
+        .then(function (D) { // create order
+            var orderForm = {
+                orderNumber: obj.uuid + '-' + DateTimeService.getDate(),
+                brand: D.brand,
+                customer: D.id,
+                items: obj.order, // TO DO: use orderItem
+                recipient: recipient.name,
+                phone: recipient.phone,
+                zip: recipient.zip,
+                address: recipient.address,
+                country: recipient.country,
+                sum: sum,
+                shipping: shipping,
+                subtotal: sum + shipping,
+                paymentType: 'bank transfer',
+                note: obj.note
+            };
+            return order.create(orderForm);
+        })
+        .then(function (D1) { // Close cart
+            sails.controllers.cart.closeCart(obj.uuid, function (err, data) {});
+            D1.email = recipient.email;
+            return q.resolve(D1); // return customer email
+        })
+        .catch(function (E1) {
+            console.log(E1);
+        });
+        return q.promise;
     },
     submitOrderPage: function (req, res) {
         var obj = req.body,
-            brandName = req.params.brand;
-            obj.brand = brandName;
-        orderController.submitOrder(obj, function (err, D) {
-            var i,
-                key;
+            brandName = req.params.brand,
+            orderInfo,
+            emailHtml;
+        obj.brand = brandName;
 
-            brand.findOne({brandName: brandName}, function (err, D1) {
-                D.brand = D1;
-                D.link = req.protocol + '://' + req.header('host') + '/' + brandName + '/account?email=' + D.email;
-                sails.renderView('email/order', D, function (err, html) {
-                    if (err) {
-                        console.log('err: ', err);
-                    }
-                    sails.renderView('email/order_plaintext', D, function (err, text) {
-
-                        EmailService.sendMail({
-                            to: D.email,
-                            subject: '您的訂單',
-                            body: html,
-                            text: text,
-                            brand: D.brand
-                        }, function (err, D3) {
-                            
-                        });
-                        res.send(D.email); 
-                    });
-                });
-            });
-
+        orderController.submitOrder(obj)
+        .then(function (D) {
+            // Send email
+            orderInfo = D;
+            return brand.findOne({brandName: brandName});
+        })
+        .then(function (D1) {
+            orderInfo.brand = D1;
+            orderInfo.link = req.protocol + '://' + req.header('host') + '/' + brandName + '/account?email=' + orderInfo.email;
+            return EmailService.sendOrderConfirm(orderInfo);
+        })
+        .then(function (D2) { // D2: sent email, return sent email address
+            res.send(D2); 
+        })
+        .catch(function (E) {
+            console.log(E);
         });
     },
     verifyStatus: function (input) {
