@@ -10,7 +10,7 @@
                 </div>
             </div>
             <ul>
-            {{#products}}
+            {{#each products}}
                 <li>
                     <div class="">{{productName}}</div>
 
@@ -35,92 +35,86 @@
                         </li>
                         {{/images}}
                     </ul>
-                    {{#cats.male}}
+                    {{#if productSpecific.male}}
                     <h2>男尺寸</h2>
                     <table class="W-100 Ta-c">
                         <tr>
-                            {{#size}}
-                            <th>{{.}}</th>
-                            {{/size}}
+                            <th>size</th>
+                            <th>chest_diameter</th>
+                            <th>waist_diameter</th>
+                            <th>hip_diameter</th>
                         </tr>
+                        {{#each productSpecific.male}}
                         <tr>
-                            {{#chest_diameter}}
-                            <td>{{.}}</td>
-                            {{/chest_diameter}}
+                            <td>{{size}}</td>
+                            <td>{{chest_diameter}}</td>
+                            <td>{{waist_diameter}}</td>
+                            <td>{{hip_diameter}}</td>
                         </tr>
-                        <tr>
-                            {{#waist_diameter}}
-                            <td>{{.}}</td>
-                            {{/waist_diameter}}
-                        </tr>
-                            {{#hip_diameter}}
-                            <td>{{.}}</td>
-                            {{/hip_diameter}}
-                        </tr>
+                        {{/each}}
                     </table>
-                    {{/cats.male}}
+                    {{/if}}
 
-                    {{#cats.female}}
+                    {{#if productSpecific.female}}
                     <h2>女尺寸</h2>
                     <table class="W-100 Ta-c">
                         <tr>
-                            {{#size}}
-                            <th>{{.}}</th>
-                            {{/size}}
+                            <th>size</th>
+                            <th>chest_diameter</th>
+                            <th>waist_diameter</th>
+                            <th>hip_diameter</th>
                         </tr>
+                        {{#each productSpecific.male}}
                         <tr>
-                            {{#chest_diameter}}
-                            <td>{{.}}</td>
-                            {{/chest_diameter}}
+                            <td>{{size}}</td>
+                            <td>{{chest_diameter}}</td>
+                            <td>{{waist_diameter}}</td>
+                            <td>{{hip_diameter}}</td>
                         </tr>
-                        <tr>
-                            {{#waist_diameter}}
-                            <td>{{.}}</td>
-                            {{/waist_diameter}}
-                        </tr>
-                            {{#hip_diameter}}
-                            <td>{{.}}</td>
-                            {{/hip_diameter}}
-                        </tr>
+                        {{/each}}
                     </table>
-                    {{/cats.female}}
+                    {{/if}}
 
-                    {{#cats.unisex}}
+                    {{#if productSpecific.unisex}}
                     <table class="W-100 Ta-c">
                         <tr>
-                            {{#size}}
-                            <th>{{.}}</th>
-                            {{/size}}
+                            <th>size</th>
+                            <th>chest_diameter</th>
+                            <th>waist_diameter</th>
+                            <th>hip_diameter</th>
                         </tr>
+                        {{#each productSpecific.male}}
                         <tr>
-                            {{#chest_diameter}}
-                            <td>{{.}}</td>
-                            {{/chest_diameter}}
+                            <td>{{size}}</td>
+                            <td>{{chest_diameter}}</td>
+                            <td>{{waist_diameter}}</td>
+                            <td>{{hip_diameter}}</td>
                         </tr>
-                        <tr>
-                            {{#waist_diameter}}
-                            <td>{{.}}</td>
-                            {{/waist_diameter}}
-                        </tr>
-                            {{#hip_diameter}}
-                            <td>{{.}}</td>
-                            {{/hip_diameter}}
-                        </tr>
+                        {{/each}}
                     </table>
-                    {{/cats.unisex}}
-
-                    <div class="add">
-                        <select class="add-select">
-                            <option value="0">選擇尺寸</option>
-                            {{#productList}}
-                            <option value={{key}}>{{name}}</option>
-                            {{/productList}}
-                        </select>
-                        <button class="add-button D-n">加入購物車</button>
-                    </div>
+                    {{/if}}
                 </li>
-            {{/products}}
+            {{/each}}
             </ul>
+
+            <div class="add">
+                <select class="add-select">
+                    <option value="0">選擇尺寸</option>
+                    {{#each products}}
+                    {{#each productSpecific.male}}
+                    <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
+                    {{/each}}
+                    {{#each productSpecific.female}}
+                    <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
+                    {{/each}}
+                    {{#each productSpecific.unisex}}
+                    <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
+                    {{/each}}
+                    {{/each}}
+                </select>
+                <button class="add-button D-n">加入購物車</button>
+            </div>
+
         </div>
     </div>
 </div>

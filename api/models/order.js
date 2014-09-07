@@ -8,20 +8,21 @@
 
 var order = {
     attributes: {
+        brand: {
+            model: 'brand'
+        },
+        brandName: {
+            type: 'string',
+            required: true
+        },
         orderNumber: {
             type: 'string',
             required: true
         },
-        brand: {
-            model: 'brand'
-        },
         customer: {
             model: 'customer'
         },
-        items: {
-            type: 'json',
-            required: true
-        },
+        items: 'JSON',
         recipient: {
             type: 'string',
             required: true

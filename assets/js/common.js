@@ -16,35 +16,7 @@ X.getCartItemCount = function (nodeClass) {
             count = this.cart.getItemCount();
         indicator.html(count);
 };
-X.getCart = function (nodeClass) {
-    var node = $(nodeClass),
-        populateCart = function (node, obj) {
-            var i,
-                result = '<ul>',
-                cart = obj.items;
-            // Use template engine for this
-            for (i in cart) {
-                if (cart[i].count > 0) {
-                    result += '<li>';
-                    result += '<span class="name">';
-                    result += cart[i].name;
-                    result += '</span>';
-                    result += '<span class="count">';
-                    result += cart[i].count;
-                    result += '</span>';
-                    result += '</li>';
-                } else {
-                    X.cart.update(i, 0)
-                }
-            }
-            result += '</ul>';
-            node.html(result);
-        };
 
-    X.cart.read(function (err, cart) {
-        populateCart(node, cart);
-    });
-};
 X.uuid = {
     create: function (uuid) {
         $.cookie('uuid', uuid, {path: '/' + X.params.brand, expires: 30});
@@ -57,6 +29,7 @@ X.uuid = {
             return X.params.uuid;
         } else if (uuid === ''){
             X.uuid.create(X.params.uuid);
+            return X.params.uuid;
         } else {
             return uuid;
         }
@@ -81,20 +54,14 @@ X.cart = {
         /*
             If post itemKey, it's add
         */
-        var itemKey = params.itemKey,
-            ajaxParams = {
-                uuid: params.uuid,
-                itemName: params.itemName,
-                itemKey: itemKey
-            };
-        X.cart.ajax(ajaxParams, function (err, data) {
+        X.cart.ajax(params, function (err, data) {
             callback(null, data);
         });
     },
-    update: function (callback) {
+    update: function (items, callback) {
         var ajaxParams = {
             uuid: X.uuid.read(),
-            items: X.params.cart
+            items: items
         };
         X.cart.ajax(ajaxParams, function (err, data) {
             callback(null, data);

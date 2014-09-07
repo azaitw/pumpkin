@@ -10,7 +10,7 @@
         {{/message}}
         <ul>
         {{#form}}
-        <li class="li-input">
+        <li class="li-input {{#if toHide}}D-n{{/if}}">
             <div class="hd">
                 <label for="{{key}}">{{label}}</label>
             </div>
@@ -18,7 +18,7 @@
                 {{#sublabel}}
                 <label for="{{key}}">{{sublabel}}</label>
                 {{/sublabel}}
-                <input type="{{type}}" name="{{key}}" class="{{key}} {{#toValidate}}toValidate{{/toValidate}}" value="" style="{{style}}" {{params}} />
+                <input type="{{type}}" name="{{key}}" class="{{key}} {{#toValidate}}toValidate{{/toValidate}}" value="{{value}}" style="{{style}}" {{params}} />
             </div>
             <div class="ft">
                 {{#errormsg}}

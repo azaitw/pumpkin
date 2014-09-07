@@ -55,11 +55,6 @@ module.exports.routes = {
         controller: 'productController',
         action: 'addProductPage'
     },
-    // merge with addProduct
-    '/:brand/manage/addedProduct': {
-        controller: 'productController',
-        action: 'addedProductPage'
-    },
     '/:brand/manage/customer': {
         controller: 'customerController',
         action: 'manageCustomerPage'

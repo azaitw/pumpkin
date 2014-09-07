@@ -1,23 +1,26 @@
 /**
- * Order
+ * OrderItems
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var cart = {
+var orderItem = {
     attributes: {
-        brandName: {
+        order: {
+            model: 'order'
+        },
+        itemName: {
             type: 'string',
             required: true
         },
-        uuid: {
-            type: 'string',
-            required: true
-        },
-        items: 'array',
-        closed: 'boolean'
+        sex: 'string',
+        size: 'string',
+        retail: 'string',
+        sale: 'string',
+        count: 'integer',
+        itemSum: 'integer'
     }
 };
-module.exports = cart;
+module.exports = orderItem;

@@ -8,14 +8,26 @@
 
 var productSpecific = {
     attributes: {
+        brand: {
+            type: 'integer',
+            required: true
+        },
+        brandName: {
+            type: 'string',
+            required: true
+        },
         product: {
             model: 'product'
         },
+        productName: {
+            type: 'string',
+            required: true
+        },
         region: 'string',
         sex: 'string',
-        cat_order: 'integer',
+        view_order: 'integer',
         size: 'string',
-        price: 'string',
+        retail: 'string',
         sale: 'string',
         onSale: 'boolean',
         chest_diameter: 'string',

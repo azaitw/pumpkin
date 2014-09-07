@@ -13,6 +13,16 @@ var Q = require('q'),
         */
         createCustomer: function (inputObj) {
             var q = Q.defer();
+
+            customer.findOrCreate({brand: inputObj.brand, email: inputObj.email}, inputObj)
+            .then(function (D) {
+                return q.resolve(D);
+            })
+            .catch(function (E) {
+                console.log('createCustomer error: ', E);
+                return q.reject(E);
+            });
+            /*
             customer.findOne({brand: inputObj.brand, email: inputObj.email})
             .then(function(D) {
                 if (typeof D !== 'undefined') { // customer exist
@@ -23,6 +33,7 @@ var Q = require('q'),
             .then(function (D1) {
                 return q.resolve(D1);
             });
+            */
             return q.promise;
         },
         manageCustomerPage: function (req, res) {

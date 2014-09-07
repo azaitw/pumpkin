@@ -15,10 +15,12 @@
 <div>
     轉帳帳號：
     <ul>
-        <li><span>銀行代碼：</span><span>{{brand.bankCode}}</span></li>
-        <li><span>帳號：</span><span>{{brand.bankAccountNumber}}</span></li>
-        <li><span>戶名：</span><span>{{brand.bankAccountName}}</span></li>
-        <li><span>金額：</span><span>{{sum}}</span></li>
+        {{#brand}}
+        <li><span>銀行代碼：</span><span>{{bankCode}}</span></li>
+        <li><span>帳號：</span><span>{{bankAccountNumber}}</span></li>
+        <li><span>戶名：</span><span>{{bankAccountName}}</span></li>
+        {{/brand}}
+        <li><span>金額：</span><span>{{order.sum}}</span></li>
     </ul>
 </div>
 <div>
@@ -28,9 +30,9 @@
         </dt>
         <dd>
             <ul>
-                <li>{{recipient}}</li>
-                <li>{{zip}} {{address}}, {{country}}</li>
-                <li>{{phone}}</li>
+                <li>{{order.recipient}}</li>
+                <li>{{order.zip}} {{order.address}}, {{order.country}}</li>
+                <li>{{order.phone}}</li>
             </ul>
         </dd>
     </dl>
@@ -43,7 +45,7 @@
         <th>數量</th>
         <th>小計</th>
     </tr>
-    {{#each items}}
+    {{#each order.items}}
     <tr>
         <td>{{name}} {{sex}} {{size}}</td>
         {{#if sale}}
@@ -59,15 +61,15 @@
         <td>運費</td>
         <td></td>
         <td></td>
-        <td>{{shipping}}</td>
+        <td>{{brand.shipping}}</td>
     </tr>
     <tr>
         <td>加總</td>
         <td></td>
         <td></td>
-        <td>{{sum}}</td>
+        <td>{{order.sum}}</td>
     </tr>
 </table>
-備註：{{note}}
+備註：{{order.note}}
 </body>
 </html>

@@ -132,6 +132,7 @@ module.exports = function (grunt) {
   // Azai: For compiling handlebars templates
   // Use JST instead
   grunt.loadNpmTasks('grunt-contrib-handlebars');
+  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   
   // Project configuration.
@@ -142,6 +143,15 @@ module.exports = function (grunt) {
           // You get to make the name
           // The paths tell JSHint which files to validate
           myFiles: ['api/**/*.js', 'assets/common.js', 'assets/page/*.js']
+    },
+
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['tests/**/*.spec.js']
+      }
     },
 
     handlebars: {
@@ -447,6 +457,8 @@ module.exports = function (grunt) {
       }
     }
   });
+  
+  grunt.registerTask('test', ['mochaTest']);
 
   // When Sails is lifted:
   grunt.registerTask('default', [

@@ -1,4 +1,4 @@
-<div class="mod-checkout W-100">
+<div class="checkout W-100">
     <div class="main">
         <div class="hd">
             <h1>{{h1}}</h1>
@@ -14,10 +14,10 @@
                     <th>價格</th>
                     <th>加總</th>
                 </tr>
-                {{#content.cart}}
+                {{#each content.cart.items}}
                 <tr class="item" data-pid="pid_{{id}}">
                     <td class="name">
-                        {{name}}
+                        {{productName}}
                     </td>
                     <td class="sex">
                         {{sex}}
@@ -32,25 +32,22 @@
                     </td>
                     <td class="price">
                         <span class="retail">{{retail}}</span>
-                        {{#if sale}}
+                        {{#if onSale}}
                         <span class="sale">特價 {{sale}}</span>
                         {{/if}}
                     </td>
-                    <td class="item-sum">
-                        
-                    </td>
+                    <td class="item-sum">{{itemSum}}</td>
                 </tr>
-                {{/content.cart}}
+                {{/each}}
             </table>
-            <button class="refresh-cart">更新購物車</button>
+            <button class="refresh-cart D-n">更新購物車</button>
             <div class="calculator">
                 <div class="shipping">{{content.shipping}}</div>
-                <div class="retailSum"></div>
-                <div class="saleSum"></div>
+                <div class="sum"></div>
                 <div class="subtotal"></div>
             </div>
             <ul>
-                <li class="D-n b_id" data-b_id="{{brandId}}"></li>
+                <li class="D-n b_id"></li>
                 {{#content.form}}
                 <li class="li-input">
                     <div class="hd">

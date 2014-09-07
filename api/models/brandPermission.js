@@ -7,7 +7,6 @@
  */
 
 var brandPermission = {
-    connection: 'localMysql',
     attributes: {
         brand: {
             model: 'brand'

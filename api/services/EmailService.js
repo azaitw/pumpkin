@@ -46,12 +46,22 @@ var email = require('emailjs'),
                }]
             }, function (err, message) {
                 if (err) {
+                    console.log('sendMail error: ', err);
                     return q.reject(err);
                 }
+                console.log('sent mail: ', message);
                 return q.resolve(message);
             });
             return q.promise;
         },
+        /*
+            inputObj: {
+                email: 'email',
+                brand: {
+                },
+                sum:
+            }  
+        */
         sendOrderConfirm: function (inputObj) {
             var q = Q.defer(),
                 that = this,
@@ -61,6 +71,8 @@ var email = require('emailjs'),
                 html = D;
                 sails.renderView('email/order_plaintext', inputObj, function (err, D1) {
                     text = D1;
+                        console.log('html mail: ', html);
+                        console.log('text mail: ', text);
                     that.sendMail({
                         to: inputObj.email,
                         subject: '您的訂單',

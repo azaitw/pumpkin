@@ -8,12 +8,16 @@
 
 var product = {
     attributes: {
-        productName: {
+        brand: {
+            model: 'brand'
+        },
+        brandName: {
             type: 'string',
             required: true
         },
-        brand: {
-            model: 'brand'
+        productName: {
+            type: 'string',
+            required: true
         },
         type: {
             type: 'string',
@@ -23,8 +27,7 @@ var product = {
         retail: 'string',
         sale: 'string',
         onSale: 'boolean',
-        shipping: 'string',
-        categories: 'array'
+        shipping: 'string'
     }
 };
 module.exports = product;

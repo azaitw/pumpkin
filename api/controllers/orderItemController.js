@@ -19,17 +19,47 @@ var Q = require('q'),
     orderItemController = {
     _config: {},
     /* 
+        stored data:
         orderItemObj: {
-            pid_4: { count: '3', retail: '1880', sale: '1680' },
-            pid_5: { count: '1', retail: '1880', sale: '1680' }
+            pid_4: {
+                "id":"4",
+                "name":"Beardude 2014",
+                "sex":"male",
+                "size":"M",
+                "retail":"1880",
+                "sale":"1680"
+                "count":1,
+                "itemSum":0,
+            }
         }
+
+        model:
+            order: {
+                model: 'order'
+            },
+            itemName: {
+                type: 'string',
+                required: true
+            },
+            sex: 'string',
+            size: 'string',
+            retail: 'string',
+            sale: 'string',
+            count: 'integer',
+            itemSum: 'integer'
+
     */
     createOrderItem: function (inputObj) {
         var i,
-            q = Q.defer();
-        for (i in inputObj) {
-            
-        }
+            q = Q.defer(),
+            items = inputObj.items;
+            console.log('here');
+        orderitem.create(items)
+        .then(function (D) {
+            console.log('orderitem: D: ', D);
+            return q.resolve(D);
+        });
+        return q.promise;
     }
 };
 module.exports = orderItemController;

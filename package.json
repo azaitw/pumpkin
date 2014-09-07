@@ -27,21 +27,25 @@
     "handlebars": "*",
     "jquery.cookie": "*",
     "optimist": "0.3.4",
-    "sails": "0.10.4",
+    "sails": "0.10.5",
     "sails-disk": "~0.10.1",
     "node-uuid": "*",
     "q": "*",
     "sails-mysql": "~0.10.0",
     "emailjs": "~0.3.11"
   },
-  "devdependencies": {
+  "devDependencies": {
       "jshint": "*",
-      "mocha": "*"
+      "mocha": "*",
+      "grunt-mocha-test": "*",
+      "sinon": "*",
+      "assert": "*"
   },
   "scripts": {
     "sails": "./node_modules/.bin/sails",
     "debug": "node debug app.js",
-    "hbs": "./node_modules/.bin/grunt handlebars"
+    "hbs": "./node_modules/.bin/grunt handlebars",
+    "test": "./node_modules/.bin/grunt test"
   },
   "main": "app.js",
   "repository": "",

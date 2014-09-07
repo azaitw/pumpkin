@@ -32,11 +32,7 @@ var Q = require('q'),
 
         for (i in orderItemObj) {
             placeholder = orderItemObj[i];
-            price = placeholder.retail;
-            if (typeof placeholder.sale !== 'undefined') {
-                price = placeholder.sale;
-            }
-            output += (price * placeholder.count);
+            output += (placeholder.price * placeholder.count);
         }
         return output;
     },
@@ -44,7 +40,8 @@ var Q = require('q'),
         var q = Q.defer(),
             recipient = obj.recipient,
             customerObj = {
-                brand: obj.brandId, // TO DO: we only need brand id, maybe add brand id in form to skip this query
+                brand: obj.brandId,
+                brandName: obj.brandName,
                 email: recipient.email,
                 customerName: recipient.name,
                 phone: recipient.phone,
@@ -54,29 +51,54 @@ var Q = require('q'),
             };
         sails.controllers.customer.createCustomer(customerObj)
         .then(function (D) {
-            console.log('customer created');
             return q.resolve(D);
         })
-        .catch(function (D) {
-            console.log('customer exist');
-            return q.resolve(D);
+        .catch(function (E) {
+            return q.reject(E);
         });
         return q.promise;
     },
     // submit order and create customer if necessary
+    /*
+        order = {
+            recipient: {
+                email: $('.email').val(),
+                name: $('.recipient').val(),
+                phone: $('.phone').val(),
+                zip: $('.zip').val(),
+                address: $('.address').val(),
+                country: $('.country').val()
+            },
+            brand: {
+                shipping: parseInt($('.shipping').html())
+            },
+            order: {
+                uuid: X.uuid.read(),
+                items: cart,
+                note: $('.note').val()
+            }
+        };
+    */
     submitOrder: function (obj) {
         var q = Q.defer(),
             recipient = obj.recipient,
-            shipping = parseInt(obj.shipping),
-            sum = orderController.calcSum(obj.order);
-
-        this.getCustomerForOrder(obj) // create or get customer
+            shipping = parseInt(obj.brand.shipping),
+            sum = orderController.calcSum(obj.order.items),
+            orderId,
+            itemsObj = obj.order,
+            itemsId = [];
+        brand.findOne({brandName: obj.brandName})
+        .then(function (D) {
+            obj.brandId = D.id;
+            return orderController.getCustomerForOrder(obj); // create or get customer
+        })
         .then(function (D) { // create order
             var orderForm = {
-                orderNumber: obj.uuid + '-' + DateTimeService.getDate(),
-                brand: D.brand,
+                orderNumber: obj.order.uuid + '-' + DateTimeService.getDate(),
+                brand: obj.brandId,
+                brandName: obj.brandName,
                 customer: D.id,
-                items: obj.order, // TO DO: use orderItem
+                items: obj.order.items, // TO DO: use orderItem
                 recipient: recipient.name,
                 phone: recipient.phone,
                 zip: recipient.zip,
@@ -86,40 +108,41 @@ var Q = require('q'),
                 shipping: shipping,
                 subtotal: sum + shipping,
                 paymentType: 'bank transfer',
-                note: obj.note
+                note: obj.order.note
             };
-            return order.create(orderForm);
+            return order.create(orderForm);            
         })
         .then(function (D1) { // Close cart
             sails.controllers.cart.closeCart(obj.uuid, function (err, data) {});
-            D1.email = recipient.email;
-            return q.resolve(D1); // return customer email
+            return q.resolve(D1);
         })
         .catch(function (E1) {
-            console.log(E1);
+            console.log('submitOrder: ', E1);
         });
         return q.promise;
     },
     submitOrderPage: function (req, res) {
         var obj = req.body,
             brandName = req.params.brand,
-            orderInfo,
-            emailHtml;
-        obj.brand = brandName;
+            output = {
+                order: {},
+                brand: {}
+            };
 
+        obj.brandName = brandName;
         orderController.submitOrder(obj)
         .then(function (D) {
             // Send email
-            orderInfo = D;
+            output.order = D;
             return brand.findOne({brandName: brandName});
         })
         .then(function (D1) {
-            orderInfo.brand = D1;
-            orderInfo.link = req.protocol + '://' + req.header('host') + '/' + brandName + '/account?email=' + orderInfo.email;
-            return EmailService.sendOrderConfirm(orderInfo);
+            output.brand = D1;
+            output.link = req.protocol + '://' + req.header('host') + '/' + brandName + '/account?email=' + obj.recipient.email;
+            return EmailService.sendOrderConfirm(output);
         })
         .then(function (D2) { // D2: sent email, return sent email address
-            res.send(D2); 
+            return res.send(D2); 
         })
         .catch(function (E) {
             console.log(E);

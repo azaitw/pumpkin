@@ -17,197 +17,192 @@
 
 var Q = require('q'),
     productController = {
-        createProduct1: function (data) {
-            var deferred = Q.defer();
+        createProduct: function (data) {
+            var q = Q.defer();
 
             product.findOne({productName: data.productName})
             .then(function (D) {
                 if (typeof D !== 'undefined') {
-                    return deferred.reject('product exists');
+                    return q.reject('product exists');
                 }
-                return product.create(D);
+                return product.create(data);
             })
             .then(function (D1) {
-                deferred.resolve(D1);
+                return q.resolve(D1);
+            })
+            .catch(function (E) {
+                console.log('createProduct error: ', E);
             });
+            return q.promise;
+        },
+        generateAddProductForm: function (inputObj) {
+            var form = [
+                {
+                    type: 'text',
+                    key: 'productName',
+                    label: '產品名稱'
+                },
+                {
+                    type: 'text',
+                    key: 'b_id',
+                    value: inputObj.id,
+                    style: 'display: none',
+                    toHide: true
+                },
+                {
+                    type: 'file',
+                    key: 'images[]',
+                    params: 'multiple',
+                    label: '上傳圖片'
+                },
+                {
+                    type: 'checkbox',
+                    key: 'sex',
+                    label: '產品區分男女'
+                },
+                {
+                    type: 'checkbox',
+                    key: 'onSale',
+                    value: 1,
+                    label: '啟動特價'
+                },
+                {
+                    type: 'number',
+                    key: 'retail',
+                    label: '售價'
+                },
+                {
+                    type: 'number',
+                    key: 'sale',
+                    label: '特價'
+                },
+                {
+                    type: 'text',
+                    key: 'brand',
+                    label: 'brand',
+                    value: inputObj.brandName,
+                    toHide: true
+                }
+            ];
+            return form;
+        },
+        prepareProductObj: function (inputObj) {
+            return {
+                productName: inputObj.productName,
+                brand: inputObj.brandId,
+                brandName: inputObj.brandName,
+                images: ['/images/beardude/beardude2014.png', '/images/beardude/beardude2014a.png'],
+                //images: result.images,
+                onSale: inputObj.onSale,
+                retail: inputObj.retail,
+                sale: inputObj.sale,
+                type: 'shirt'
+            };
         },
         addProductPage: function (req, res) {
-            var brand = req.params.brand;
-            res.render('index', {
-                partials: {
-                    head: 'head',
-                    header: 'header',
-                    body: 'signup'
-                },
-                brand: brand,
-                title: 'Add a product',
-                h1: '新增產品',
-                action: 'addedProduct',
-                js: ['addProduct.js'],
-                form: [{
-                        type: 'text',
-                        key: 'productName',
-                        label: '產品名稱'
-                    },
-                    {
-                        type: 'file',
-                        key: 'images[]',
-                        params: 'multiple',
-                        label: '上傳圖片'
-                    },
-                    {
-                        type: 'checkbox',
-                        key: 'sex',
-                        label: '產品區分男女'
-                    },
-                    {
-                        type: 'checkbox',
-                        key: 'onSale',
-                        value: 1,
-                        label: '啟動特價'
-                    },
-                    {
-                        type: 'number',
-                        key: 'retail',
-                        label: '售價'
-                    },
-                    {
-                        type: 'number',
-                        key: 'sale',
-                        label: '特價'
-                    },
-                    {
-                        type: 'text',
-                        key: 'brand',
-                        value: req.params.brand,
-                        style: 'display: none'
-                    }
-                ]
-            });
-        },
-        addedProductPage: function (req, res) {
             var result = req.body,
-                data = {
-                    productName: result.productName,
-                    brand: req.params.brand,
-                    images: ['/images/beardude/beardude2014.png', '/images/beardude/beardude2014a.png'],
-                    //images: result.images,
-                    onSale: result.onSale,
-                    retail: result.retail,
-                    sale: result.sale,
-                    type: 'shirt'
-                };
+                data,
+                brandName = req.params.brand;
 
-            productController.createProduct1(data)
-            .then(function (D) {
-                sails.controllers.productspecific.mockProductSpecific(D, function (categoriesData) {
-                    if (err) {
-                        callback(err);
-                        return;
-                    }
-                });
-                return res.render('index', {
-                    body: 'form_product',
-                    title: 'Product added',
-                    h1: '產品新增成功'
-                });
-            });
-        },
-        createProduct: function (data, callback) {
-            product.findOne({productName: data.productName}, function (err, result) {
-                if (typeof result !== 'undefined') {
-                    callback('product exists');
-                    return;
-                }
-                product.create(data).exec(function(err, data) {
-                    callback(null, data);
-                });
-            });
-        },
-        getProductList: function (categoryList) {
-            var result = [],
-                i,
-                j;
-            for (i in categoryList) {
-                for (j = 0; j < categoryList[i].size.length; j += 1) {
-                    result.push({
-                        key: 'pid_' + categoryList[i].id[j],
-                        name: i + ' ' + categoryList[i].size[j],
-                        sex: i,
-                        size: categoryList[i].size[j]
+            if (typeof result !== 'undefined') { // post
+                result.brandName = brandName;
+                data = productController.prepareProductObj(result);
+                return productController.createProduct(data)
+                    .then(function (D) {
+                        return sails.controllers.productspecific.mockProductSpecific(D);
+                    })
+                    .then(function (D1) {
+                        return res.send(D1);
+                    })
+                    .catch(function (E) {
+                        console.log('addedProduct error: ', E);
                     });
-                }
             }
-            return result;
-        },
-        listProducts: function (brandName, callback) {
+            // get
             brand.findOne({brandName: brandName})
             .then(function (D) {
-                product.find({brand: D.id}, function (err, result) {
-                    var combineCategoryResult = function (productObj) {
-                            sails.controllers.productspecific.getProductSpecific(productObj, function(err, productCatResult) {
-                                var combined = productObj;
-                                combined.cats = productCatResult;
-                                combined.productList = productController.getProductList(productCatResult);
-                                combineResultCb(combined);
-                            });
-                        },
-                        combineResultCb = function (data) {
-                            if (!data.onSale) {
-                                delete data.sale;
-                            }
-                            processedResult.push(data);
-                            counter -= 1;
-                            if (counter === 0) {
-                                return callback(null, processedResult);
-                            }
-                        },
-                        resultLen = result.length,
-                        counter = resultLen,
-                        i,
-                        processedResult = [];
-                    if (err) {
-                        callback(err);
-                        return;
-                    }
-                    if (resultLen > 0) {
-                        for (i = 0; i < resultLen; i += 1) {
-                            combineCategoryResult(result[i]);
-                        }
-                    } else {
-                        return callback(null, {});
-                    }
+                return renderService.html(res, 'signup', {
+                    title: '新增產品',
+                    js: ['addProduct.js'],
+                    form: productController.generateAddProductForm(D)
                 });
+            })
+            .catch(function (E) {
+                console.log('E: ', E);
             });
         },
+        listProducts: function (brandName) {
+            var q = Q.defer(),
+                products = {};
+
+            product.find({brandName: brandName})
+            .then(function (D) { // D: products
+                // get each product's specific
+                var DLen = D.length,
+                    i,
+                    key,
+                    funcs = [],
+                    prepFuncs = function (i) {
+                        funcs.push(
+                            sails.controllers.productspecific.getProductSpecific({product: D[i].id}, {organizeBySex: true})
+                        );
+                    };
+
+                for (i = 0; i < DLen; i += 1) {
+                    key = 'product_' + D[i].id;
+                    products[key] = D[i];
+                    products[key].productSpecific = [];
+                    prepFuncs(i);
+                }
+                return Q.all(funcs);
+            })
+            .then(function (D1) { // D1: product specific array's array.
+            /*
+                [{
+                    product_{id}: {
+                        male: [],
+                        female: [],
+                        unisex: []
+                }]
+            */
+                var i, j;
+                // Put pSpecifics to products
+                for (i = 0; i < D1.length; i += 1) {
+                    for (j in D1[i]) {
+                        products.brand = products[j].brand;
+                        products[j].productSpecific = D1[i][j];
+                    }
+                }
+                return q.resolve(products);
+            })
+            .catch(function (E) {
+                console.log('listProducts1 E: ', E);
+            });
+            return q.promise;
+        },
         listProductsPage: function (req, res) {
-            var brand = req.params.brand,
+            var brandName = req.params.brand,
                 uuidMod = require('node-uuid'),
                 uuidCookieRaw = req.cookies.uuid,
-                uuid;
-            if (typeof uuidCookieRaw === 'undefined' || uuidCookieRaw === '""') {
                 uuid = uuidMod.v4();
-            } else {
+
+            if (typeof uuidCookieRaw !== 'undefined' && uuidCookieRaw !== '""') {
                 uuid = uuidCookieRaw.substring(1, uuidCookieRaw.length - 1);
             }
-            productController.listProducts(brand, function (err, result) {
-                if (err) {
-                    console.log(err);
-                }
-                res.render('index', {
-                    partials: {
-                        head: 'head',
-                        header: 'header',
-                        body: 'products'
-                    },
+
+            productController.listProducts(brandName)
+            .then(function (D) {
+                return renderService.html(res, 'products', {
+                    title: brandName + ' products',
+                    brand: brandName,
+                    b_id: D.brand,
                     uuid: uuid,
-                    brand: brand,
-                    title: brand + ' products',
-                    h1: brand + ' products',
-                    products: result,
+                    products: D,
                     js: ['product.js']
                 });
-                return;
+            })
+            .catch(function (E) {
+                console.log('listProductsPage1 E: ', E);
             });
         },
         generateCheckoutForm: function () {
@@ -290,88 +285,79 @@ var Q = require('q'),
             ];
             return form;
         },
-        getProductInfo: function (key, callback) {
-            var placeholder;
 
-            productSpecific.findOne({id: key}, function (err, data) {
-                placeholder = {
-                    id: key,
-                    name: '',
-                    sex: data.sex,
-                    size: data.size,
-                    count: 0,
-                    retail: 0,
-    //                sale: 0,
-    //                onSale: true,
-                    itemSum: 0
-                };
-
-                product.findOne({id: data.product}, function (err, productData) {
-                    placeholder.name = productData.productName;
-                    placeholder.retail = productData.retail;
-                    if (productData.onSale) {
-                        placeholder.sale = productData.sale;
-                    }
-                    callback(null, placeholder);
-                });
-            });
-        },
-        checkout: function (uuid, callback) {
-            var i,
-                j,
-                productSpecificIds = [],
-                funcs = [];
-            /*
-            {
-                uuid: UUID,
-                items: {
-                    ITEM_KEY: {
-                        count: COUNT,
-                        name: ITEM_NAME
-                    }
-                },
-                closed: null
-            }
-            */
-            sails.controllers.cart.access({uuid: uuid}, function (err, data) {
-                if (typeof data !== 'undefined') {
-                    var i,
-                        items = data.items || {},
-                        productSpecificId,
-                        prepFuncs = function (i) {
-                            funcs.push(function(callback){
-                                productController.getProductInfo(productSpecificIds[i], callback);
-                            });
-                        };
-
-                    for (i in items) {
-                        productSpecificId = i.substring(i.indexOf('pid_') + 4);
-                        productSpecificIds.push(productSpecificId);
-                    }
-                    productSpecificIds.sort();
-
-                    for (i = 0, j = productSpecificIds.length; i < j; i += 1) {
-                        prepFuncs(i);
-                    }
-
-                    async.parallel(funcs, function (err, productInfo) {
-                        var i,
-                            productInfoLen = productInfo.length,
-                            id,
-                            result = {
-                                items: {}
-                            };
-                        for (i = 0; i < productInfoLen; i += 1) {
-                            id = 'pid_' + productInfo[i].id;
-                            productInfo[i].count = data.items[id].count;
-                            result.items[id] = productInfo[i];
-                        }
-                        return callback(null, {content: productInfo, json: result});
-                    });
-                } else {
-                    callback(null, null);
+        /*
+        {
+            uuid: UUID,
+            items: {
+                ITEM_KEY: {
+                    count: COUNT,
+                    name: ITEM_NAME
                 }
+            },
+            closed: null
+        }
+        */
+        addCartPriceInfo: function (cartObj) {
+            var q = Q.defer(),
+                items = cartObj.items,
+                itemsLen = items.length,
+                productSpecificIds = [],
+                output = cartObj,
+                i;
+
+            for (i = 0; i < itemsLen; i += 1) {
+                productSpecificIds.push(items[i].productSpecific);
+            }          
+            productSpecific.find(productSpecificIds)
+            .then(function (D) {
+                var DLen = D.length,
+                    itemsLen = output.items.length,
+                    i,
+                    ps_id,
+                    ph,
+                    price,
+                    dataMap = {};
+
+                for (i = 0; i < DLen; i += 1) {
+                    dataMap[D[i].id] = {
+                        retail: D[i].retail,
+                        sale: D[i].sale,
+                        onSale: D[i].onSale
+                    };
+                }
+                for (i = 0; i < itemsLen; i += 1) { // Append price
+                    ps_id = output.items[i].productSpecific;
+                    ph = dataMap[ps_id];
+                    output.items[i].retail = ph.retail;
+                    output.items[i].sale = ph.sale;
+                    output.items[i].onSale = ph.onSale;
+                    price = (ph.onSale) ? ph.sale : ph.retail;
+                    output.items[i].itemSum = price * output.items[i].count;
+                }
+                return q.resolve(output);
+            })
+            .catch(function (E) {
+                console.log('addCartPriceInfo error: ', E);
+                return q.reject(E);
             });
+            return q.promise;
+        },
+        checkout: function (uuid) {
+            var q = Q.defer(),
+                output;
+
+            sails.controllers.cart.read(uuid)
+            .then(function (D) { // D: cart data.
+                return productController.addCartPriceInfo(D); // append price info: retail, sale, itemSum
+            })
+            .then(function (D1) {
+                return q.resolve(D1);
+            })
+            .catch(function (E) {
+                return q.reject(E);
+            });
+            return q.promise;
         },
         checkoutPage: function (req, res) {
             var uuidRaw = req.cookies.uuid,
@@ -380,44 +366,32 @@ var Q = require('q'),
                 content,
                 finalResult = {},
                 renderPage = function (result) {
-                    console.log('result: ', result);
                     //Shipping use model
                     content = {
-                        cart: (result) ? result.content : null,
+                        cart: result,
                         form: productController.generateCheckoutForm(),
                         shipping: 80
                     };
-                    return res.render('index', {
-                        partials: {
-                            head: 'head',
-                            header: 'header',
-                            body: 'checkout'
-                        },
+                    renderService.html(res, 'checkout', {
+                        title: '結帳',
+                        js: ['checkout.js'],
                         uuid: uuid,
                         brand: brandName,
-                        brandId: result.brandId,
-                        title: 'Checkout',
-                        h1: 'Checkout',
-                        content: content,
-                        json: (result) ? JSON.stringify(result.json) : null,
-                        js: ['checkout.js'],
-                        css: 'checkout.css'
+                        content: content
                     });
                 };
             if (typeof uuidRaw !== 'undefined') {
                 uuid = uuidRaw.substring(1, uuidRaw.length - 1);
 
-                productController.checkout(uuid, function (err, result) {
-                    finalResult = result;
-                    brand.findOne({brandName: brandName}, function (err, brandInfo) {
-                        finalResult.brandId = brandInfo.id;
-                        console.log('finalResult: ', finalResult);
-                        renderPage(finalResult);
-                    });
+                productController.checkout(uuid)
+                .then(function (D) {
+                    return renderPage(D);
+                })
+                .catch(function (E) {
+                    console.log('E: ', E);
                 });
-
             } else {
-                renderPage();
+                return renderPage();
             }
         }
     };
