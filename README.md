@@ -1,2 +1,2 @@
-# testProject
-### a Sails application
+# X
+### a Sails exercise
