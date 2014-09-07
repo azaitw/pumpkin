@@ -1,8 +1,8 @@
-<div class="mod-account W-100">
+<div class="account W-100">
 <h1>{{h1}}</h1>
-{{#content}}
     <table>
         <tr>
+            <th></th>
             <th>收件人</th>
             <th>電話</th>
             <th>地址</th>
@@ -12,8 +12,8 @@
             <th>備註</th>
             <th>訂單</th>
         </tr>
-        {{#each orders}}
-        <tr>
+        {{#each content}}
+        <tr class="item" data-index="{{id}}" data-disabled="{{disabled}}" data-price="{{subtotal}}">
             <td>{{recipient}}</td>
             <td>{{phone}}</td>
             <td>{{zip}} {{address}}</td>
@@ -21,12 +21,8 @@
                 <ul>
                 {{#each items}}
                     <li>
-                        <span>name</span>
-                        {{#if sale}}
-                        <span>{{sale}}</span>
-                        {{else}}
-                        <span>{{retail}}</span>
-                        {{/if}}
+                        <span>{{productName}} {{sex}} {{size}}</span>
+                        <span>{{price}}</span>
                         x <span>{{count}}</span>
                     </li>
                 {{/each}}
@@ -50,6 +46,5 @@
         </tr>
         {{/each}}
     </table>
-{{/content}}
 <div class="D-n Pos-a pop" style="width: 400px; top: 10%; border: 1px solid #999;background:#fff"></div>
 </div>

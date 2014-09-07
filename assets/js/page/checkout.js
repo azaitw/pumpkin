@@ -1,4 +1,5 @@
 X.checkout = {
+    attrs: {},
     event: function () {
         var countBtns = $('.count-btn'),
             submitOrderBtn = $('.submit-order'),
@@ -19,6 +20,7 @@ X.checkout = {
                 // after clicked refresh-btn
                 that.getSum();
                 $('.refresh-cart').addClass('D-n');
+                that.attrs.valueChanged = false;
             }); 
         });
         submitOrderBtn.click(function (e) {
@@ -36,7 +38,7 @@ X.checkout = {
             i,
             items = $('.item'),
             itemsLen = items.length,
-            itemsJSON = {},
+            itemsArray = [],
             ph,
             sale,
             retail,
@@ -51,13 +53,17 @@ X.checkout = {
             } else {
                 price = retail.html();
             }
-
-            itemsJSON[ph.attr('data-pid')] = {
-                count: ph.find('.count-input').val(),
-                price: parseInt(price)
-            }
+            itemsArray.push({
+                productName: ph.find('.name').html().trim(),
+                sex: ph.find('.sex').html().trim(),
+                size: ph.find('.size').html().trim(),
+                price: price,
+                cartItemId: ph.attr('data-cartitem_id'),
+                productSpecificId: ph.attr('data-ps_id'),
+                count: ph.find('.count-input').val()
+            });
         }
-        return itemsJSON;
+        return itemsArray;
     },
     updateCartVal: function (node) {
         var refreshBtn = $('.refresh-cart'),
@@ -69,6 +75,7 @@ X.checkout = {
             retail = item.find('.retail'),
             price = (sale.length > 0) ? sale.html() : retail.html(); // price = sale when on sale
 
+        this.attrs.valueChanged = true;
         if (node.hasClass('plus')) {
             countVal += 1;
         } else if (node.hasClass('minus')){
@@ -117,6 +124,13 @@ X.checkout = {
             }
         );
     },
+    validatePrice: function () {
+        if (this.attrs.valueChanged) {
+            alert('請更新購物車');
+            return;
+        }
+        //TO DO: validate if on sale
+    },
     submitOrder: function () {
         var i,
             flag = true,
@@ -133,6 +147,7 @@ X.checkout = {
         if (flag === false) {
             return;
         }
+        this.validatePrice();
         order = {
             recipient: {
                 email: $('.email').val(),
@@ -142,23 +157,21 @@ X.checkout = {
                 address: $('.address').val(),
                 country: $('.country').val()
             },
-            brand: {
-                shipping: parseInt($('.shipping').html())
-            },
             order: {
                 uuid: X.uuid.read(),
                 items: cart,
+                shipping: parseInt($('.shipping').html()),
                 note: $('.note').val()
             }
         };
+
         this.submitOrderAjax(order, function (err, data) {
-            console.log('err: ', err);
-            console.log('data: ', data);
             var msg = '訂單送出, 確認信已寄到' + order.recipient.email;
             $('.main>.bd').text(msg);
             X.uuid.delete();
             // redirect
         });
+
     }
 };
 X.checkout.event();

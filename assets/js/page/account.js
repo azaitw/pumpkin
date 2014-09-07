@@ -1,52 +1,46 @@
 X.account = {
+    attrs: {},
     event: function () {
         var submitBtn = $('.submitBtn');
-        if (X.params.json !== '') {
-            X.account.generateResult(X.params.json);
-        }
-        submitBtn.click(function (e) {
-            var val = $('.email').val();
-            X.account.getOrderData({email: val}, function (err, data) {
-                X.account.generateResult(data);
-            });
-        });
-    },
-    getOrderData: function (input, callback) {
-        $.post(
-            '/' + X.params.brand + '/account/post',
-            input,
-            function (output) {
-                callback(null, output);
-            }
-        );
-    },
-    generateResult: function (input) {
-        var func,
-            template,
-            output;
-        if (input === '') {
-            alert('查無資料');
-            return;
-        }
-        X.params.json = input;
         $.get('/templates/account.js', function (data) {
             func = new Function(data);
             func();
-            template = JST['views/account.handlebars'];
-            output = template({h1: '查詢訂單', content: input});
-            $('.bd.main').html(output);
-            X.account.bindVerifyEvent();
         });
+        submitBtn.click(function (e) {
+            var val = $('.email').val();
+            $.post(
+                '/' + X.params.brand + '/account',
+                {email: val},
+                function (data) {
+                    if (data === '') {
+                        alert('查無資料');
+                        return;
+                    }
+                    X.account.attrs.email = val;
+                    X.account.attrs.orders = data;
+                    X.account.generateResult(data);
+                }
+            )
+        });
+        X.account.bindVerifyEvent();
+    },
+    generateResult: function (input) {
+        var func,
+            template = JST['views/account.handlebars'],
+            output;
+        output = template({h1: '查詢訂單', content: input});
+        $('.bd.main').html(output);
+        X.account.bindVerifyEvent();
     },
     showVerifyPage: function (key) {
         var pop = $('.pop'),
             template = JST['views/pop.handlebars'],
             closeBtn,
             submitBtn,
-            data = JSON.parse(JSON.stringify(X.params.json)),
+            data = this.attrs.orders,
             output;
 
-        data.orders[key].checked = true; // Mark clicked item
+        data[key].checked = true; // Mark clicked item
         output = template(data);
         pop.html(output);        
         closeBtn = $('.close-btn');
@@ -59,12 +53,33 @@ X.account = {
             X.account.submitVerification();
         });
     },
+    parseOrders: function () {
+        var i,
+            items = $('.account .item'),
+            itemsLen = items.length,
+            ph,
+            orders = [];
+
+        for (i = 0; i < itemsLen; i += 1) {
+            ph = $(items[i]);
+            orders.push({
+                id: ph.attr('data-index'),
+                subtotal: ph.attr('data-price'),
+                status: ph.attr('data-disabled')
+            });
+        }
+        this.attrs.orders = orders;
+    },
     bindVerifyEvent: function () {
-        var verifyBtns = $('.verify-btn'),
+        var that = this,
+            verifyBtns = $('.verify-btn'),
             key;
 
         verifyBtns.click(function (e) {
             key = $(e.currentTarget).data('index');
+            if (typeof that.attrs.orders === 'undefined') {
+                that.parseOrders();
+            }
             X.account.showVerifyPage(key);
         });
     },
@@ -106,39 +121,39 @@ X.account = {
         if (inputCounter === 0) {
             checkboxInput.addClass('showErr');
         }
-        if (flag === false) {
-            return;
-        }
+        return flag;
     },
     submitVerification: function () {
         var i,
             input,
-            url = location.protocol + '//' + location.host + '/' + X.params.brand + '/account/?phone=' + X.params.json.phone,
+            url = location.protocol + '//' + location.host + '/' + X.params.brand + '/account/?email=' + this.attrs.email,
             placeholder,
             orderToVerify;
-        this.validateFields();
-        orderToVerify = $('.order-to-verify'),
-        orderToVerifyLen = orderToVerify.length;
-        input = {
-            transferInfo: {
-                bankCode: $('.bankCode').val(),
-                bankAccountTail: $('.bankAccountTail').val(),
-                transferAmount: $('.transferAmount').val()
-            },
-            ordersToVerify: []
-        };
-        for (i = 0; i < orderToVerifyLen; i += 1) {
-            placeholder = $(orderToVerify[i]);
-
-            if (placeholder.is(':checked') && !placeholder.is(':disabled')) {
-                input.ordersToVerify.push(X.params.json.orders[i].orderNumber);
+        ;
+        if (this.validateFields()) {
+            orderToVerify = $('.order-to-verify');
+            orderToVerifyLen = orderToVerify.length;
+            input = {
+                transferInfo: {
+                    bankCode: $('.bankCode').val(),
+                    bankAccountTail: $('.bankAccountTail').val(),
+                    transferAmount: $('.transferAmount').val()
+                },
+                ordersToVerify: []
+            };
+            for (i = 0; i < orderToVerifyLen; i += 1) {
+                placeholder = $(orderToVerify[i]);
+                if (placeholder.is(':checked') && !placeholder.is(':disabled')) {
+                    input.ordersToVerify.push(placeholder.attr('data-index'));
+                }
             }
+
+            $.post('/' + X.params.brand + '/account/verify',
+                input,
+                function (data) {
+                    return window.location.replace(url);
+            });
         }
-        $.post('/' + X.params.brand + '/account/verify',
-            input,
-            function (data) {
-                window.location.href = url;
-        });
     }
 };
 X.account.event();

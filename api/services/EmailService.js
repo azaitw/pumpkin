@@ -71,10 +71,8 @@ var email = require('emailjs'),
                 html = D;
                 sails.renderView('email/order_plaintext', inputObj, function (err, D1) {
                     text = D1;
-                        console.log('html mail: ', html);
-                        console.log('text mail: ', text);
                     that.sendMail({
-                        to: inputObj.email,
+                        to: inputObj.recipient.email,
                         subject: '您的訂單',
                         body: html,
                         text: text,

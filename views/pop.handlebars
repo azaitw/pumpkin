@@ -32,10 +32,10 @@
 <div class="li-input checkbox-input">
     <div class="bd">
         <ul class="">
-            {{#each orders}}
+            {{#each .}}
             <li class="li-input">
                 <div class="bd">
-                    <input type="checkbox" name="order-to-verify-{{@index}}" class="order-to-verify order-to-verify-{{@index}}" data-index="{{@index}}" {{#if checked}}checked{{/if}} {{#if disabled}}checked disabled{{/if}} />
+                    <input type="checkbox" name="order-to-verify-{{id}}" class="order-to-verify order-to-verify-{{id}}" data-index="{{id}}" {{#if checked}}checked{{/if}} {{#if status}}checked disabled{{/if}} />
                     {{subtotal}}
                 </div>
             </li>

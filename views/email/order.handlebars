@@ -20,7 +20,7 @@
         <li><span>帳號：</span><span>{{bankAccountNumber}}</span></li>
         <li><span>戶名：</span><span>{{bankAccountName}}</span></li>
         {{/brand}}
-        <li><span>金額：</span><span>{{order.sum}}</span></li>
+        <li><span>金額：</span><span>{{subtotal}}</span></li>
     </ul>
 </div>
 <div>
@@ -30,9 +30,11 @@
         </dt>
         <dd>
             <ul>
-                <li>{{order.recipient}}</li>
-                <li>{{order.zip}} {{order.address}}, {{order.country}}</li>
-                <li>{{order.phone}}</li>
+                {{#recipient}}
+                <li>{{name}}</li>
+                <li>{{zip}} {{address}}, {{country}}</li>
+                <li>{{phone}}</li>
+                {{/recipient}}
             </ul>
         </dd>
     </dl>
@@ -47,27 +49,29 @@
     </tr>
     {{#each order.items}}
     <tr>
-        <td>{{name}} {{sex}} {{size}}</td>
-        {{#if sale}}
-        <td>{{sale}}</td>
-        {{else}}
-        <td>{{retail}}</td>
-        {{/if}}
+        <td>{{productName}} {{sex}} {{size}}</td>
+        <td>{{price}}</td>
         <td>{{count}}</td>
-        <td>{{sum}}</td>
+        <td>{{itemSum}}</td>
     </tr>
     {{/each}}
+    <tr>
+        <td>小計</td>
+        <td></td>
+        <td></td>
+        <td>{{sum}}</td>
+    </tr>
     <tr>
         <td>運費</td>
         <td></td>
         <td></td>
-        <td>{{brand.shipping}}</td>
+        <td>{{order.shipping}}</td>
     </tr>
     <tr>
         <td>加總</td>
         <td></td>
         <td></td>
-        <td>{{order.sum}}</td>
+        <td>{{subtotal}}</td>
     </tr>
 </table>
 備註：{{order.note}}

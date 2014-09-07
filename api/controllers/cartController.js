@@ -1,7 +1,6 @@
 var Q = require('q'),
     cartController = {
     access: function (params) { // Switch between read and update
-
         var q = Q.defer(),
             uuid = params.uuid;
         if (typeof params.add === 'undefined' && typeof params.items === 'undefined') { // read
@@ -34,14 +33,13 @@ var Q = require('q'),
         var q = Q.defer(),
             uuid = params.uuid,
             itemToAdd = params.add,
-//            itemKey = 'ps_id_' + itemToAdd.productSpecific,
             cartData = {
                 uuid: params.uuid,
                 brandName: params.brandName,
             };
         cart.create(cartData)
         .then(function (D) { // D.uuid, D.id
-            return createCartItem(itemToAdd, D.id);
+            return cartController.createCartItem(itemToAdd, D.id);
             /*
                 cart: {
                     model: 'cart'
@@ -72,6 +70,9 @@ var Q = require('q'),
         
         cart.findOne({uuid: uuid})
         .then(function (D) { //D.id
+            if (typeof D === 'undefined') {
+                return q.resolve(D);
+            }
             output = D;
             return cartController.readCartItem(output.id);
         })
@@ -160,56 +161,51 @@ var Q = require('q'),
     updateAllItems: function (params, cartId) {
         var q = Q.defer(),
             i,
-            items = params.items;
-
-        /*
-        cartItem = D.items || {};
-        itemObj = cartItem[itemKey] || {};
-        cartItemCount = itemObj.count || 0;
-        if (typeof itemKey !== 'undefined') { // data exist
-            D.items[itemKey] = {
-                name: params.itemName,
-                count: cartItemCount + 1
-            };
-        }
-        if (typeof items !== 'undefined') { // update multiple items
-            for (i in items) { // remove items with 0 count
-                if (params.items[i].count >= 0) {
-                    D.items[i].count = params.items[i].count;
+            items = params.items,
+            itemsLen = items.length,
+            funcs = [],
+            prepFunc = function (id, count) {
+                if (count > 0) {
+                    funcs.push(
+                        cartItem.update({id: id}, {count: count})
+                    );
                 } else {
-                    delete D.items[i];
+                    funcs.push(
+                        cartItem.destroy({id: id})
+                    );
                 }
-            }
+            };
+
+        for (i = 0; i < itemsLen; i += 1) {
+            prepFunc(items[i].cartItemId, items[i].count);
         }
-        */
-        //return cart.update({uuid: uuid}, {items: D.items});  
+        Q.all(funcs)
+        .then(function (D) {
+            q.resolve(D);
+        })
+        .catch(function (E) {
+            console.log('updateAllItems E: ', E);
+            q.reject(E);
+        });
+        return q.promise;
     },
     update: function (params) {
         var q = Q.defer(),
             uuid = params.uuid,
             items = params.items, // If not undefined, update complete items
             itemKey;
-
         cartController.read(uuid)
         .then(function (D) {
-            var i,
-                items,
-                funcs;
-
             if (typeof D === 'undefined') { // not data. to create and add an item
                 return cartController.create(params);
             } else { // has record
-                // case 1: add: {}
-                // case 2: items: {}
-
-                if (typeof params.add !== 'undefined') { // add one entry
-                    return cartController.addCartItem(params, D.id);
+                if (typeof params.add !== 'undefined') {
+                    return cartController.addCartItem(params, D.id); // add one entry
                 }
-                return cartController.updateAllItems(params, D.id);
+                return cartController.updateAllItems(params, D.id); // update all items
             }
         })
         .then(function (D1) {
-            console.log('D1: ', D1);
             return q.resolve(D1);
         })
         .catch(function (E) {
@@ -219,13 +215,6 @@ var Q = require('q'),
         return q.promise;
     },
 
-
-    // NOT YET REFACTORED
-    closeCart: function (uuid, callback) {
-        cart.update({uuid: uuid}, {closed: true}).exec(function (err, data) {
-            callback(null, data);
-        });
-    },
     sanitize: function (rawObj) {
         var obj = rawObj;
         if (typeof rawObj !== 'undefined') {

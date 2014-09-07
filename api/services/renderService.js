@@ -2,13 +2,13 @@ module.exports = {
     _config: {
 
     },
-    html: function (res, template, params) {
+    html: function (res, bodyTemplateName, params) {
         var i,
             renderObj = {
                 partials: {
                     head: 'head',
                     header: 'header',
-                    body: template
+                    body: bodyTemplateName
                 }
             };
         for (i in params) {

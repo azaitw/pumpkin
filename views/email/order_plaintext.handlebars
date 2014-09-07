@@ -7,20 +7,21 @@
   銀行代碼： {{brand.bankCode}}
   帳號： {{brand.bankAccountNumber}}
   戶名： {{brand.bankAccountName}}
-  金額： {{sum}}
+  金額： {{subtotal}}
 
 收件人：
-
-    {{recipient}}
+{{#recipient}}
+    {{name}}
     {{zip}} {{address}}, {{country}}
     {{phone}}
-
+{{/recipient}}
 訂購項目：
-{{#each items}}
-    • {{name}} {{sex}} {{size}} :{{#if sale}}{{sale}}{{else}}{{retail}}{{/if}} x {{count}} = {{sum}} 元
+{{#each order.items}}
+    • {{productName}} {{sex}} {{size}} :{{price}} x {{count}} = {{itemSum}} 元
 {{/each}}
-  運費： {{shipping}}
-  加總： {{sum}}
+  小計： {{sum}}
+  運費： {{order.shipping}}
+  加總： {{subtotal}}
 
 備註：
-  {{note}}
+  {{order.note}}

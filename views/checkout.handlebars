@@ -15,7 +15,7 @@
                     <th>加總</th>
                 </tr>
                 {{#each content.cart.items}}
-                <tr class="item" data-pid="pid_{{id}}">
+                <tr class="item" data-ps_id="{{productSpecific}}" data-cartitem_id="{{id}}">
                     <td class="name">
                         {{productName}}
                     </td>

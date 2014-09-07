@@ -36,10 +36,6 @@ module.exports.routes = {
         controller: 'orderController',
         action: 'lookupOrderPage'
     },
-    '/:brand/account/post': {
-        controller: 'orderController',
-        action: 'lookupOrderAjax'
-    },
     '/:brand/account/verify': {
         controller: 'orderController',
         action: 'submitVerificationPage'

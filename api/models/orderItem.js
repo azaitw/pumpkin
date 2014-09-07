@@ -8,17 +8,16 @@
 
 var orderItem = {
     attributes: {
-        order: {
+        orderId: {
             model: 'order'
         },
-        itemName: {
+        productName: {
             type: 'string',
             required: true
         },
         sex: 'string',
         size: 'string',
-        retail: 'string',
-        sale: 'string',
+        price: 'string',
         count: 'integer',
         itemSum: 'integer'
     }

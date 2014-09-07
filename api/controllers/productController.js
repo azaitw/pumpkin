@@ -349,6 +349,12 @@ var Q = require('q'),
 
             sails.controllers.cart.read(uuid)
             .then(function (D) { // D: cart data.
+                if (typeof D === 'undefined') {
+                    return q.resolve(D);
+                }
+                var items = D.items,
+                    sortedItems = dataService.sort(items, {key: 'productSpecific', descend: false});
+                D.items = sortedItems;
                 return productController.addCartPriceInfo(D); // append price info: retail, sale, itemSum
             })
             .then(function (D1) {

@@ -40,7 +40,7 @@ var Q = require('q'),
         var q = Q.defer(),
             recipient = obj.recipient,
             customerObj = {
-                brand: obj.brandId,
+                brand: obj.brand.id,
                 brandName: obj.brandName,
                 email: recipient.email,
                 customerName: recipient.name,
@@ -54,6 +54,98 @@ var Q = require('q'),
             return q.resolve(D);
         })
         .catch(function (E) {
+            return q.reject(E);
+        });
+        return q.promise;
+    },
+    create: function (obj) {
+        var q = Q.defer(),
+            output = obj,
+            recipient = obj.recipient,
+            shipping = parseInt(obj.order.shipping),
+            sum = orderController.calcSum(obj.order.items),
+            orderForm = {
+                orderNumber: obj.order.uuid + '-' + DateTimeService.getDate(),
+                brand: obj.brand.id,
+                brandName: obj.brandName,
+                customer: obj.customer.id,
+                recipient: recipient.name,
+                phone: recipient.phone,
+                zip: recipient.zip,
+                address: recipient.address,
+                country: recipient.country,
+                sum: sum,
+                shipping: shipping,
+                subtotal: sum + shipping,
+                paymentType: 'bank transfer',
+                note: obj.order.note
+            };
+        order.create(orderForm)
+        .then(function (D) {
+            output.orderId = D.id;
+            return orderController.createOrderItems(output); // create order items
+        })
+        .then(function (D1) {
+            var i,
+                items = D1,
+                itemsLen = items.length,
+                sum = 0,
+                subtotal = 0;
+
+            output.order.items = D1;
+            for (i = 0; i < itemsLen; i += 1) {
+                sum += parseInt(items[i].price) * parseInt(items[i].count);
+            }
+            subtotal = sum + shipping;
+            output.sum = sum;
+            output.subtotal = subtotal;
+            return order.update({id: output.orderId}, {sum: sum, subtotal: subtotal, items: D1});
+        })
+        .then(function (D2) {
+            return q.resolve(output);
+        })
+        .catch(function(E) {
+            console.log('order create E: ', E);
+            return q.reject(E);
+        });
+        return q.promise;
+    },
+    read: function (query) {
+        var q = Q.defer();
+        order.find(query)
+        .then(function (D) {
+            return q.resolve(D);
+        })
+        .catch(function (E) {
+            console.log ('order read E: ', E);
+            return q.reject(E);
+        });
+        return q.promise;
+    },
+    /*
+        itemsArray.push({
+            cartItemId: ph.attr('data-cartitem_id'),
+            productSpecificId: ph.attr('data-ps_id'),
+            count: ph.find('.count-input').val()
+        });
+    */
+    createOrderItems: function (obj) {
+        var q = Q.defer(),
+            items = obj.order.items,
+            itemsLen = items.length,
+            i;
+
+        for (i = 0; i < itemsLen; i += 1) {
+            items[i].orderId = obj.orderId;
+            items[i].itemSum = parseInt(items[i].price) * parseInt(items[i].count);
+        }
+
+        orderItem.create(items)
+        .then(function (D) {
+            return q.resolve(D);
+        })
+        .catch(function (E) {
+            console.log('createorderitems error: ', E);
             return q.reject(E);
         });
         return q.promise;
@@ -81,40 +173,23 @@ var Q = require('q'),
     */
     submitOrder: function (obj) {
         var q = Q.defer(),
-            recipient = obj.recipient,
-            shipping = parseInt(obj.brand.shipping),
-            sum = orderController.calcSum(obj.order.items),
-            orderId,
-            itemsObj = obj.order,
-            itemsId = [];
+            output = obj;
+
         brand.findOne({brandName: obj.brandName})
         .then(function (D) {
-            obj.brandId = D.id;
-            return orderController.getCustomerForOrder(obj); // create or get customer
+            output.brand = D;
+            return orderController.getCustomerForOrder(output); // create or get customer
         })
-        .then(function (D) { // create order
-            var orderForm = {
-                orderNumber: obj.order.uuid + '-' + DateTimeService.getDate(),
-                brand: obj.brandId,
-                brandName: obj.brandName,
-                customer: D.id,
-                items: obj.order.items, // TO DO: use orderItem
-                recipient: recipient.name,
-                phone: recipient.phone,
-                zip: recipient.zip,
-                address: recipient.address,
-                country: recipient.country,
-                sum: sum,
-                shipping: shipping,
-                subtotal: sum + shipping,
-                paymentType: 'bank transfer',
-                note: obj.order.note
-            };
-            return order.create(orderForm);            
+        .then(function (D1) { // create order
+            output.customer = D1;
+            return orderController.create(output);
         })
-        .then(function (D1) { // Close cart
-            sails.controllers.cart.closeCart(obj.uuid, function (err, data) {});
-            return q.resolve(D1);
+        .then(function (D2) { // Close cart
+            output.order.items = D2.order.items;
+            return cart.update({uuid: D2.order.uuid}, {closed: true});            
+        })
+        .then(function (D3) {
+            return q.resolve(output);
         })
         .catch(function (E1) {
             console.log('submitOrder: ', E1);
@@ -124,16 +199,13 @@ var Q = require('q'),
     submitOrderPage: function (req, res) {
         var obj = req.body,
             brandName = req.params.brand,
-            output = {
-                order: {},
-                brand: {}
-            };
+            output;
 
         obj.brandName = brandName;
         orderController.submitOrder(obj)
         .then(function (D) {
             // Send email
-            output.order = D;
+            output = D;
             return brand.findOne({brandName: brandName});
         })
         .then(function (D1) {
@@ -148,129 +220,128 @@ var Q = require('q'),
             console.log(E);
         });
     },
+
+    /*
+        status:
+            null:  new order
+            submitted: customer notified transfer
+            verified: transfer verified
+    */
     verifyStatus: function (input) {
         var i,
             orders = input.orders,
             output = input;
-        for (i in input.orders) {
-            if (orders[i].status !== null) { // When status has data, add disabled
-                orders[i].disabled = true;
+        for (i = 0; i < input.length; i += 1) {
+            if (output[i].status !== null) { // When status has data, add disabled
+                output[i].disabled = true;
             }
         }
-        output.orders = orders;
         return output;
-        /*
-            status:
-                null:  new order
-                submitted: customer notified transfer
-                verified: transfer verified
-
-        */
     },
-    lookupOrder: function (params, callback) {
-        var Result,
-            Result1,
-            Result2;
+    /*
+        params: {
+            brandName: BRANDNAME,
+            email: EMAIL
+        }
+    */
+    lookupOrder: function (params) {
+        var q = Q.defer();
 
-        brand.findOne({brandName: params.brand})
-        .then(function (D) {
-            Result = D;
-            params.brand = D.id;
-            return customer.findOne(params);
+        customer.findOne(params)
+        .then(function (D) { // D: customer
+            return orderController.read({customer: D.id});
         })
-        .then(function (D1) {
-            Result1 = D1;
-            if (typeof Result1 === 'undefined') {
-                return callback(null, null);
-            } else {
-                return order.find({brand: Result.id, customer: Result1.id});
-            }
+        .then(function (D1) { // order
+            
+            return q.resolve(orderController.verifyStatus(D1));
         })
-        .then(function (D2) {
-            var output = {
-                name: Result1.customerName,
-                phone: Result1.phone,
-                orders: D2
-            };
-            output = orderController.verifyStatus(output);
-            return callback(null, output);
+        .catch(function (E) {
+            console.log('lookupOrder E: ', E);
+            return q.reject(E);
         });
-    },
-    lookupOrderAjax: function (req, res) {
-        var params = req.body;
-        params.brand = req.params.brand;
-        orderController.lookupOrder(params, function (err, result) {
-            res.send(result);
-        });
+        return q.promise;
     },
     lookupOrderPage: function (req, res) {
         var query = req.query,
-            renderObj = {
-                partials: {
-                    head: 'head',
-                    header: 'header',
-                    body: 'account'
-                },
+            post = req.body,
+            renderParams = {
                 brand: req.params.brand,
                 title: '查詢訂單',
-                h1: '查詢訂單',
-                action: '',
                 js: ['account.js']
-            };
-        query.brand = req.params.brand;
-        if (typeof query.email !== 'undefined') { // print order directly
-            orderController.lookupOrder(query, function (err, result) {
-                renderObj.content = result;
-                renderObj.json = JSON.stringify(result);
-                res.render('index', renderObj);
-            });
-        } else { // print phone number enter field
-            renderObj.partials.body = 'signup';
-            renderObj.form = [{
+            },
+            lookupForm = function () {
+                renderParams.form = [{
                     type: 'text',
                     key: 'email',
                     label: '輸入電子信箱'
+                }];
+                renderService.html(res, 'signup', renderParams);
+            };
+        if (typeof post !== 'undefined') {
+            orderController.lookupOrder(post)
+            .then(function (D) {
+                console.log('D: ', D);
+                return res.send(D);
+            })
+            .catch(function (E) {
+                console.log('lookup post E: ', E);
+                return res.send({});
+            });
+        }
+        query.brandName = req.params.brand;
+        if (typeof query.email !== 'undefined') { // use URL to submit email
+            orderController.lookupOrder(query)
+            .then(function (D) {
+                if (typeof D === 'undefined') { // no record found
+                    return promptLookup();
                 }
-            ];
-            res.render('index', renderObj);
+                renderParams.content = D;
+                return renderService.html(res, 'account', renderParams);
+            })
+            .catch(function (E) {
+                console.log('lookupOrderPage E: ', E);
+                return q.reject(E);
+            });
+        } else { // print phone number enter field
+            return lookupForm();
         }
     },
-    submitVerification: function (input, callback) {
-        var i,
+    submitVerification: function (input) {
+        var q = Q.defer(),
+            i,
             ordersToVerify = input.ordersToVerify,
             ordersToVerifyLen = ordersToVerify.length,
+            query = [],
+            updates = [],
             funcs = [],
-            placeholder,
-            markOrderVerified = function (inputUuid, callback) {
-                order.findOne({orderNumber: inputUuid}, function (err, orderOutput) {
-                    var toUpdate = {
-                        bankCode: input.transferInfo.bankCode,
-                        bankAccountTail: input.transferInfo.bankAccountTail,
-                        transferAmount: input.transferInfo.transferAmount,
-                        status: 'submitted'
-                    };
-                    order.update({orderNumber: inputUuid}, toUpdate).exec(function (err, result) {
-                        callback(null, result);
-                    });
-                });
+            prepFuncs = function (i) {
+                funcs.push(order.update(query[i], updates[i]));
             },
-            prepFuncs = function (orderNumber) {
-                funcs.push(function(callback){
-                    markOrderVerified(orderNumber, callback);
-                });
-            };
+            params = input.transferInfo;
+        params.status = 'submitted';
 
         for (i = 0; i < ordersToVerifyLen; i += 1) {
-            prepFuncs(ordersToVerify[i]);
+            query.push({id: ordersToVerify[i]});
+            updates.push(params);
+            prepFuncs(i);
         }
-        async.parallel(funcs, function (err, output) {
-            callback(null, output);
+        Q.all(funcs)
+        .then(function (D) {
+            return q.resolve(D);
+        })
+        .catch(function (E) {
+            console.log('submitVerification E: ', E);
+            return q.reject(E);
         });
-
+        return q.promise;
     },
     submitVerificationPage: function (req, res) {
-        orderController.submitVerification(req.body, function (err, data) {
-            res.send(data);
+        orderController.submitVerification(req.body)
+        .then(function (D) {
+            return res.send(D);
+        })
+        .catch(function (E) {
+            console.log('submitVerificationPage E: ', E);
         });
     },
     manageOrderPage: function (req, res) {
