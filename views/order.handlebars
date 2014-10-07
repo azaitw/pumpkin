@@ -2,22 +2,25 @@
 .table-manage .tr-manage:hover {
     background: #83baeb;
 }
-.table-manage .edit {
+.table-manage .btn-toggle {
     display: none;
 }
-.table-manage .edit_btn {
+.table-manage .btn-edit {
+    visibility: hidden;
+}
+.table-manage .tr-manage:hover .btn-edit {
     visibility: visible;
 }
-.table-manage .editmode .edit {
+.table-manage .editmode button.btn-toggle {
     display: block;
 }
-.table-manage .editmode .edit_btn {
-    visibility: hidden;
+.table-manage .editmode .btn-edit {
+    display: none;
 }
 </style>
 <h1>{{h1}}</h1>
 <div class="mod-signup W-100">
-    <table class="table-manage" data-table="order">
+    <table class="table-manage W-100" data-table="order">
         <tr>
             <th>訂單號碼</th>
             <th>客戶名稱</th>
@@ -26,26 +29,22 @@
             <th>收件人</th>
             <th>轉帳銀行</th>
             <th>轉帳確認</th>
+            <th>管理</th>
         </tr>
         {{#each body}}
         <tr class="tr-manage" data-index="{{@index}}">
             <td>
-                <span data-cid={{id}} data-field="id" class="item">
+                <span data-oid={{id}} data-field="id" class="item">
                     {{id}}
                 </span>
             </td>
             <td>
-                <span data-cid={{id}} data-field="customer" class="item">
-                    <button class="edit_btn">{{customer}}</button>
-                    <span class="edit">
-                        <input class="value" value="{{customer}}"/>
-                        <button class="save">更新</button>
-                        <button class="cancel">取消</button>
-                    </span>
+                <span data-oid={{id}} data-field="customer" class="item">
+                    {{customer}}
                 </span>
             </td>
             <td>
-                <ul class="item" data-cid={{id}}  data-field="items" data-aggregate="items">
+                <ul class="item" data-oid={{id}}  data-field="items" data-aggregate="items">
                 {{#each items}}
                     <li data-pid="{{@key}}">
                         <span>{{name}}</span>
@@ -58,132 +57,64 @@
                         {{/if}}
                         <span>x</span>
                         <span data-field="count">
-                            <button class="edit_btn">{{count}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{count}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
+                            {{count}}
                         </span>
                     </li>
                 {{/each}}
                 </ul>
             </td>
             <td>
-                <span data-cid={{id}} data-field="subtotal" class="item">
-                    <button class="edit_btn">{{subtotal}}</button>
-                    <span class="edit">
-                        <input class="value" value="{{subtotal}}"/>
-                        <button class="save">更新</button>
-                        <button class="cancel">取消</button>
-                    </span>
+                <span data-oid={{id}} data-field="subtotal" class="item">
+                    {{subtotal}}
                 </span>
             </td>
             <td>
+                <div class="D-b">
+                    {{recipient}}
+                </div>
+                <div class="D-b">
+                    {{zip}} {{address}} {{country}}
+                </div>
+                <div>
+                    {{phone}}
+                </div>
+            </td>
+            <td>
+                {{#if bankCode}}
                 <ul>
                     <li>
-                        <label>收件人</label>
-                        <span data-cid={{id}} data-field="recipient" class="item">
-                            <button class="edit_btn">{{recipient}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{recipient}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
+                        <span data-oid={{id}} data-field="bankCode" class="item">
+                            {{bankCode}}
                         </span>
                     </li>
                     <li>
-                        <label>郵遞區號</label>
-                        <span data-cid={{id}} data-field="zip" class="item">
-                            <button class="edit_btn">{{zip}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{zip}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
+                        <span data-oid={{id}} data-field="bankAccountTail" class="item">
+                            {{bankAccountTail}}
                         </span>
                     </li>
                     <li>
-                        <label>地址</label>
-                        <span data-cid={{id}} data-field="address" class="item">
-                            <button class="edit_btn">{{address}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{address}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
-                        </span>
-                    </li>
-                    <li>
-                        <label>國家</label>
-                        <span data-cid={{id}} data-field="country" class="item">
-                            <button class="edit_btn">{{country}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{country}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
-                        </span>
-                    </li>
-                    <li>
-                        <label>電話</label>
-                        <span data-cid={{id}} data-field="phone" class="item">
-                            <button class="edit_btn">{{phone}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{phone}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
+                        <span data-oid={{id}} data-field="transferAmount" class="item">
+                            ${{transferAmount}}
                         </span>
                     </li>
                 </ul>
+                {{/if}}
             </td>
             <td>
-                <ul>
-                    <li>
-                        <span data-cid={{id}} data-field="bankCode" class="item">
-                            <button class="edit_btn">{{bankCode}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{bankCode}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
-                        </span>
-                    </li>
-                    <li>
-                        <span data-cid={{id}} data-field="bankAccountTail" class="item">
-                            <button class="edit_btn">{{bankAccountTail}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{bankAccountTail}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
-                        </span>
-                    </li>
-                    <li>
-                        <span data-cid={{id}} data-field="transferAmount" class="item">
-                            <button class="edit_btn">{{transferAmount}}</button>
-                            <span class="edit">
-                                <input class="value" value="{{transferAmount}}"/>
-                                <button class="save">更新</button>
-                                <button class="cancel">取消</button>
-                            </span>
-                        </span>
-                    </li>
-                </ul>
-            </td>
-            <td>
-                <span data-cid={{id}} data-field="paymentVerified" class="item">
-                    <button class="edit_btn">{{#if paymentVerified}}已確認{{else}}尚未確認{{/if}}</button>
-                    <span class="edit">
-                        <select name="paymentVerified" class="value">
-                            <option name="paymentVerified" value="1" {{#if paymentVerified}}selected{{/if}}>已確認</option>
-                            <option name="paymentVerified" value="1" {{#if paymentVerified}}{{else}}selected{{/if}}>尚未確認</option>
-                        </select>
-                        <button class="save">更新</button>
-                        <button class="cancel">取消</button>
-                    </span>
+                <span class="item paymentVerified">
+
+                    <select name="paymentVerified" class="select-edit" data-oid={{id}} data-field="paymentVerified" data-value="{{paymentVerified}}" disabled>
+                        <option name="paymentVerified" value="true" {{#if paymentVerified}}selected{{/if}}>已確認</option>
+                        <option name="paymentVerified" value="" {{#if paymentVerified}}{{else}}selected{{/if}}>尚未確認</option>
+                    </select>
+                    <button class="btn-edit">編輯</button>
+                    <button class="btn-save btn-toggle">儲存修改</button>
+                    <button class="btn-cancel btn-toggle">取消</button>
+
                 </span>
+            </td>
+            <td>
+                <button class="btn-editall">編輯</button>
             </td>
         </tr>
         {{/each}}

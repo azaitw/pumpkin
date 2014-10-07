@@ -2,26 +2,23 @@
 <html>
     {{> head }}
 <body>
-    <div class="hd main">
-        {{> header }}
+    <div class="Pos-r W-100" style="min-height:100%">
+    {{> header }}
+
+    <div class="bd main" style="min-height:70%">
+    {{> body }}
     </div>
-    <div class="bd main">
-        {{> body }}
+    {{> footer }}
     </div>
 </body>
 <script>
     var X = {
         params: {
-            brand: '{{brand}}',
-            b_id: '{{b_id}}',
+            brand: '{{#brand}}{{slug}}{{/brand}}',
             uuid: '{{uuid}}',
-            readUuid: true,
             json: {{#if json}} {{{json}}} {{else}} '' {{/if}}
         }
     };
-    {{#if templates}}
-    X.templates = {{templates}};
-    {{/if}}
 </script>
 <!--SCRIPTS-->
 <script src="/js/jquery-1.11.1.js"></script>

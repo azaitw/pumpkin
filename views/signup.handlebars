@@ -1,6 +1,6 @@
-<div class="mod-signup W-100">
-    <div style="height: 300px;width:400px;">
-        <h1>{{title}}</h1>
+<div class="signup W-100 Mt-30">
+    <div class="W-40 M-0a Row" style="">
+        <h2 class="Ta-c">{{title}}</h2>
         {{#message}}
             <div style="border:1px solid red">
                 <ul>
@@ -8,17 +8,17 @@
                 </ul>
             </div>
         {{/message}}
-        <ul>
+        <ul class="M-0a Mb-20">
         {{#form}}
-        <li class="li-input {{#if toHide}}D-n{{/if}}">
-            <div class="hd">
-                <label for="{{key}}">{{label}}</label>
+        <li class="li-input Mb-10 Ta-c {{#if toHide}}D-n{{/if}}" style="height:24px;line-height:24px;">
+            <div class="hd D-ib Ta-r">
+                <label for="{{key}}" class="Mr-10">{{label}}</label>
             </div>
-            <div class="bd">
+            <div class="bd D-ib">
                 {{#sublabel}}
                 <label for="{{key}}">{{sublabel}}</label>
                 {{/sublabel}}
-                <input type="{{type}}" name="{{key}}" class="{{key}} {{#toValidate}}toValidate{{/toValidate}}" value="{{value}}" style="{{style}}" {{params}} />
+                <input type="{{type}}" name="{{key}}" class="entry toValidate {{key}} {{#toValidate}}toValidate{{/toValidate}}" value="{{value}}" style="{{style}}" {{params}} />
             </div>
             <div class="ft">
                 {{#errormsg}}
@@ -28,6 +28,8 @@
         </li>
         {{/form}}
         </ul>
-            <input class="submitBtn" type="submit"/>
+        <div class="Ta-c">
+            <input class="submitBtn P-5 Pl-20 Pr-20" type="submit" value="查詢"/>
+        </div>
     </div>
 </div>

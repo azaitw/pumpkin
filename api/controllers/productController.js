@@ -43,13 +43,6 @@ var Q = require('q'),
                     label: '產品名稱'
                 },
                 {
-                    type: 'text',
-                    key: 'b_id',
-                    value: inputObj.id,
-                    style: 'display: none',
-                    toHide: true
-                },
-                {
                     type: 'file',
                     key: 'images[]',
                     params: 'multiple',
@@ -91,7 +84,7 @@ var Q = require('q'),
                 productName: inputObj.productName,
                 brand: inputObj.brandId,
                 brandName: inputObj.brandName,
-                images: ['/images/beardude/beardude2014.png', '/images/beardude/beardude2014a.png'],
+                images: ['/images/beardude/beardude2014.png'],
                 //images: result.images,
                 onSale: inputObj.onSale,
                 retail: inputObj.retail,
@@ -169,40 +162,47 @@ var Q = require('q'),
                 // Put pSpecifics to products
                 for (i = 0; i < D1.length; i += 1) {
                     for (j in D1[i]) {
-                        products.brand = products[j].brand;
                         products[j].productSpecific = D1[i][j];
                     }
                 }
                 return q.resolve(products);
             })
             .catch(function (E) {
-                console.log('listProducts1 E: ', E);
+                console.log('listProducts E: ', E);
+                return q.reject(E);
             });
             return q.promise;
         },
         listProductsPage: function (req, res) {
             var brandName = req.params.brand,
+                output = {
+                    title: brandName + ' 產品',
+                    js: ['product.js']
+                },
                 uuidMod = require('node-uuid'),
                 uuidCookieRaw = req.cookies.uuid,
                 uuid = uuidMod.v4();
-
+//            req.setLocale('zh-tw');
             if (typeof uuidCookieRaw !== 'undefined' && uuidCookieRaw !== '""') {
                 uuid = uuidCookieRaw.substring(1, uuidCookieRaw.length - 1);
             }
-
-            productController.listProducts(brandName)
+            output.uuid = uuid;
+            brand.find({slug: brandName})
             .then(function (D) {
-                return renderService.html(res, 'products', {
-                    title: brandName + ' products',
-                    brand: brandName,
-                    b_id: D.brand,
-                    uuid: uuid,
-                    products: D,
-                    js: ['product.js']
-                });
+                if (D.length > 0) {
+                    output.brand = D;
+                    output.b_id = D.id;
+                    return productController.listProducts(brandName);
+                }
+                throw new Error('已迷路, brandName: ' + brandName);
+            })
+            .then(function (D1) {
+                output.products = D1;
+                return renderService.html(res, 'products', output);
             })
             .catch(function (E) {
                 console.log('listProductsPage1 E: ', E);
+                return res.send('err');
             });
         },
         generateCheckoutForm: function () {
@@ -214,7 +214,7 @@ var Q = require('q'),
                             key: 'email',
                             type: 'text',
                             //errormsg: ['請填入電子郵件', '請填入正確的電子郵件格式']
-                            errormsg: ['請填入電子郵件'],
+                            errormsg: '請填入電子郵件',
                             toValidate: true
                         }
                     ],
@@ -225,7 +225,7 @@ var Q = require('q'),
                         {
                             key: 'recipient',
                             type: 'text',
-                            errormsg: ['請填入收件人姓名'],
+                            errormsg: '請填入收件人姓名',
                             toValidate: true
                         }
                     ],
@@ -237,7 +237,7 @@ var Q = require('q'),
                         {
                             key: 'phone',
                             type: 'text',
-                            errormsg: ['請填入電話'],
+                            errormsg: '請填入電話',
                             toValidate: true
                         }
                     ]
@@ -373,17 +373,23 @@ var Q = require('q'),
                 finalResult = {},
                 renderPage = function (result) {
                     //Shipping use model
-                    content = {
-                        cart: result,
-                        form: productController.generateCheckoutForm(),
-                        shipping: 80
-                    };
-                    renderService.html(res, 'checkout', {
-                        title: '結帳',
-                        js: ['checkout.js'],
-                        uuid: uuid,
-                        brand: brandName,
-                        content: content
+                    brand.findOne({brandName: brandName})
+                    .then(function (D) {
+                        content = {
+                            cart: result,
+                            form: productController.generateCheckoutForm(),
+                            shipping: 80
+                        };
+                        renderService.html(res, 'checkout', {
+                            title: '結帳',
+                            js: ['checkout.js'],
+                            uuid: uuid,
+                            brand: D,
+                            content: content
+                        });  
+                    })
+                    .catch(function (E) {
+                        console.log('checkoutPage E: ', E);
                     });
                 };
             if (typeof uuidRaw !== 'undefined') {

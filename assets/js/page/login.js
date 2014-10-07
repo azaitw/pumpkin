@@ -9,9 +9,7 @@ X.login = {
             $.post('/' + X.params.brand + '/login',
                 input,
                 function (data) {
-                    console.log('data: ', data);
                     if (data) { // authed
-                        console.log('here');
                         window.location.href = location.protocol + '//' + location.host + '/' + X.params.brand + '/manage';
                     } else {
                         alert('bad');

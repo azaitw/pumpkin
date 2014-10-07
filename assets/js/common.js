@@ -1,22 +1,27 @@
 X.init = function () {
     $.cookie.json = true;
-    this.event();
-    this.getCartItemCount('.itemCount');
 };
-X.event = function () {
-    var cartBtn = $('.cart-btn'),
-        cart = $('.cart');
-    cartBtn.click(function () {
-        cart.toggleClass('D-n');
-        X.cart.getItemCount();
-    });
-};
-X.getCartItemCount = function (nodeClass) {
-        var indicator  = $(nodeClass),
-            count = this.cart.getItemCount();
-        indicator.html(count);
-};
-
+X.common = {
+    translateSex: function (string) {
+        var probe = string.indexOf('male'),
+            str = '';
+        switch (probe) {
+        case 0: //male
+            str = '男版';
+            break;
+        case 2: //female
+            str = '女版';
+            break;
+        }
+        return str;
+    },
+    fieldIsCorrect: function (node) {
+        if (node.val() !== '') {
+            return true;
+        }
+        return false;
+    }
+}
 X.uuid = {
     create: function (uuid) {
         $.cookie('uuid', uuid, {path: '/' + X.params.brand, expires: 30});
@@ -40,7 +45,12 @@ X.uuid = {
         return true;
     }
 };
+
 X.cart = {
+    attrs: {
+        count: 0,
+        toUpdateCartCount: 0
+    },
     ajax: function (params, callback) {
         $.post(
             '/' + X.params.brand + '/updateCart',
@@ -56,6 +66,8 @@ X.cart = {
         */
         X.cart.ajax(params, function (err, data) {
             callback(null, data);
+            X.cart.attrs.count += 1;
+            X.cart.updateCartCount();
         });
     },
     update: function (items, callback) {
@@ -64,6 +76,7 @@ X.cart = {
             items: items
         };
         X.cart.ajax(ajaxParams, function (err, data) {
+            X.cart.read(function(){});
             callback(null, data);
         });
     },
@@ -73,16 +86,35 @@ X.cart = {
         }
         X.cart.ajax(ajaxParams, function (err, data) {
             callback(null, data);
+            X.cart.getItemCount(data);
         });
     },
-    getItemCount: function () {
-        var cart = $.cookie('cart') || {},
-            i,
-            count = 0;
+    getItemCount: function (data) {
+        var i,
+            total = 0,
+            cart = data.items || data;
         for (i in cart) {
-            count += cart[i].count;
+            if (cart.hasOwnProperty(i)) {
+                total += cart[i].count;
+            }
         }
-        return count;
+        this.attrs.count = total;
+        if (this.attrs.toUpdateCartCount) {
+            this.updateCartCount();
+        }
+    },
+    updateCartCount: function () {
+        var itemCount = $('.cart .items-count');
+        itemCount.html(this.attrs.count);
+        if (this.attrs.count > 0) {
+            itemCount.removeClass('D-n');
+            itemCount.addClass('anim-pop');
+            setTimeout(function() {
+                itemCount.removeClass('anim-pop');
+            }, 201)
+        } else {
+            itemCount.addClass('D-n');
+        }
     }
 };
 X.init();

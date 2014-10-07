@@ -249,10 +249,12 @@ var Q = require('q'),
 
         customer.findOne(params)
         .then(function (D) { // D: customer
-            return orderController.read({customer: D.id});
+            if (typeof D !== 'undefined') {
+                return orderController.read({customer: D.id});
+            }
+            throw new Error('Customer not found');
         })
         .then(function (D1) { // order
-            
             return q.resolve(orderController.verifyStatus(D1));
         })
         .catch(function (E) {
@@ -264,8 +266,10 @@ var Q = require('q'),
     lookupOrderPage: function (req, res) {
         var query = req.query,
             post = req.body,
+            output,
+            brandName = req.params.brand,
             renderParams = {
-                brand: req.params.brand,
+//                brand: req.params.brand,
                 title: '查詢訂單',
                 js: ['account.js']
             },
@@ -280,7 +284,6 @@ var Q = require('q'),
         if (typeof post !== 'undefined') {
             orderController.lookupOrder(post)
             .then(function (D) {
-                console.log('D: ', D);
                 return res.send(D);
             })
             .catch(function (E) {
@@ -288,23 +291,29 @@ var Q = require('q'),
                 return res.send({});
             });
         }
-        query.brandName = req.params.brand;
-        if (typeof query.email !== 'undefined') { // use URL to submit email
-            orderController.lookupOrder(query)
-            .then(function (D) {
-                if (typeof D === 'undefined') { // no record found
-                    return promptLookup();
-                }
-                renderParams.content = D;
-                return renderService.html(res, 'account', renderParams);
-            })
-            .catch(function (E) {
-                console.log('lookupOrderPage E: ', E);
-                return q.reject(E);
-            });
-        } else { // print phone number enter field
+        brand.findOne({brandName: brandName})
+        .then(function (D) {
+            renderParams.brand = D;
+            query.brandName = brandName;
+        
+            if (typeof query.email !== 'undefined') { // use URL to submit email
+                return orderController.lookupOrder(query);
+            }
+            // print phone number enter field
             return lookupForm();
-        }
+        })
+        .then(function (D) {
+            if (typeof D === 'undefined') { // no record found
+                return orderController.lookupOrder(query);
+            }
+            renderParams.content = D;
+            return renderService.html(res, 'account', renderParams);
+        })
+        .catch(function (E) {
+            console.log('lookupOrderPage E: ', E);
+            return res.redirect('/' + brandName + '/account');
+        });
+
     },
     submitVerification: function (input) {
         var q = Q.defer(),
@@ -344,39 +353,52 @@ var Q = require('q'),
             console.log('submitVerificationPage E: ', E);
         });
     },
+    updateOrder: function (params) {
+        var q = Q.defer(),
+            orderId = params.id,
+            updateData = {},
+            field = params.field,
+            value = params.value;
+
+        updateData[field] = value;
+        order.update({id: orderId}, updateData)
+        .then(function (D) {
+            return q.resolve(D);
+        })
+        .catch(function (E) {
+            return q.reject(E);
+        });
+        return q.promise;
+    },
     manageOrderPage: function (req, res) {
         var brandName = req.params.brand,
             action = req.params.action,
+            output = {
+                title: brandName + ' 訂單管理頁面',
+            },
             params = req.body;
 
         brand.findOne({brandName: brandName})
-        .then(function (D1) {
+        .then(function (D) {
+            output.brand = D;
             switch (action) {
             case 'create':
                 console.log('create');
                 break;
 
             case 'update':
-                console.log('update');
+                orderController.updateOrder(req.body)
+                .then(function (D) {
+                    res.send(D);
+                });
                 break;
 
             default: //read
-                order.find({brand: D1.id})
-                .then(function (D2) {
-                    return res.render('index', {
-                        partials: {
-                            head: 'head',
-                            header: 'header',
-                            body: 'order'
-                        },
-                        title: brandName + ' 訂單管理頁面',
-                        h1: brandName + ' 訂單管理頁面',
-                        brand: brandName,
-                        isAdmin: true,
-                        body: D2,
-                        js: ['manage.js'],
-                        json: JSON.stringify(D2)
-                    }); 
+                order.find({brand: D.id})
+                .then(function (D1) {
+                    output.body = D1;
+                    output.js = ['manage.js'];
+                    return renderService.html(res, 'order', output);
                 });
             }
         });

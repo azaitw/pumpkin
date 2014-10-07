@@ -8,6 +8,12 @@ module.exports = {
             descend: false // default: ascend
         }
     */
+    slug: function (string) {
+        return string
+            .toLowerCase()
+            .replace(/[^\w ]+/g,'') // remove hythen
+            .replace(/ +/g,'-'); // condense
+    },
     sort: function (object, params) {
         var key = params.key,
             validator = (params.descend) ? [1, -1] : [-1, 1],

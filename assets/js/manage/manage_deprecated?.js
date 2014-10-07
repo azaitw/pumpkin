@@ -46,7 +46,7 @@ X.manage = {
             } else {
                 postData[field] = value;
             }
-            console.log('postData: ', postData);
+
             $.post(
                 '/' + X.params.brand + '/manage/' + table + '/update',
                 postData,

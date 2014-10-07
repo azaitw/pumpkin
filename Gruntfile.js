@@ -158,7 +158,8 @@ module.exports = function (grunt) {
         all: {
             files: {
 //                "assets/templates/account.js": ["views/account.handlebars", "views/pop.handlebars"]
-                ".tmp/public/templates/account.js": ["views/account.handlebars", "views/pop.handlebars"]
+                ".tmp/public/templates/account.js": ["views/account.handlebars", "views/pop.handlebars", "views/cart.handlebars"],
+                ".tmp/public/templates/product.js": ["views/cart.handlebars"]
             }
         }
     },

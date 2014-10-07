@@ -12,6 +12,9 @@ var brand = {
             type: 'string',
             required: true
         },
+        slug: 'string',
+        brandName_cht: 'string',
+        logo: 'string',
         email: {
             type: 'string',
             required: true

@@ -1,3 +1,9 @@
 {
-  "Welcome": "歡迎"
+    "Welcome": "賺到",
+  "size": "尺寸",
+  "chest_diameter": "胸圍",
+  "waist_diameter": "腰圍",
+  "hip_diameter": "臀圍",
+  "male": "男",
+  "female": "女"
 }

@@ -11,35 +11,20 @@ module.exports.routes = {
         controller: 'brandController',
         action: 'signup'
     },
-    '/:brand': {
-        controller: 'productController',
-        action: 'listProductsPage'
-    },
-    '/:brand/login': {
-        controller: 'userController',
-        action: 'loginPage'
-    },
 
-    '/:brand/updateCart': {
-        controller: 'cartController',
-        action: 'accessPage'
-    },
-    '/:brand/checkout': {
-        controller: 'productController',
-        action: 'checkoutPage'
-    },
-    '/:brand/order': {
-        controller: 'orderController',
-        action: 'submitOrderPage'
-    },
-    '/:brand/account': {
-        controller: 'orderController',
-        action: 'lookupOrderPage'
-    },
-    '/:brand/account/verify': {
-        controller: 'orderController',
-        action: 'submitVerificationPage'
-    },
+    '/:brand': 'productController.listProductsPage',
+    
+    '/:brand/login': 'userController.loginPage',
+
+    '/:brand/updateCart': 'cartController.accessPage',
+
+    '/:brand/checkout': 'productController.checkoutPage',
+
+    '/:brand/order': 'orderController.submitOrderPage',
+    
+    '/:brand/account': 'orderController.lookupOrderPage',
+
+    '/:brand/account/verify': 'orderController.submitVerificationPage',
 
     // Admin page START
     '/:brand/manage': {

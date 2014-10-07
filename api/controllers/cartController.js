@@ -64,6 +64,7 @@ var Q = require('q'),
         });
         return q.promise;
     },
+    // sort by productSpecific
     read: function (uuid) {
         var q = Q.defer(),
             output;
@@ -77,7 +78,8 @@ var Q = require('q'),
             return cartController.readCartItem(output.id);
         })
         .then(function (D1) {
-            output.items = D1;
+            var sorted = dataService.sort(D1, {key: 'productSpecific'});
+            output.items = sorted;
             return q.resolve(output);
         })
         .catch(function (E) {

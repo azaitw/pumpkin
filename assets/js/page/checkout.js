@@ -6,6 +6,8 @@ X.checkout = {
             refreshCartBtn = $('.refresh-cart'),
             countInputs = $('.count-input'),
             that = this;
+        this.translateCartSex($('.cart .item .sex'));
+
         countBtns.click(function (e) {
             var node = $(e.currentTarget);
             that.updateCartVal(node);
@@ -19,7 +21,9 @@ X.checkout = {
             X.cart.update(cart, function (err, data) {
                 // after clicked refresh-btn
                 that.getSum();
-                $('.refresh-cart').addClass('D-n');
+                $('.refresh-cart').addClass('disabled');
+                $('.refresh-cart').prop('disabled', true);
+                $('.cart-calc').removeClass('toUpdate');
                 that.attrs.valueChanged = false;
             }); 
         });
@@ -32,6 +36,15 @@ X.checkout = {
             subtotal: $('.subtotal')
         };
         this.getSum();
+    },
+    translateCartSex: function (node) {
+        var nodeLen = node.length,
+            i,
+            ph;
+        for (i = 0; i < nodeLen; i += 1) {
+            ph = node[i].innerText;
+            node[i].innerText = X.common.translateSex(ph);
+        }
     },
     returnUpdatedCart: function () {
         var that = this,
@@ -67,6 +80,7 @@ X.checkout = {
     },
     updateCartVal: function (node) {
         var refreshBtn = $('.refresh-cart'),
+            cartCalc = $('.cart-calc'),
             item = node.parents('.item'),
             count = item.find('.count-input'),
             itemSum = item.find('.item-sum'),
@@ -81,7 +95,9 @@ X.checkout = {
         } else if (node.hasClass('minus')){
             countVal = Math.max((countVal - 1), 0);
         }
-        refreshBtn.removeClass('D-n');
+        refreshBtn.removeClass('disabled');
+        refreshBtn.removeAttr('disabled');
+        cartCalc.addClass('toUpdate');
         count.val(countVal);
         itemSum.html(countVal * parseInt(price));
     },
@@ -166,7 +182,7 @@ X.checkout = {
         };
 
         this.submitOrderAjax(order, function (err, data) {
-            var msg = '訂單送出, 確認信已寄到' + order.recipient.email;
+            var msg = '<p class="Pt-30 Mt-30 Ta-c Row">訂單送出, 確認信已寄到' + order.recipient.email + '</p>';
             $('.main>.bd').text(msg);
             X.uuid.delete();
             // redirect

@@ -23,6 +23,7 @@ var product = {
             type: 'string',
             required: true
         },
+        shortDesc: 'string',
         images: 'array',
         retail: 'string',
         sale: 'string',

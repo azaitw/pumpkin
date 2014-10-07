@@ -16,7 +16,10 @@
  */
 var testController = {
     index: function (req, res) {
-
+        var here = 'demaro lab here',
+        slug = dataService.slug(here);
+        console.log(here);
+        console.log(slug);
     }
 };
 module.exports = testController;

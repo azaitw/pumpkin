@@ -8,6 +8,7 @@ module.exports = {
                 partials: {
                     head: 'head',
                     header: 'header',
+                    footer: 'footer',
                     body: bodyTemplateName
                 }
             };

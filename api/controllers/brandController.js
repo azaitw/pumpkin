@@ -38,7 +38,12 @@ var Q = require('q'),
             var form = [{
                         type: 'text',
                         key: 'brandName',
-                        label: '品牌名稱'
+                        label: '品牌名稱 (英文)'
+                    },
+                    {
+                        type: 'text',
+                        key: 'brandName_cht',
+                        label: '品牌名稱 (中文)'   
                     },
                     {
                         type: 'text',
@@ -110,7 +115,9 @@ var Q = require('q'),
             .then(function (D1) { // Create brand
                 return brandController.createBrand({
                     brandName: results.brandName,
+                    slug: results.brandName.toLowerCase(),
                     creator: D1.id,
+                    logo: ['/images/beardude/logo/beardude.png'],
                     email: results.email,
                     phone: results.phone,
                     bankCode: results.bankCode,
@@ -127,10 +134,14 @@ var Q = require('q'),
             });
         },
         managePage: function (req, res) {
-            var brand = req.params.brand;
-            renderService.html(res, 'manage', {
-                title: brand + ' 管理頁面',
-                brand: brand
+            var brandName = req.params.brand;
+
+            brand.findOne({brandName: brandName})
+            .then(function (D) {
+                return renderService.html(res, 'manage', {
+                    title: D.brandName + ' 管理頁面',
+                    brand: D
+                });
             });
         }
 };

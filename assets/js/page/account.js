@@ -7,20 +7,36 @@ X.account = {
             func();
         });
         submitBtn.click(function (e) {
-            var val = $('.email').val();
-            $.post(
-                '/' + X.params.brand + '/account',
-                {email: val},
-                function (data) {
-                    if (data === '') {
-                        alert('查無資料');
-                        return;
-                    }
-                    X.account.attrs.email = val;
-                    X.account.attrs.orders = data;
-                    X.account.generateResult(data);
+            var val = $('.email').val(),
+                toValidate = $('.toValidate'),
+                toValidateLen = toValidate.length,
+                flag = true,
+                url = window.location.href,
+                i;
+            for (i = 0; i < toValidateLen; i += 1) {
+                if (!X.account.isValid($(toValidate[i]))) {
+                    flag = false;
                 }
-            )
+            }
+            if (flag === true) {
+                
+                window.location.href = url + '?email=' + val;
+                /*
+                $.post(
+                    '/' + X.params.brand + '/account',
+                    {email: val},
+                    function (data) {
+                        if (data === '') {
+                            alert('查無資料');
+                            return;
+                        }
+                        X.account.attrs.email = val;
+                        X.account.attrs.orders = data;
+                        X.account.generateResult(data);
+                    }
+                );
+                */
+            }
         });
         X.account.bindVerifyEvent();
     },
@@ -33,7 +49,8 @@ X.account = {
         X.account.bindVerifyEvent();
     },
     showVerifyPage: function (key) {
-        var pop = $('.pop'),
+        var popWrap = $('.pop-wrap'),
+            pop = $('.pop'),
             template = JST['views/pop.handlebars'],
             closeBtn,
             submitBtn,
@@ -45,9 +62,9 @@ X.account = {
         pop.html(output);        
         closeBtn = $('.close-btn');
         submitBtn = $('.verify-submit');
-        pop.removeClass('D-n');
+        popWrap.removeClass('D-n');
         closeBtn.click(function (e) {
-            $('.pop').addClass('D-n');
+            $('.pop-wrap').addClass('D-n');
         });
         submitBtn.click(function (e) {
             X.account.submitVerification();

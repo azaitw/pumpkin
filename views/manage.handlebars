@@ -1,4 +1,4 @@
-<h1>{{brand}} 管理頁面</h1>
+<h1>{{brand.brandName}} 管理頁面</h1>
 
 <div>
     <div class="hd">品牌</div>
@@ -14,8 +14,8 @@
     <div class="hd">訂單</div>
     <div class="bd">
         <ul>
-            <li><a href="/{{brand}}/manage/customer">管理客戶</a></li>
-            <li><a href="/{{brand}}/manage/order">管理訂單</a></li>
+            <li><a href="/{{brand.slug}}/manage/customer">管理客戶</a></li>
+            <li><a href="/{{brand.slug}}/manage/order">管理訂單</a></li>
         </ul>
     </div>
 </div>
