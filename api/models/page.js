@@ -7,7 +7,6 @@
  */
 
 var page = {
-    connection: 'localMysql',
     attributes: {
         site: 'string',
         style: 'string',
