@@ -60,6 +60,11 @@ var Q = require('q'),
                     label: '啟動特價'
                 },
                 {
+                    type: 'text',
+                    key: 'shortDesc',
+                    label: '簡短描述'
+                },
+                {
                     type: 'number',
                     key: 'retail',
                     label: '售價'
