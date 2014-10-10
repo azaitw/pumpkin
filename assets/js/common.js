@@ -2,6 +2,33 @@ X.init = function () {
     $.cookie.json = true;
 };
 X.common = {
+    anim: {
+        attrs: {
+            flag: false
+        },
+        dissolve: function (node) {
+            var flag = X.common.anim.attrs.flag;
+            if (!flag) {
+                X.common.anim.attrs.flag = true;
+                if (node.hasClass('D-n')) {
+                    //show
+                    node.removeClass('D-n');
+                    setTimeout(function () {
+                        node.removeClass('Op-0');
+                    }, 1);
+                } else {
+                    //hide
+                    node.addClass('Op-0');
+                    setTimeout(function () {
+                        node.addClass('D-n');
+                    }, 200);
+                }
+                setTimeout(function () {
+                    X.common.anim.attrs.flag = false;
+                }, 201);
+            }
+        }
+    },
     translateSex: function (string) {
         var probe = string.indexOf('male'),
             str = '';
