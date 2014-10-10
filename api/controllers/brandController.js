@@ -115,6 +115,7 @@ var Q = require('q'),
             .then(function (D1) { // Create brand
                 return brandController.createBrand({
                     brandName: results.brandName,
+                    brandName_cht: results.brandName_cht,
                     slug: results.brandName.toLowerCase(),
                     creator: D1.id,
                     logo: ['/images/beardude/logo/beardude.png'],
