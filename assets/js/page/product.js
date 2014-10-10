@@ -1,6 +1,6 @@
 X.product = {
     attrs: {
-        enabledCheckout: 0
+        transition: 0
     },
     event: function () {
         var cartBtn = $('.cart-btn'),
@@ -17,7 +17,7 @@ X.product = {
         // Bind cart button event
         cartBtn.click(function () {
             if (X.product.attrs.enabledCheckout) {
-                cart.toggleClass('Op-0');
+                X.common.anim.dissolve(cart);
             }
         });
         X.product.getCart('.cart .bd .bd-ul');
@@ -156,6 +156,7 @@ X.product = {
         if ($('.item').length === 0) {
             this.attrs.enabledCheckout = 0;
             cart.addClass('Op-0');
+            cart.addClass('D-n');
         }
         return itemsArray;
     },
