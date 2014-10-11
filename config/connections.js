@@ -35,6 +35,7 @@ module.exports.connections = {
   // Run:
   // npm install sails-mysql
   //
+  // url : 'mysql2://USER:PASSWORD@HOST:PORT/DATABASENAME'
   localMysql: {
     adapter: 'sails-mysql',
     host: 'localhost',
@@ -43,24 +44,10 @@ module.exports.connections = {
     database: 'x1',
     port: 8889
   },
-
+  // url : 'mysql2://USER:PASSWORD@HOST:PORT/DATABASENAME'
   beardudeMysql: {
-      adapter: 'sails-mysql',
-      host: 'beardude.com',
-      user: 'beardude_x',
-      password: 'Aspera123_zd!',
-      database: 'beardude_x',
-      port: 3306
-  },
-  
-  seagrap2_x: {
-      adapter: 'sails-mysql',
-      host: 'localhost',
-      user: 'seagrap2_x',
-      password: 'prince11',
-      database: 'seagrap2_x',
-      port: 3306
-  },
+      adapter: 'sails-mysql'
+  }
 
   // MongoDB is the leading NoSQL database.
   // http://en.wikipedia.org/wiki/MongoDB

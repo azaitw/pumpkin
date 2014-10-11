@@ -15,4 +15,5 @@ module.exports.models = {
     connection: 'beardudeMysql',
   //safe, alter, drop
     migrate: 'alter'
+    
 };
