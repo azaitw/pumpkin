@@ -47,7 +47,7 @@ module.exports.connections = {
   // url : 'mysql2://USER:PASSWORD@HOST:PORT/DATABASENAME'
   beardudeMysql: {
       adapter: 'sails-mysql',
-      url: 'mysql2://beardude_x:Aspera123_zd!@beardude.com:3306/beardude_x --app beardude'
+      url: process.env.DB_URL
   },
 
   // MongoDB is the leading NoSQL database.
