@@ -32,7 +32,8 @@
     "node-uuid": "*",
     "q": "*",
     "sails-mysql": "~0.10.0",
-    "emailjs": "~0.3.11"
+    "emailjs": "~0.3.11",
+    "forever": "*"
   },
   "devDependencies": {
       "jshint": "*",
