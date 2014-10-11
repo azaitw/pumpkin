@@ -1,0 +1,29 @@
+<!DOCTTYPE html>
+<html>
+    {{> head }}
+<body>
+    <div class="Pos-r W-100" style="min-height:100%">
+    {{> header }}
+
+    <div class="bd main" style="min-height:70%">
+    {{> body }}
+    </div>
+    {{> footer }}
+    </div>
+</body>
+<script>
+    var X = {
+        params: {
+            brand: '{{#brand}}{{slug}}{{/brand}}',
+            uuid: '{{uuid}}',
+            json: {{#if json}} {{{json}}} {{else}} '' {{/if}}
+        }
+    };
+</script>
+<!--SCRIPTS-->
+<script src="/min/production.js"></script>
+<!--SCRIPTS END-->
+{{#js}}
+<script src="/js/{{#if ../isAdmin}}manage{{else}}page{{/if}}/{{.}}"></script>
+{{/js}}
+</html>

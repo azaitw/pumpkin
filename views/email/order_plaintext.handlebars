@@ -1,0 +1,27 @@
+您的訂單
+
+查詢訂單或通知已轉帳：{{link}}
+
+轉帳帳號：
+
+  銀行代碼： {{brand.bankCode}}
+  帳號： {{brand.bankAccountNumber}}
+  戶名： {{brand.bankAccountName}}
+  金額： {{subtotal}}
+
+收件人：
+{{#recipient}}
+    {{name}}
+    {{zip}} {{address}}, {{country}}
+    {{phone}}
+{{/recipient}}
+訂購項目：
+{{#each order.items}}
+    • {{productName}} {{sex}} {{size}} :{{price}} x {{count}} = {{itemSum}} 元
+{{/each}}
+  小計： {{sum}}
+  運費： {{order.shipping}}
+  加總： {{subtotal}}
+
+備註：
+  {{order.note}}

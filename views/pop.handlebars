@@ -1,0 +1,66 @@
+<div class="hd">
+    <h2 class="Ta-c Fw-1 Fz-4 C-4">請填上轉帳銀行的資料</h2>
+    <button class="close-btn Pos-a Bdr-0 Bgc-0" style="top:10px;right:10px;width:30px;height:30px;"><span class="noTxt">關閉</span></button>
+</div>
+
+<ul>
+    <li class="li-input GU Mb-10">
+        <div class="hd GU-1-3 Ta-r">
+            <span class="Mr-10">銀行代碼</span>
+        </div>
+        <div class="bd GU-2-3">
+            <input type="text" class="bankCode toValidate" value="{{bankCode}}" />
+            <div class="ft">
+                <div class="error Fz-2">請填入轉帳用的銀行代碼</div>
+            </div>
+        </div>
+    </li>
+    <li class="li-input GU Mb-10">
+        <div class="hd GU-1-3 Ta-r">
+            <span class="Mr-10">帳號後五碼</span>
+        </div>
+        <div class="bd GU-2-3">
+            <input type="text" class="bankAccountTail toValidate" value="{{bankAccountTail}}" />
+            <div class="ft">
+                <div class="error Fz-2">請填入轉帳用的銀行帳號後五碼</div>
+            </div>
+        </div>
+    </li>
+    <li class="li-input GU Mb-10">
+        <div class="hd GU-1-3 Ta-r">
+            <span class="Mr-10">轉出金額</span>
+        </div>
+        <div class="bd GU-2-3">
+            <input type="text" class="transferAmount toValidate" value="{{transferAmount}}" />
+            <div class="ft">
+                <div class="error Fz-2">請填入轉帳金額</div>
+            </div>
+        </div>
+    </li>
+    <li class="li-input GU Mb-10">
+        <div class="hd GU-1-3 Ta-r">
+            <span class="Mr-10">要確認的訂單</span>
+        </div>
+        <div class="bd GU-2-3">
+            <ul class="">
+                {{#each .}}
+                <li class="li-input">
+                    <div class="bd">
+                        <input type="checkbox" name="order-to-verify-{{id}}" class="order-to-verify order-to-verify-{{id}}" data-index="{{id}}" {{#if checked}}checked{{/if}} {{#if status}}checked disabled{{/if}} />
+                        {{subtotal}}
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="ft">
+            <div class="error">請勾選要進行轉帳確認的訂單</div>
+        </div>
+    </li>
+</ul>
+<div class="GU">
+    <div class="GU-1-3"></div>
+    <div class="GU-2-3">
+        <button class="verify-submit P-5 Pl-30 Pr-30">送出</button>
+    </div>
+</div>

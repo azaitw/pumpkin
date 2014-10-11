@@ -1,0 +1,13 @@
+.li-input .error {
+    display: none;
+    color: red;
+}
+.showErr input {
+    border: 1px solid red;
+}
+.showErr .error {
+    display: block;
+}
+.toUpdate .numToUpdate {
+    color: red;
+}
