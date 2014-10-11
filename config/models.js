@@ -14,6 +14,6 @@ module.exports.models = {
   // (defaults to localDiskDb)
     connection: 'beardudeMysql',
   //safe, alter, drop
-    migrate: 'alter'
+    migrate: 'drop'
     
 };
