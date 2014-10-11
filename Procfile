@@ -1,1 +1,1 @@
-web: sails lift
+web: ./node_modules/.bin/sails lift
