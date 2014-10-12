@@ -20,6 +20,7 @@
     "node-uuid": "*",
     "q": "*",
     "sails-mysql": "~0.10.0",
+    "sails-mongo": "0.10.4",
     "emailjs": "~0.3.11",
     "forever": "*"
   },

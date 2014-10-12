@@ -47,7 +47,7 @@ module.exports.connections = {
   // url : 'mysql2://USER:PASSWORD@HOST:PORT/DATABASENAME'
   beardudeMysql: {
       adapter: 'sails-mysql',
-      host: 'beardude.com',
+      host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
@@ -60,10 +60,9 @@ module.exports.connections = {
   // Run:
   // npm install sails-mongo
   //
-  someMongodbServer: {
+  beardudeMongodbServer: {
     adapter: 'sails-mongo',
-    host: 'localhost',
-    port: 27017,
+    url: process.env.MONGO_URL
     // user: 'username',
     // password: 'password',
     // database: 'your_mongo_db_name_here'
