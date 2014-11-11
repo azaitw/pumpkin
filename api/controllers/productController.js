@@ -43,12 +43,6 @@ var Q = require('q'),
                     label: '產品名稱'
                 },
                 {
-                    type: 'file',
-                    key: 'images[]',
-                    params: 'multiple',
-                    label: '上傳圖片'
-                },
-                {
                     type: 'checkbox',
                     key: 'sex',
                     label: '產品區分男女'
@@ -80,6 +74,12 @@ var Q = require('q'),
                     label: 'brand',
                     value: inputObj.brandName,
                     toHide: true
+                },
+                {
+                    type: 'file',
+                    key: 'images',
+                    params: 'multiple',
+                    label: '上傳圖片'
                 }
             ];
             return form;
@@ -89,7 +89,8 @@ var Q = require('q'),
                 productName: inputObj.productName,
                 brand: inputObj.brandId,
                 brandName: inputObj.brandName,
-                images: ['/images/beardude/beardude2014.png'],
+                shortDesc: inputObj.shortDesc,
+//                images: ['/images/beardude/beardude2014.png'],
                 //images: result.images,
                 onSale: inputObj.onSale,
                 retail: inputObj.retail,
@@ -100,28 +101,59 @@ var Q = require('q'),
         addProductPage: function (req, res) {
             var result = req.body,
                 data,
-                brandName = req.params.brand;
-
+                brandName = req.params.brand,
+                filesArray = [],
+                finalResult;
             if (typeof result !== 'undefined') { // post
                 result.brandName = brandName;
-                data = productController.prepareProductObj(result);
-                return productController.createProduct(data)
-                    .then(function (D) {
-                        return sails.controllers.productspecific.mockProductSpecific(D);
-                    })
-                    .then(function (D1) {
-                        return res.send(D1);
-                    })
-                    .catch(function (E) {
-                        console.log('addedProduct error: ', E);
+                brand.findOne({brandName: brandName})
+                .then(function (D) {
+                    result.brandId = D.id;
+                    return sails.controllers.file.upload(req, {brand: D.id, brandName: brandName, key: 'images', purpose: 'product'});
+                })
+                .then(function (D) {
+                    D.forEach(function (item) {
+                        filesArray.push(item.url);
                     });
+                    data = productController.prepareProductObj(result);
+                    data.images = filesArray;
+                    return productController.createProduct(data);
+                })
+                .then(function (D) {
+                    return sails.controllers.productspecific.mockProductSpecific(D);
+                })
+                .then(function (D) {
+                    return res.send(true);
+                })
+                .catch(function (E) {
+                    console.log('addedProduct error: ', E);
+                });
+                /*
+                data = productController.prepareProductObj(result);
+                productController.createProduct(data)
+                .then(function (D) {
+                    return sails.controllers.productspecific.mockProductSpecific(D);
+                })
+                .then(function (D) {
+                    finalResult = D;
+                    return sails.controllers.file.upload1(req, {brand: brandName, key: 'images'});
+                })
+                .then(function (D) {
+                    console.log('file D? ', D);
+                    return res.send(D1);
+                })
+                .catch(function (E) {
+                    console.log('addedProduct error: ', E);
+                });
+                */
             }
             // get
             brand.findOne({brandName: brandName})
             .then(function (D) {
-                return renderService.html(res, 'signup', {
+                return renderService.html(res, 'form', {
                     title: '新增產品',
                     js: ['addProduct.js'],
+                    brand: D,
                     form: productController.generateAddProductForm(D)
                 });
             })

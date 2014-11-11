@@ -57,7 +57,6 @@ var Q = require('q'),
         getProductSpecific: function (pSpecificQuery, params) {
             var q = Q.defer(),
                 output = {};
-
             productSpecific.find(pSpecificQuery)
             .then(function (D) {
                 if (params.organizeBySex) {
@@ -83,7 +82,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 1,
                         size: 'XS',
                         retail: product_data.retail,
@@ -99,7 +98,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 2,
                         size: 'S',
                         retail: product_data.retail,
@@ -115,7 +114,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 3,
                         size: 'M',
                         retail: product_data.retail,
@@ -131,7 +130,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 4,
                         size: 'L',
                         retail: product_data.retail,
@@ -147,7 +146,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 5,
                         size: 'XL',
                         retail: product_data.retail,
@@ -163,7 +162,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 6,
                         size: '2XL',
                         retail: product_data.retail,
@@ -179,7 +178,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '男',
+                        sex: 'male',
                         view_order: 7,
                         size: '3XL',
                         retail: product_data.retail,
@@ -195,7 +194,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '女',
+                        sex: 'female',
                         view_order: 1,
                         size: 'S',
                         retail: product_data.retail,
@@ -211,7 +210,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '女',
+                        sex: 'female',
                         view_order: 2,
                         size: 'M',
                         retail: product_data.retail,
@@ -227,7 +226,7 @@ var Q = require('q'),
                         brand: product_data.brand,
                         brandName: product_data.brandName,
                         region: region,
-                        sex: '女',
+                        sex: 'female',
                         view_order: 3,
                         size: 'L',
                         retail: product_data.retail,
@@ -241,18 +240,14 @@ var Q = require('q'),
                 productSpecific = [];
 
             productSpecificController.createProductSpecific(mockdata)
-/*            .then(function (D) {
-                for (i = 0, j = D.length; i < j; i += 1) {
-                    productSpecific.push(D[i].id);
-                }
-                return product.update({id: product_id}, {productSpecific: productSpecific});
-            })
-*/            .then(function (D1) {
-                return true;
+            .then(function (D) {
+                return q.resolve(D);
             })
             .catch(function (E) {
-               console.log('mockProductSpecific Error: ', E);
+                console.log('mockProductSpecific Error: ', E);
+                return q.reject(E);
             });
+            return q.promise;
         },
         getid: function (catIdString) {
             //cat_{id_number}. Extract id_number

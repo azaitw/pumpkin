@@ -1,0 +1,37 @@
+<div class="signup W-100 Mt-30">
+    <div class="W-40 M-0a Row" style="">
+        <h2 class="Ta-c">{{title}}</h2>
+        {{#message}}
+            <div style="border:1px solid red">
+                <ul>
+                    <li>{{message}}</li>
+                </ul>
+            </div>
+        {{/message}}
+        <form class="form">
+            <ul class="M-0a Mb-20">
+            {{#form}}
+            <li class="li-input Mb-10 Ta-c {{#if toHide}}D-n{{/if}}" style="height:24px;line-height:24px;">
+                <div class="hd D-ib Ta-r">
+                    <label for="{{key}}" class="Mr-10">{{label}}</label>
+                </div>
+                <div class="bd D-ib">
+                    {{#sublabel}}
+                    <label for="{{key}}">{{sublabel}}</label>
+                    {{/sublabel}}
+                    <input type="{{type}}" name="{{key}}" class="entry toValidate {{key}} {{#toValidate}}toValidate{{/toValidate}}" value="{{value}}" style="{{style}}" {{params}} />
+                </div>
+                <div class="ft">
+                    {{#errormsg}}
+                    <div class="error">{{.}}</div>
+                    {{/errormsg}}
+                </div>
+            </li>
+            {{/form}}
+            </ul>
+            <div class="Ta-c">
+                <input type="submit" class="submitBtn P-5 Pl-20 Pr-20" value="查詢"/>
+            </div>
+        </form>
+    </div>
+</div>
