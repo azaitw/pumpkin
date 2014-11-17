@@ -1,5 +1,4 @@
 var Q = require('q'),
-    mv = require('mv'),
     fileController = {
         upload: function (req, params) {
             /*
@@ -13,11 +12,12 @@ var Q = require('q'),
             var q = Q.defer(),
                 brandId = params.brand,
                 brandName = params.brandName,
-                options = {
-                    dirname: sails.config.paths.publicFile + brandName.toLowerCase() + '/'
+                options = sails.config.connections.s3;
+/*                options = {
+                    dirname: sails.config.paths.local.public + brandName.toLowerCase() + '/'
                     //dirname: brandName.toLowerCase() + '/'
                 };
-
+*/
             req.file(params.key)
             .upload(options, function (err, files) {
                 if (err) {
@@ -27,16 +27,18 @@ var Q = require('q'),
                 files.forEach(function (item) {
                     item.brand = brandId;
                     item.brandName = brandName;
-                    item.fd_public = item.fd.replace('uploads', 'public');
+                    item.url = item.extra.Location;
                     item.purpose = params.purpose;
                     item.published = true;
-                    item.url = '/' + brandName.toLowerCase() + item.fd.substring(item.fd.lastIndexOf('/'));
                 });
                 file.create(files)
                 .then(function (D) {
                     return q.resolve(D);                    
+                })
+                .catch(function (E) {
+                    console.log(E);
+                    return q.reject(E);
                 });
-//                return q.resolve(files);
             });
             return q.promise;
         }

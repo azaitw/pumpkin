@@ -17,13 +17,12 @@ var file = {
         },
         purpose: 'string',
         fd: 'string',
-        fd_public: 'string',
         size: 'string',
         type: 'string',
         filename: 'string',
         status: 'string',
         field: 'string',
-        extra: 'string',
+        extra: 'json',
         published: {
             type: 'boolean',
             defaultsTo: false
