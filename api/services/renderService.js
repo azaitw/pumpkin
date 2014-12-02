@@ -32,5 +32,16 @@ module.exports = {
                 form: brandController.generateSignupForm()
             });
         */
+    },
+    email: function (res, templateName, params) {
+        var i,
+            renderObj = {};
+        for (i in params) {
+            if (params.hasOwnProperty(i)) {
+                renderObj[i] = params[i];
+            }
+        }
+        return res.render(templateName, renderObj);
+
     }
 };

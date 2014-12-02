@@ -73,7 +73,7 @@ var email = require('emailjs'),
                     text = D1;
                     that.sendMail({
                         to: inputObj.recipient.email,
-                        subject: '您的訂單',
+                        subject: '感謝您對' + inputObj.brand.brandName_cht + '的支持，這是您的訂單',
                         body: html,
                         text: text,
                         brand: inputObj.brand

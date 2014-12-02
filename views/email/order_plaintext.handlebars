@@ -9,17 +9,10 @@
   戶名： {{brand.bankAccountName}}
   金額： {{subtotal}}
 
-收件人：
-{{#recipient}}
-    {{name}}
-    {{zip}} {{address}}, {{country}}
-    {{phone}}
-{{/recipient}}
 訂購項目：
 {{#each order.items}}
-    • {{productName}} {{sex}} {{size}} :{{price}} x {{count}} = {{itemSum}} 元
+    • {{productName}} {{sex}} {{size}} : NT$ {{price}} x {{count}}
 {{/each}}
-  小計： {{sum}}
   運費： {{order.shipping}}
   加總： {{subtotal}}
 

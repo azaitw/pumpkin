@@ -402,6 +402,45 @@ var Q = require('q'),
                 });
             }
         });
+    },
+    emailTemplatePage: function (req, res) {
+        var mockData = {
+            brand: {
+                bankCode: '008',
+                bankAccountNumber: '100 100 555 122 333',
+                bankAccountName: '詹凱盛'
+            },
+            recipient: {
+                name: '李大砲',
+                zip: '100',
+                address: '台北市城中區忠孝西路1號',
+                country: '台灣',
+                phone: '02 2111 5555'
+            },
+            order: {
+                items: [{
+                    productName: 'Beardude 2015',
+                    sex: 'male',
+                    size: 'M',
+                    price: 1680,
+                    count: 1,
+                    itemSum: 1680
+                },
+                {
+                    productName: 'Beardude 2015',
+                    sex: 'male',
+                    size: 'XL',
+                    price: 1680,
+                    count: 1,
+                    itemSum: 1680
+                }],
+                shipping: 80,
+                note: null
+            },
+            sum: 3360,
+            subtotal: 3440
+        };
+        return renderService.email(res, 'email/order', mockData);
     }
 };
 module.exports = orderController;
