@@ -238,7 +238,7 @@ var Q = require('q'),
                 return renderService.html(res, 'products', output);
             })
             .catch(function (E) {
-                console.log('listProductsPage1 E: ', E);
+                console.log('listProductsPage E: ', E);
                 return res.send('err');
             });
         },

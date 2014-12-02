@@ -21,6 +21,9 @@
 .V-v {visibility: visible}
 .V-h {visibility: hidden}
 
+/* Overflow */
+.Ov-h {overflow: hidden}
+
 /* Float */
 .F-l {float: left}
 .F-r {float: right}
@@ -186,6 +189,10 @@ table.Ta-c th,table.Ta-c td {text-align: center}
 .Lh-4 {line-height: 20px}
 .Lh-5 {line-height: 25px}
 .Lh-6 {line-height: 30px}
+.Lh-7 {line-height: 35px}
+.Lh-8 {line-height: 40px}
+.Lh-9 {line-height: 45px}
+.Lh-10 {line-height: 50px}
 
 .Ls-1 {letter-spacing: 0.1px}
 .Ls-2 {letter-spacing: 0.3px}

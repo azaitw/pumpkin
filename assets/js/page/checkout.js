@@ -183,7 +183,7 @@ X.checkout = {
 
         this.submitOrderAjax(order, function (err, data) {
             var msg = '<p class="Pt-30 Mt-30 Ta-c Row">訂單送出, 確認信已寄到' + order.recipient.email + '</p>';
-            $('.main>.bd').text(msg);
+            $('.main>.bd').html(msg);
             X.uuid.delete();
             // redirect
         });

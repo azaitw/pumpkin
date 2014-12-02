@@ -23,7 +23,8 @@
     "sails-mongo": "0.10.4",
     "emailjs": "~0.3.11",
     "forever": "*",
-    "skipper-s3": "*"
+    "skipper-s3": "*",
+    "lwip": "*"
   },
   "devDependencies": {
       "jshint": "*",

@@ -51,6 +51,10 @@ module.exports.routes = {
     '/:brand/manage/order/:action': {
         controller: 'orderController',
         action: 'manageOrderPage'
+    },
+    '/:brand/manage/email': {
+        controller: 'orderController',
+        action: 'emailTemplatePage'
     }
     
     // Admin page END
