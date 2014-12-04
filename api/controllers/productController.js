@@ -112,6 +112,7 @@ var Q = require('q'),
                     return sails.controllers.file.upload(req, {brand: D.id, brandName: brandName, key: 'images', purpose: 'product'});
                 })
                 .then(function (D) {
+                    console.log('files uploaded? D: ', D);
                     D.forEach(function (item) {
                         filesArray.push(item.url);
                     });
