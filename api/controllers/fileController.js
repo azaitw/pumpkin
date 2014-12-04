@@ -19,6 +19,7 @@ var Q = require('q'),
                 };
 */
             console.log('upload 1, params.key: ', params.key);
+            console.log('upload 1a, options: ', options);
             req.file(params.key)
             .upload(options, function (err, files) {
                 if (err) {
@@ -45,6 +46,7 @@ var Q = require('q'),
                     return q.reject(E);
                 });
             });
+            console.log('upload1, after upload command');
             return q.promise;
         }
             /*
