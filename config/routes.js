@@ -12,7 +12,7 @@ module.exports.routes = {
         action: 'signup'
     },
 
-    '/:brand': 'productController.listProductsPage',
+    '/:brand$': 'productController.listProductsPage',
     
     '/:brand/login': 'userController.loginPage',
 
