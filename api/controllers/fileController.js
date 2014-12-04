@@ -25,6 +25,7 @@ var Q = require('q'),
                     console.log('upload 2, err: ', err);
                     return q.reject(err);
                 }
+                console.log('upload 2, files 1: ', files);
                 //create db entry
                 files.forEach(function (item) {
                     item.brand = brandId;
@@ -33,13 +34,14 @@ var Q = require('q'),
                     item.purpose = params.purpose;
                     item.published = true;
                 });
-                console.log('upload 2, files: ', files);
+                console.log('upload 2, files 2: ', files);
                 file.create(files)
                 .then(function (D) {
                     return q.resolve(D);                    
                 })
                 .catch(function (E) {
                     console.log(E);
+                    console.log('upload error: ', E);
                     return q.reject(E);
                 });
             });
