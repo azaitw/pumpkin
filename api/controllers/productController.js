@@ -104,15 +104,18 @@ var Q = require('q'),
                 brandName = req.params.brand,
                 filesArray = [],
                 finalResult;
+            console.log('log 1: addProductPage');
             if (typeof result !== 'undefined') { // post
                 result.brandName = brandName;
+                console.log('log 2: addProductPage');
                 brand.findOne({brandName: brandName})
                 .then(function (D) {
+                console.log('log 3: addProductPage, D: ', D);
                     result.brandId = D.id;
                     return sails.controllers.file.upload(req, {brand: D.id, brandName: brandName, key: 'images', purpose: 'product'});
                 })
                 .then(function (D) {
-                    console.log('files uploaded? D: ', D);
+                    console.log('log 4: files uploaded? D: ', D);
                     D.forEach(function (item) {
                         filesArray.push(item.url);
                     });
