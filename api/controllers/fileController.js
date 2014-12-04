@@ -18,9 +18,11 @@ var Q = require('q'),
                     //dirname: brandName.toLowerCase() + '/'
                 };
 */
+            console.log('upload 1, params.key: ', params.key);
             req.file(params.key)
             .upload(options, function (err, files) {
                 if (err) {
+                    console.log('upload 2, err: ', err);
                     return q.reject(err);
                 }
                 //create db entry
@@ -31,6 +33,7 @@ var Q = require('q'),
                     item.purpose = params.purpose;
                     item.published = true;
                 });
+                console.log('upload 2, files: ', files);
                 file.create(files)
                 .then(function (D) {
                     return q.resolve(D);                    
