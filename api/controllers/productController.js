@@ -74,13 +74,15 @@ var Q = require('q'),
                     label: 'brand',
                     value: inputObj.brandName,
                     toHide: true
-                },
+                }
+                /* TO DO: fix file uploader
                 {
                     type: 'file',
                     key: 'images',
                     params: 'multiple',
                     label: '上傳圖片'
                 }
+                */
             ];
             return form;
         },
@@ -90,13 +92,19 @@ var Q = require('q'),
                 brand: inputObj.brandId,
                 brandName: inputObj.brandName,
                 shortDesc: inputObj.shortDesc,
-//                images: ['/images/beardude/beardude2014.png'],
-                //images: result.images,
+                images: productController.mockFiles(),
                 onSale: inputObj.onSale,
                 retail: inputObj.retail,
                 sale: inputObj.sale,
                 type: 'shirt'
             };
+        },
+        mockFiles: function () {
+            var images = ['/images/beardude/products/Beardude-2015-1.jpg',
+                    '/images/beardude/products/Beardude-2015-2.jpg',
+                    '/images/beardude/products/Beardude-2015-3.jpg',
+                    '/images/beardude/products/Beardude-2015-4.jpg'];
+            return images;
         },
         addProductPage: function (req, res) {
             var result = req.body,
@@ -104,23 +112,28 @@ var Q = require('q'),
                 brandName = req.params.brand,
                 filesArray = [],
                 finalResult;
-            console.log('log 1: addProductPage');
             if (typeof result !== 'undefined') { // post
                 result.brandName = brandName;
-                console.log('log 2: addProductPage');
                 brand.findOne({brandName: brandName})
+                /* TO DO: fix file uploader
                 .then(function (D) {
-                console.log('log 3: addProductPage, D: ', D);
                     result.brandId = D.id;
                     return sails.controllers.file.upload(req, {brand: D.id, brandName: brandName, key: 'images', purpose: 'product'});
                 })
+
                 .then(function (D) {
-                    console.log('log 4: files uploaded? D: ', D);
                     D.forEach(function (item) {
                         filesArray.push(item.url);
                     });
                     data = productController.prepareProductObj(result);
                     data.images = filesArray;
+                    return productController.createProduct(data);
+                })
+                */
+                // The following is a temporary hack
+                .then(function (D) {
+                    result.brandId = D.id;
+                    data = productController.prepareProductObj(result);
                     return productController.createProduct(data);
                 })
                 .then(function (D) {
