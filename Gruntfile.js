@@ -53,7 +53,7 @@ module.exports = function (grunt) {
 //      'js/*.js'
       'js/jquery-1.11.1.js',
       'js/jquery.cookie.js',
-      'js/handlebars.runtime-v1.3.0.js',
+      'js/handlebars.runtime-v2.0.0.js',
       'js/common.js'
   ];
 
