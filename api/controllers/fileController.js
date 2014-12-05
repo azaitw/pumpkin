@@ -1,4 +1,5 @@
 var Q = require('q'),
+    s3 = require('skipper-s3'),
     fileController = {
         upload: function (req, params) {
             /*
@@ -18,10 +19,11 @@ var Q = require('q'),
                     //dirname: brandName.toLowerCase() + '/'
                 };
 */
+            options.adapter = s3;
             console.log('upload 1, params.key: ', params.key);
             console.log('upload 1a, options: ', options);
-            req.file(params.key)
-            .upload(options, function (err, files) {
+            req.file(params.key).upload(options, function (err, files) {
+                console.log('upload 222222');
                 if (err) {
                     console.log('upload 2, err: ', err);
                     return q.reject(err);
