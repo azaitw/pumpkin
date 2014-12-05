@@ -13,7 +13,7 @@
     "grunt": "0.4.1",
     "grunt-contrib-handlebars": "*",
     "grunt-sync": "~0.0.4",
-    "handlebars": "*",
+    "handlebars": "2.0.0",
     "jquery.cookie": "*",
     "optimist": "0.3.4",
     "sails-disk": "~0.10.1",
