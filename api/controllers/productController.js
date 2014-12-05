@@ -386,7 +386,7 @@ var Q = require('q'),
                     output.items[i].retail = ph.retail;
                     output.items[i].sale = ph.sale;
                     output.items[i].onSale = ph.onSale;
-                    price = (ph.onSale) ? ph.sale : ph.retail;
+                    price = (ph.sale) ? ph.sale : ph.retail;
                     output.items[i].itemSum = price * output.items[i].count;
                 }
                 return q.resolve(output);

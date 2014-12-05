@@ -13,8 +13,8 @@
                 <div class="M-0a W-40 Mt-20 Mb-20" style="min-width:460px;">
                     <h2 class="Fz-6 Fw-1 Mt-1 Mb-10 Ls-1 Ta-c">{{productName}}</h2>
                     <div class="price Fz-3 Fw-1 Mb-20 Ls-1 Ta-c">
-                        <span class="retail {{#if sale}}Td-2{{/if}}">NT${{retail}}</span>
-                        {{#if sale}}
+                        <span class="retail {{#if onSale}}Td-2{{/if}}">NT${{retail}}</span>
+                        {{#if onSale}}
                         <span class="sale-price Ml-7" style="color:#FF423E">預購特價 NT${{sale}}</span>
                         {{/if}}
                     </div>
