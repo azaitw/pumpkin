@@ -311,7 +311,7 @@ var Q = require('q'),
         })
         .catch(function (E) {
             console.log('lookupOrderPage E: ', E);
-            return res.redirect('/' + brandName + '/account');
+            return res.redirect('/' + brandName);
         });
 
     },
