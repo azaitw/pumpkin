@@ -2,17 +2,19 @@
         <ul>
         {{#each products}}
             <li class="Pos-r">
-                <ul class="ul-images Cf Ov-h Ws-nw" style="height:460px">
+                <ul class="ul-images Cf Ov-h Ws-nw Pos-r" style="height:460px">
                     {{#images}}
-                    <li class="W-100 H-100 D-ib">
+                    <li class="W-100 H-100 Pos-a T-0 L-0 Op-0" data-index={{@index}}>
                         <img class="D-b M-0a H-100" style="max-width:100%" src="{{.}}" />
                     </li>
                     {{/images}}
                 </ul>
-                <ul class="ul-images-thumb Cf Ov-h Ws-nw" style="height:130px">
+                <ul class="ul-images-thumbs Cf Ta-c Ov-h Ws-nw" style="height:130px">
                     {{#imageThumbnails}}
-                    <li class="W-100 H-100 D-ib">
-                        <img class="D-b M-0a H-100" style="max-width:100%" src="{{.}}" />
+                    <li class="D-ib Bdr-2" style="width:120px;height:120px">
+                        <button class="Bg-n Bdr-0 W-100 H-100" data-index={{@index}}>
+                            <img class="D-b M-0a" style="max-width:100%;max-height:100%" src="{{.}}" />
+                        </button>
                     </li>
                     {{/imageThumbnails}}
                 </ul>

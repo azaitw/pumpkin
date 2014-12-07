@@ -1,15 +1,25 @@
 X.product = {
     attrs: {
-        transition: 0
+        transition: 0,
+        selectedImg: 0,
+        animating: 0
     },
     event: function () {
         var cartBtn = $('.cart-btn'),
-            cart = $('.cart .bd');
+            cart = $('.cart .bd'),
+            imgs = $('.ul-images>li'),
+            thumbs = $('.ul-images-thumbs>li'),
+            thumbsBtn = $('.ul-images-thumbs button');
+        $(imgs[0]).removeClass('Op-0');
+        $(thumbs[0]).addClass('selected');
         // Load handlebar template
         $.get('/templates/product.js', function (data) {
             var func = new Function(data);
             func();
         });
+        X.product.attrs.imgs = imgs;
+        X.product.attrs.thumbs = thumbs;
+
         X.cart.attrs.toUpdateCartCount = 1;
         this.translateSexSelect();
         this.bindCartActions();
@@ -20,7 +30,30 @@ X.product = {
                 X.common.anim.dissolve(cart);
             }
         });
+        // Bind thumbnail button event
+        thumbsBtn.click(function (event) {
+            X.product.showImg(event);
+        });
         X.product.getCart('.cart .bd .bd-ul');
+    },
+    showImg: function (event) {
+        var newImgIndex = $(event.currentTarget).data('index'),
+            oldImgIndex = X.product.attrs.selectedImg,
+            newImg = $(X.product.attrs.imgs[newImgIndex]),
+            oldImg = $(X.product.attrs.imgs[oldImgIndex]);
+
+        if (X.product.attrs.animating === 0) {
+            X.product.attrs.animating = 1;
+            //thumb
+            $(X.product.attrs.thumbs[oldImgIndex]).removeClass('selected');
+            $(X.product.attrs.thumbs[newImgIndex]).addClass('selected');
+
+            //img
+            oldImg.addClass('Op-0');
+            newImg.removeClass('Op-0');
+            X.product.attrs.selectedImg = newImgIndex;
+            X.product.attrs.animating = 0;
+        }
     },
     bindCartActions: function () {
         var addButton = $('.add-button'),

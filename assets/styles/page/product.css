@@ -14,3 +14,11 @@
 body .add-select {
     background: #eee url('/images/beardude/icons/drop.png') right 8px center no-repeat;
 }
+.ul-images li {
+    -moz-transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+}
+.ul-images-thumbs .selected {
+    border: 1px solid #77c1f0;
+}
