@@ -42,8 +42,8 @@ X.checkout = {
             i,
             ph;
         for (i = 0; i < nodeLen; i += 1) {
-            ph = node[i].innerText;
-            node[i].innerText = X.common.translateSex(ph);
+            ph = node[i].innerHTML;
+            node[i].innerHTML = X.common.translateSex(ph.trim());
         }
     },
     returnUpdatedCart: function () {
@@ -111,7 +111,7 @@ X.checkout = {
 
             for (i = 0; i < itemSumsLen; i += 1) {
                 ph = itemSums[i];
-                sum += parseInt(ph.innerText);
+                sum += parseInt(ph.innerHTML);
             }
             this.nodes.sum.html(sum);
             this.nodes.subtotal.html(sum + shipping);
