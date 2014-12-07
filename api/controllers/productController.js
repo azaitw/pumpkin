@@ -96,11 +96,19 @@ var Q = require('q'),
                 brandName: inputObj.brandName,
                 shortDesc: inputObj.shortDesc,
                 images: productController.mockFiles(),
+                imageThumbnails: productController.mockThumb(),
                 onSale: inputObj.onSale,
                 retail: inputObj.retail,
                 sale: inputObj.sale,
                 type: 'shirt'
             };
+        },
+        mockThumb: function () {
+            var thumbnails = ['/images/beardude/products/Beardude-2015-1_s.jpg',
+                    '/images/beardude/products/Beardude-2015-2_s.jpg',
+                    '/images/beardude/products/Beardude-2015-3_s.jpg',
+                    '/images/beardude/products/Beardude-2015-4_s.jpg'];
+            return thumbnails;
         },
         mockFiles: function () {
             var images = ['/images/beardude/products/Beardude-2015-1.jpg',

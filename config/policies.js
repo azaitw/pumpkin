@@ -19,7 +19,7 @@ module.exports.policies = {
 //  '*': false,
   brandController: {
 
-//      managePage: 'isAdmin'
+      managePage: 'isAdmin'
   },
   cartController: {
 //      managePage: 'isAdmin'

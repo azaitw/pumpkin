@@ -25,6 +25,7 @@ var product = {
         },
         shortDesc: 'string',
         images: 'array',
+        imageThumbnails: 'array',
         retail: 'string',
         sale: 'string',
         onSale: 'boolean',
