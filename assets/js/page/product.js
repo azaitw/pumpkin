@@ -102,7 +102,7 @@ X.product = {
             probe = ph.indexOf('male');
             if (probe >= 0) {
                 str = X.common.translateSex(ph) + ph.substring(probe + 4);
-                node[i].innerText = str;
+                node[i].innerHTML = str;
             }
         }
     },
