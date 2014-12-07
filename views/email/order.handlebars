@@ -1,22 +1,13 @@
 <html>
 <head>
-<!--STYLES-->
-<link rel="stylesheet" href="/styles/bricks.css">
-<link rel="stylesheet" href="/styles/grid.css">
-<link rel="stylesheet" href="/styles/normalize.css">
-<link rel="stylesheet" href="/styles/page/checkout.css">
-<link rel="stylesheet" href="/styles/page/product.css">
-<link rel="stylesheet" href="/styles/pure-grid.css">
-<link rel="stylesheet" href="/styles/theme.css">
-<!--STYLES END-->
 </head>
-<body class="M-10">
+<body style="margin:10px">
 
 <div><a href="{{link}}">查詢訂單 / 通知轉帳</a></div>
 
-<div class="">
-    <h2 class="Fz-4">轉帳帳號</h2>
-    <ul class="Bdr-2 P-10 Lh-5" style="border-radius: 5px">
+<div>
+    <h2 style="font-size:17px">轉帳帳號</h2>
+    <ul style="padding:10px; line-height: 25px; border: 1px solid #ccc; border-radius: 5px; list-style:none;">
         {{#brand}}
         <li><span>銀行代碼：</span><span>{{bankCode}}</span></li>
         <li><span>帳號：</span><span>{{bankAccountNumber}}</span></li>
@@ -26,21 +17,21 @@
     </ul>
 </div>
 
-<table class="Fz-3 W-100 Mt-20 Lh-6">
+<table style="width:100%; margin-top:20px; line-height:30px; font-size:15px">
 
     {{#each order.items}}
     <tr>
-        <td>{{{productName}}} {{{sex}}} {{{size}}}</td>
-        <td class="Ta-r"><span>NT${{price}}</span> <span>x</span> <span>{{count}}</span></td>
+        <td>{{{productName}}}</td>
+        <td style="text-align:right"><span>NT${{price}}</span> <span>x</span> <span>{{count}}</span></td>
     </tr>
     {{/each}}
     <tr>
         <td>運費</td>
-        <td class="Ta-r">NT$ {{order.shipping}}</td>
+        <td style="text-align:right">NT$ {{order.shipping}}</td>
     </tr>
     <tr>
         <td>加總</td>
-        <td class="Ta-r">NT$ {{subtotal}}</td>
+        <td style="text-align:right">NT$ {{subtotal}}</td>
     </tr>
 </table>
 
