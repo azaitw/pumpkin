@@ -6,7 +6,9 @@ html {
     color: #777;
 }
 .header .anim {
+    -moz-transition: all 0.2s;
     -webkit-transition: all 0.2s;
+    transition: all 0.2s;
 }
 .header .anim:hover {
     color: #77c1f0;
