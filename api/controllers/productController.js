@@ -25,6 +25,9 @@ var Q = require('q'),
                 if (typeof D !== 'undefined') {
                     return q.reject('product exists');
                 }
+                if (typeof data.onSale !== 'undefined') {
+                    data.onSale = true;
+                }
                 return product.create(data);
             })
             .then(function (D1) {

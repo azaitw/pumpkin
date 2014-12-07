@@ -1,0 +1,16 @@
+.li-input .error {
+    display: none;
+    color: red;
+}
+.showErr input {
+    border: 1px solid red;
+}
+.showErr .error {
+    display: block;
+}
+.toUpdate .numToUpdate {
+    color: red;
+}
+body .add-select {
+    background: #eee url('/images/beardude/icons/drop.png') right 8px center no-repeat;
+}
