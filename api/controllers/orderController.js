@@ -232,7 +232,7 @@ var Q = require('q'),
             orders = input.orders,
             output = input;
         for (i = 0; i < input.length; i += 1) {
-            if (typeof output[i].status !== 'undefined') { // When status has data, add disabled
+            if (typeof output[i].status === 'undefined' || output[i].status === 'submitted' || output[i].status === 'verified') { // When status has data, add disabled
                 output[i].disabled = true;
             }
         }
@@ -311,7 +311,7 @@ var Q = require('q'),
         })
         .catch(function (E) {
             console.log('lookupOrderPage E: ', E);
-            return res.redirect('/' + brandName);
+            return res.send('bad');
         });
 
     },
@@ -345,7 +345,6 @@ var Q = require('q'),
         return q.promise;
     },
     submitVerificationPage: function (req, res) {
-        console.log('here, req.body: ', req.body);
         orderController.submitVerification(req.body)
         .then(function (D) {
             return res.send(D);

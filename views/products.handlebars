@@ -5,13 +5,13 @@
                 <ul class="ul-images Cf Ov-h Ws-nw Pos-r" style="height:460px">
                     {{#images}}
                     <li class="W-100 H-100 Pos-a T-0 L-0 Op-0" data-index={{@index}}>
-                        <img class="D-b M-0a H-100" style="max-width:100%" src="{{.}}" />
+                        <img class="D-b M-0a Mw-100 Mh-100 W-a H-a" src="{{.}}" />
                     </li>
                     {{/images}}
                 </ul>
                 <ul class="ul-images-thumbs Cf Ta-c Ov-h Ws-nw Mt-10">
                     {{#imageThumbnails}}
-                    <li class="D-ib Bdr-2" style="width:120px;height:120px">
+                    <li class="D-ib Bdr-2" style="width:80px;height:80px">
                         <button class="D-b P-0 Bg-n Bdr-0 W-100 H-100" data-index={{@index}}>
                             <img class="D-b M-0a" style="max-width:100%;max-height:100%" src="{{.}}" />
                         </button>
