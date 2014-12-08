@@ -30,4 +30,7 @@ body .add-select {
     .spec {
         width: 100%;
     }
+    .add-button {
+        font-size: 13px;
+    }
 }
