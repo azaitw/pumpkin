@@ -232,7 +232,7 @@ var Q = require('q'),
             orders = input.orders,
             output = input;
         for (i = 0; i < input.length; i += 1) {
-            if (typeof output[i].status === 'undefined' || output[i].status === 'submitted' || output[i].status === 'verified') { // When status has data, add disabled
+            if (typeof output[i].status !== 'undefined' || output[i].status === 'submitted' || output[i].status === 'verified') { // When status has data, add disabled
                 output[i].disabled = true;
             }
         }
@@ -256,7 +256,6 @@ var Q = require('q'),
         })
         .then(function (D1) { // order
             var result = orderController.verifyStatus(D1);
-            console.log('result: ', result);
             return q.resolve(result);
         })
         .catch(function (E) {
