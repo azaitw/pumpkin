@@ -23,7 +23,7 @@ body .add-select {
     border: 1px solid #77c1f0;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .specs {
         width: 100%;
     }
