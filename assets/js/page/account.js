@@ -164,7 +164,7 @@ X.account = {
                     input.ordersToVerify.push(placeholder.attr('data-index'));
                 }
             }
-
+            console.log('input: ', input)
             $.post('/' + X.params.brand + '/account/verify',
                 input,
                 function (data) {

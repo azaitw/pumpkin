@@ -345,6 +345,7 @@ var Q = require('q'),
         return q.promise;
     },
     submitVerificationPage: function (req, res) {
+        console.log('here, req.body: ', req.body);
         orderController.submitVerification(req.body)
         .then(function (D) {
             return res.send(D);
