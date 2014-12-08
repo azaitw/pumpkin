@@ -232,7 +232,7 @@ var Q = require('q'),
             orders = input.orders,
             output = input;
         for (i = 0; i < input.length; i += 1) {
-            if (output[i].status !== null) { // When status has data, add disabled
+            if (typeof output[i].status !== 'undefined') { // When status has data, add disabled
                 output[i].disabled = true;
             }
         }
