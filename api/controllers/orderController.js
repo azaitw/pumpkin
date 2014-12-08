@@ -255,7 +255,9 @@ var Q = require('q'),
             throw new Error('Customer not found');
         })
         .then(function (D1) { // order
-            return q.resolve(orderController.verifyStatus(D1));
+            var result = orderController.verifyStatus(D1);
+            console.log('result: ', result);
+            return q.resolve(result);
         })
         .catch(function (E) {
             console.log('lookupOrder E: ', E);
