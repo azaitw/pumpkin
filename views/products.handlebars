@@ -19,7 +19,7 @@
                     {{/imageThumbnails}}
                 </ul>
 
-                <div class="M-0a W-40 Mt-20 Mb-20" style="min-width:460px;">
+                <div class="M-0a Mt-20 Mb-20 W-90" style="max-width:460px;">
                     <h2 class="Fz-6 Fw-1 Mt-1 Mb-10 Ls-1 Ta-c">{{productName}}</h2>
                     <div class="price Fz-3 Fw-1 Mb-20 Ls-1 Ta-c">
                         <span class="retail {{#if onSale}}Td-2{{/if}}">NT${{retail}}</span>
@@ -62,9 +62,9 @@
                         {{shortDesc}}
                     </div>
                 </div>
-                <div class="GU M-0a W-80" style="min-width:500px">
+                <div class="GU M-0a W-80 specs">
                     {{#if productSpecific.female}}
-                        <div class="GU-1-2">
+                        <div class="GU-1-2 spec">
                             <div class="W-90 M-0a">
                                 <h3 class="Fw-1 Fz-3 Ta-c Pb-10 Mb-7" style="border-bottom:1px solid #ccc">女版尺寸</h3>
                                 <table class="W-100 Ta-c Lh-5 Fw-1 Zebra-2">
@@ -88,7 +88,7 @@
                     {{/if}}
 
                     {{#if productSpecific.male}}
-                        <div class="GU-1-2">
+                        <div class="GU-1-2 spec">
                             <div class="W-90 M-0a">
                                 <h3 class="Fw-1 Fz-3 Ta-c Pb-10 Mb-7" style="border-bottom:1px solid #ccc">男版尺寸</h3>
                                 <table class="W-100 Ta-c Lh-5 Fw-1 Zebra-1">

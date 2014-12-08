@@ -22,3 +22,12 @@ body .add-select {
 .ul-images-thumbs .selected {
     border: 1px solid #77c1f0;
 }
+
+@media (max-width: 500px) {
+    .specs {
+        width: 100%;
+    }
+    .spec {
+        width: 100%;
+    }
+}
