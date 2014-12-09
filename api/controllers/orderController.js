@@ -404,6 +404,48 @@ var Q = require('q'),
             }
         });
     },
+    orderStatsPage: function (req, res) {
+        var brandName = req.params.brand,
+            orders = [],
+            i,
+            j,
+            items = [],
+            funcs = [],
+            prepFuncs = function (orderId) {
+                funcs.push(orderItem.find({orderId: orderId}));
+            },
+            orderItems;
+
+        order.find({brandName: brandName})
+        .then(function (D) {
+            orders = D;
+            for (i = 0; i < orders.length; i += 1) {
+                prepFuncs(orders[i].id);
+            }
+            return Q.all(funcs);
+        })
+        .then(function (D) {
+            var items = {},
+                key,
+                i,
+                j,
+                total = 0;
+            orderItems = D;
+            for (i = 0; i < D.length; i += 1) {
+                for (j = 0; j < D[i].length; j += 1) {
+                    key = D[i][j].sex + D[i][j].size;
+                    if (typeof items[key] === 'undefined') {
+                        items[key] = 0;
+                    }
+                    items[key] += parseInt(D[i][j].count);
+                }
+            }
+            for (i in items) {
+                total += items[i];
+            }
+            res.send({items: items, total: total});
+        });
+    },
     emailTemplatePage: function (req, res) {
         var mockData = {
             brand: {
