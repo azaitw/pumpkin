@@ -54,19 +54,12 @@ var Q = require('q'),
 
                 default: //read
                     customer.find({brand: D1.id}, function (err, D2) {
-                        return res.render('index', {
-                            partials: {
-                                head: 'head',
-                                header: 'header',
-                                body: 'customer'
-                            },
-                            title: brandName + ' 客戶管理頁面',
-                            h1: brandName + ' 客戶管理頁面',
-                            brand: brandName,
-                            isAdmin: true,
-                            body: D2,
-                            js: ['manage.js']
-                        }); 
+                        return renderService.html(res, 'customer', {
+                            title: brandName + '顧客管理頁面',
+                            js: ['manage.js'],
+                            brand: D1,
+                            body: D2
+                        });
                     });
                 }
             });

@@ -18,8 +18,8 @@
 
 <h1>{{h1}}</h1>
 <div class="mod-signup W-100">
-    <table class="table-manage" data-table="customer">
-        <tr>
+    <table class="table-manage W-100 Bdr-1 Lh-5" data-table="customer">
+        <tr class="Bgc-2">
             <th></th>
             <th>客戶名稱</th>
             <th>Email</th>
@@ -33,7 +33,10 @@
             <td></td>
             <td>
                 <span data-cid={{id}} data-field="customerName" class="item">
-                    <button class="edit_btn">{{customerName}}</button>
+                    {{!--
+                        <button class="edit_btn">{{customerName}}</button>
+                    --}}
+                    {{customerName}}
                     <span class="edit">
                         <input class="value" value="{{customerName}}"/>
                         <button class="save">更新</button>
@@ -43,7 +46,10 @@
             </td>
             <td>
                 <span data-cid={{id}} data-field="email" class="item">
+                    {{!--
                     <button class="edit_btn">{{email}}</button>
+                    --}}
+                    {{email}}
                     <span class="edit">
                         <input class="value" value="{{email}}"/>
                         <button class="save">更新</button>
@@ -53,7 +59,10 @@
             </td>
             <td>
                 <span data-cid={{id}} data-field="phone" class="item">
+                    {{!--
                     <button class="edit_btn">{{phone}}</button>
+                    --}}
+                    {{phone}}
                     <span class="edit">
                         <input class="value" value="{{phone}}"/>
                         <button class="save">更新</button>
@@ -63,7 +72,10 @@
             </td>
             <td>
                 <span data-cid={{id}} data-field="zip" class="item">
+                    {{!--
                     <button class="edit_btn">{{zip}}</button>
+                    --}}
+                    {{zip}}
                     <span class="edit">
                         <input class="value" value="{{zip}}"/>
                         <button class="save">更新</button>
@@ -73,7 +85,10 @@
             </td>
             <td>
                 <span data-cid={{id}} data-field="address" class="item">
+                    {{!--
                     <button class="edit_btn">{{address}}</button>
+                    --}}
+                    {{address}}
                     <span class="edit">
                         <input class="value" value="{{address}}"/>
                         <button class="save">更新</button>
@@ -83,7 +98,10 @@
             </td>
             <td>
                 <span data-cid={{id}} data-field="country" class="item">
+                    {{!--
                     <button class="edit_btn">{{country}}</button>
+                    --}}
+                    {{country}}
                     <span class="edit">
                         <input class="value" value="{{country}}"/>
                         <button class="save">更新</button>
