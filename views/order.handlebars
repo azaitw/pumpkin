@@ -29,6 +29,7 @@
             <th>收件人</th>
             <th>轉帳銀行</th>
             <th>轉帳確認</th>
+            <th>備註</th>
             <th>管理</th>
         </tr>
         {{#each body}}
@@ -114,7 +115,11 @@
                 </span>
             </td>
             <td>
+                <span>{{note}}</span>
+            </td>
+            <td>
                 <button class="btn-editall">編輯</button>
+                <button class="btn-delete">刪除</button>
             </td>
         </tr>
         {{/each}}
