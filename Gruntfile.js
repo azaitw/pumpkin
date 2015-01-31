@@ -501,7 +501,6 @@ module.exports = function (grunt) {
 
   // When sails is lifted in production
   grunt.registerTask('prod', [
-    'jshint',
     'clean:dev',
 //    'jst:dev',
     'handlebars:all',
