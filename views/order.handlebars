@@ -23,12 +23,13 @@
     <table class="table-manage W-100" data-table="order">
         <tr>
             <th>訂單號碼</th>
-            <th>客戶名稱</th>
+<!--            <th>客戶名稱</th>-->
             <th style="width:200px">購買項目</th>
             <th>總價</th>
             <th>收件人</th>
             <th>轉帳銀行</th>
             <th>轉帳確認</th>
+            <th>狀態</th>
             <th>備註</th>
             <th>管理</th>
         </tr>
@@ -39,11 +40,12 @@
                     {{id}}
                 </span>
             </td>
-            <td>
+<!--            <td>
                 <span data-oid={{id}} data-field="customer" class="item">
                     {{customer}}
                 </span>
             </td>
+-->
             <td>
                 <ul class="item" data-oid={{id}}  data-field="items" data-aggregate="items">
                 {{#each items}}
@@ -115,11 +117,26 @@
                 </span>
             </td>
             <td>
+                <span class="item status">
+
+                    <select name="status" class="select-edit" data-oid={{id}} data-field="status" data-value="{{status}}" disabled>
+                        <option name="status" value="submitted" {{#if statusChecker.submitted}}selected{{/if}}>已下訂</option>
+                        <option name="status" value="processed" {{#if statusChecker.processed}}selected{{/if}}>寄送準備</option>
+                        <option name="status" value="in-transit" {{#if statusChecker.inTransit}}selected{{/if}}>已寄出</option>
+                        <option name="status" value="shipped" {{#if statusChecker.shipped}}selected{{/if}}>已送達</option>
+                    </select>
+                    <button class="btn-edit">編輯</button>
+                    <button class="btn-save btn-toggle">儲存修改</button>
+                    <button class="btn-cancel btn-toggle">取消</button>
+
+                </span>
+            </td>
+            <td>
                 <span>{{note}}</span>
             </td>
             <td>
                 <button class="btn-editall">編輯</button>
-                <button class="btn-delete">刪除</button>
+<!--                <a class="btn-delete">刪除</a>-->
             </td>
         </tr>
         {{/each}}

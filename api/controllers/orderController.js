@@ -378,6 +378,36 @@ var Q = require('q'),
                 title: brandName + ' 訂單管理頁面',
             },
             params = req.body;
+        var statusChecker = function (D) {
+            var DLen = D.length;
+            var i;
+            for (i = 0; i < DLen; i += 1) {
+                D[i].statusChecker = {};
+                switch (D[i].status) {
+                case 'processed':
+                    D[i].statusChecker = {
+                        processed: true
+                    };
+                    break;
+                case 'in-transit':
+                    D[i].statusChecker = {
+                        inTransit: true
+                    };
+                    break;
+                case 'shipped':
+                    D[i].statusChecker = {
+                        shipped: true
+                    };
+                    break;
+                default:
+                    D[i].statusChecker = {
+                        submitted: true
+                    };
+                    break;
+                }
+            }
+            return D;
+        };
 
         brand.findOne({brandName: brandName})
         .then(function (D) {
@@ -397,7 +427,7 @@ var Q = require('q'),
             default: //read
                 order.find({brand: D.id})
                 .then(function (D1) {
-                    output.body = D1;
+                    output.body = statusChecker(D1);
                     output.js = ['manage.js'];
                     return renderService.html(res, 'order', output);
                 });
