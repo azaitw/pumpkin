@@ -27,10 +27,14 @@
     "lwip": "*"
   },
   "devDependencies": {
-
+      "jshint": "*",
+      "mocha": "*",
+      "grunt-mocha-test": "*",
+      "grunt-contrib-jshint": "*",
+      "sinon": "*",
+      "assert": "*"
   },
   "scripts": {
-    "preinstall": "npm install --ignore-scripts",
     "sails": "./node_modules/.bin/sails",
     "debug": "node debug app.js",
     "hbs": "./node_modules/.bin/grunt handlebars",
