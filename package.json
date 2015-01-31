@@ -27,12 +27,7 @@
     "lwip": "*"
   },
   "devDependencies": {
-      "jshint": "*",
-      "mocha": "*",
-      "grunt-mocha-test": "*",
-      "grunt-contrib-jshint": "*",
-      "sinon": "*",
-      "assert": "*"
+
   },
   "scripts": {
     "preinstall": "npm install --ignore-scripts",
