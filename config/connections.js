@@ -53,11 +53,7 @@ module.exports.connections = {
         database: 'x1',
         port: 8889
     },
-	localMongo: {
-        adapter: 'sails-mongo',
-		host: 'localhost',
-		database: 'x'
-	},
+
     // MongoDB is the leading NoSQL database.
     // http://en.wikipedia.org/wiki/MongoDB
     //
