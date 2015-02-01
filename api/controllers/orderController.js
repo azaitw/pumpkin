@@ -371,6 +371,27 @@ var Q = require('q'),
         });
         return q.promise;
     },
+    orderDetailPage: function (req, res) {
+        var id = req.params.index;
+        var brandName = req.params.brand;
+        var brandInfo;
+        
+        brand.findOne({brandName: brandName})
+        .then(function (D) {
+            brandInfo = D;
+            return order.findOne({id: id});
+        })
+        .then(function (D) {
+            console.log('D: ', D);
+            var renderParams = {
+                title: '出貨單',
+                brand: brandInfo,
+                content: D
+            };
+            return renderService.html(res, 'shiplabel', renderParams);
+        });
+
+    },
     manageOrderPage: function (req, res) {
         var brandName = req.params.brand,
             action = req.params.action,

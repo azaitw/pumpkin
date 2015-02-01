@@ -1,0 +1,70 @@
+<style>
+.hd, .ft {
+    display: none;
+}
+</style>
+<div class="M-0a W-80">
+    <div class="Mt-10 Mb-30 P-30" style="border-bottom: 1px dashed #ccc; padding-bottom: 50px">
+        {{#brand}}
+        <div class="sender">
+            <h2 class="Pos-r P-0 M-0 Ls-2" style="height:50px">
+                <img src="{{logo}}" alt="{{brandName_cht}} {{brandName}}" class="Pos-a T-0"/>
+                <span class="Fz-2 Pos-a" style="left: 50px; top:9px;color:#000">{{brandName_cht}}</span>
+                <span class="Fz-1 Pos-a Fw-3" style="left: 51px; top:26px; letter-spacing:0.3px; color:#888">{{brandName}}</span>
+                <div class="Pos-a Mt-7" style="margin-left: 140px">
+                    <p class="Fz-3 Fw-1 M-0">詹凱盛</p>
+                    <p class="Fz-3 Fw-1 M-0">115 台北市南港區三重路66號14樓</p>
+                </div>
+            </h2>
+        </div>
+        {{/brand}}
+        <div class="receiver" style="margin-top:50px">
+            {{#content}}
+            <h2 class="Pos-r P-0 Ls-3" style="margin-left: 40px">
+                <p class="M-10 Fw-3 Pb-10 Fz-5">{{recipient}}</p>
+                <p class="M-10 Fw-3 Pb-10 Fz-5">{{address}}</p>
+                <p class="M-10 Fw-3 Pb-10 Fz-5">{{phone}}</p>
+            </h2>
+            {{/content}}
+        </div>
+    </div>
+    <div class="Mb-30 Pb-30">
+        <h2 class="Fw-3 Fz-5 Ta-c">您的訂單</h2>
+        <div class="receiver Mb-30" style="margin-top:50px; margin-left: 40px; margin-bottom:40px">
+            {{#content}}
+            
+            <h2 class="Pos-r P-0 Ls-3 Fz-4" style="">
+                <p class="">收件人</p>
+                <p class="M-10 Ml-30 Fw-3">{{recipient}}</p>
+                <p class="M-10 Ml-30 Fw-3">{{address}}</p>
+                <p class="M-10 Ml-30 Fw-3">{{phone}}</p>
+            </h2>
+        </div>
+
+        <div class="Fz-4 Ls-3" style="margin-left: 40px">
+            <h2 class="Fz-4">購買商品</h2>
+            <ul class="Lh-5 Pb-10" style="list-style: disc; padding-left:50px;border-bottom: 1px solid #ddd">
+                {{#each items}}
+                    <li data-pid="{{@key}}">
+                        <span>{{name}}</span>
+                        <span>{{sex}}</span>
+                        <span>{{size}}</span>
+                        <span>${{price}}</span>
+                        <span class="M-10">x</span>
+                        <span data-field="count">
+                            {{count}}
+                        </span>
+                    </li>
+                {{/each}}
+            </ul>
+            <div class="" style="margin-left: 30px">
+                <p>運費 ${{shipping}}</p>
+                <p>小計 ${{subtotal}}</p>
+            </div>
+            {{/content}}
+        </div>
+        <div class="M-30 P-30 Ta-c Fz-3 Ls-3">
+            <p>任何產品問題或建議，歡迎來信 {{#brand}}{{email}}{{/brand}}</p>
+        </div>
+    </div>
+</div>

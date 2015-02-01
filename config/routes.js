@@ -52,6 +52,10 @@ module.exports.routes = {
         controller: 'orderController',
         action: 'manageOrderPage'
     },
+    '/:brand/manage/orderDetail/:index': {
+        controller: 'orderController',
+        action: 'orderDetailPage'
+    },
     '/:brand/manage/stats': {
         controller: 'orderController',
         action: 'orderStatsPage'
