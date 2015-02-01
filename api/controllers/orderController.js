@@ -382,7 +382,6 @@ var Q = require('q'),
             return order.findOne({id: id});
         })
         .then(function (D) {
-            console.log('D: ', D);
             var renderParams = {
                 title: '出貨單',
                 brand: brandInfo,
