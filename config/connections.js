@@ -25,10 +25,11 @@ module.exports.connections = {
     //
     // Installed by default.
     //
+/*
     localDiskDb: {
         adapter: 'sails-disk'
     },
-
+*/
     s3: {
         adapter: require('skipper-s3'),
         key: process.env.S3_KEY,
@@ -52,42 +53,24 @@ module.exports.connections = {
         database: 'x1',
         port: 8889
     },
-    // url : 'mysql2://USER:PASSWORD@HOST:PORT/DATABASENAME'
-    beardudeMysql: {
-        adapter: 'sails-mysql',
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        port: process.env.DB_PORT
-    },
-
+	localMongo: {
+        adapter: 'sails-mongo',
+		host: 'localhost',
+		database: 'x'
+	},
     // MongoDB is the leading NoSQL database.
     // http://en.wikipedia.org/wiki/MongoDB
     //
     // Run:
     // npm install sails-mongo
     //
+
     beardudeMongodbServer: {
         adapter: 'sails-mongo',
         url: process.env.MONGO_URL
         // user: 'username',
         // password: 'password',
         // database: 'your_mongo_db_name_here'
-    },
-
-    // PostgreSQL is another officially supported relational database.
-    // http://en.wikipedia.org/wiki/PostgreSQL
-    //
-    // Run:
-    // npm install sails-postgresql
-    //
-    somePostgresqlServer: {
-        adapter: 'sails-postgresql',
-        host: 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
-        user: 'YOUR_POSTGRES_USER',
-        password: 'YOUR_POSTGRES_PASSWORD',
-        database: 'YOUR_POSTGRES_DB'
     }
 
     // More adapters:
