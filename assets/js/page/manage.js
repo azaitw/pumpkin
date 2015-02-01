@@ -5,6 +5,7 @@ X.manage = {
             editBtn = $('.btn-edit'),
             cancelBtn = $('.btn-cancel'),
             saveBtn = $('.btn-save');
+        var filterBtn = $('.filter-btn');
         
         editBtn.click(function (e) {
             that.toggleEdit(e);
@@ -15,6 +16,52 @@ X.manage = {
         saveBtn.click(function (e) {
             that.toggleEdit(e, 'save');
         });
+        filterBtn.click(function (e) {
+            that.filterResult();
+        });
+    },
+    filterResult: function (e) {
+        var filters = X.manage.getFilters();
+        var listItems = $('.tr-manage');
+        var listItemsLen = listItems.length;
+        var flags = [];
+        var placeholder;
+        var placeholder1;
+        var flagsLen;
+        var i;
+        var j;
+        for (j in filters) {
+            if (filters.hasOwnProperty(j) && filters[j] !== 'all') {
+                for (i = 0; i < listItemsLen; i += 1) {
+                    flags[i] = true;
+                    placeholder = listItems[i].querySelectorAll('select.' + j + ' option:checked');
+                    placeholder1 = $(placeholder).val();
+                    if (placeholder1 !== filters[j]) {
+                        flags[i] = false;
+                    }
+                }
+                flagsLen = flags.length;
+            }
+        }
+        for (i = 0; i < flagsLen; i += 1) {
+            if (flags[i] === false) {
+                $(listItems[i]).addClass('D-n');
+            } else {
+                $(listItems[i]).removeClass('D-n');
+            }
+        }
+    },
+    getFilters: function () {
+        var filters = $('.select-filter');
+        var filtersLen = filters.length;
+        var filtersArr = {};
+        var placeholder;
+        var i;
+        for (i = 0; i < filtersLen; i += 1) {
+            placeholder = $(filters[i]);
+            filtersArr[placeholder.data('filter')] = placeholder.children('option:selected').val();
+        }
+        return filtersArr;
     },
     toggleEdit: function (e, option) {
         var parentNode = $(e.currentTarget).parent(),

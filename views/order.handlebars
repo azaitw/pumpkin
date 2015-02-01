@@ -19,6 +19,26 @@
 }
 </style>
 <h1>{{h1}}</h1>
+<div class="Bdr-2 W-80 M-0a P-10 Mb-10">
+    <h3 class="Fw-3 Fz-4 Fl-l D-i Mr-20">過濾</h3>
+    <label for="filter1">付款狀態</label>
+    <select name="filter1" data-filter="paymentVerified" class="select-filter Mr-20">
+        <option name="filter1" value="all">顯示全部</option>
+        <option name="filter1" value="true">已確認</option>
+        <option name="filter1" value="false">尚未確認</option>
+    </select>
+
+    <label for="filter2">寄送狀態</label>
+    <select name="filter2" data-filter="status" class="select-filter Mr-20">
+        <option name="filter2" value="all">顯示全部</option>        
+        <option name="filter2" value="submitted" {{#if statusChecker.submitted}}selected{{/if}}>已下訂</option>
+        <option name="filter2" value="processed" {{#if statusChecker.processed}}selected{{/if}}>寄送準備</option>
+        <option name="filter2" value="in-transit" {{#if statusChecker.inTransit}}selected{{/if}}>已寄出</option>
+        <option name="filter2" value="shipped">已送達</option>
+        </select>
+    </select>
+    <button class="filter-btn">套用</button>
+</div>
 <div class="mod-signup W-100">
     <table class="table-manage W-100" data-table="order">
         <tr>
@@ -106,7 +126,7 @@
             <td>
                 <span class="item paymentVerified">
 
-                    <select name="paymentVerified" class="select-edit" data-oid={{id}} data-field="paymentVerified" data-value="{{paymentVerified}}" disabled>
+                    <select name="paymentVerified" class="paymentVerified select-edit" data-oid={{id}} data-field="paymentVerified" data-value="{{paymentVerified}}" disabled>
                         <option name="paymentVerified" value="true" {{#if paymentVerified}}selected{{/if}}>已確認</option>
                         <option name="paymentVerified" value="" {{#if paymentVerified}}{{else}}selected{{/if}}>尚未確認</option>
                     </select>
@@ -119,7 +139,7 @@
             <td>
                 <span class="item status">
 
-                    <select name="status" class="select-edit" data-oid={{id}} data-field="status" data-value="{{status}}" disabled>
+                    <select name="status" class="status select-edit" data-oid={{id}} data-field="status" data-value="{{status}}" disabled>
                         <option name="status" value="submitted" {{#if statusChecker.submitted}}selected{{/if}}>已下訂</option>
                         <option name="status" value="processed" {{#if statusChecker.processed}}selected{{/if}}>寄送準備</option>
                         <option name="status" value="in-transit" {{#if statusChecker.inTransit}}selected{{/if}}>已寄出</option>
