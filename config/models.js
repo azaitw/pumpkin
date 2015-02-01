@@ -15,5 +15,5 @@ module.exports.models = {
     connection: 'beardudeMongodbServer',
   //safe, alter, drop
     migrate: 'safe'
-    
+    //
 };
