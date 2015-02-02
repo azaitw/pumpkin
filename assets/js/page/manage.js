@@ -42,8 +42,14 @@ X.manage = {
                         flags[i] = false;
                     }
                 }
-                flagsLen = flags.length;
+            } else if (filters[j] === 'all') {
+                for (i = 0; i < listItemsLen; i += 1) {
+                    if (typeof flags[i] === 'undefined') {
+                        flags[i] = true;
+                    }
+                }
             }
+            flagsLen = flags.length;
         }
         for (i = 0; i < flagsLen; i += 1) {
             if (flags[i] === false) {
