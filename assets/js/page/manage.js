@@ -33,7 +33,9 @@ X.manage = {
         for (j in filters) {
             if (filters.hasOwnProperty(j) && filters[j] !== 'all') {
                 for (i = 0; i < listItemsLen; i += 1) {
-                    flags[i] = true;
+                    if (typeof flags[i] === 'undefined') {
+                        flags[i] = true;
+                    }
                     placeholder = listItems[i].querySelectorAll('select.' + j + ' option:checked');
                     placeholder1 = $(placeholder).val();
                     if (placeholder1 !== filters[j]) {
