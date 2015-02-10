@@ -36,20 +36,20 @@ var email = require('emailjs'),
                 server = this.returnEmailServer(emailServer);
 
             server.send({
-               from: inputObj.brand.brandName + ' <' + inputObj.brand.email + '>',
-               to: inputObj.to,
-               subject: inputObj.subject,
-               text: inputObj.text,
-               attachment: [{
-                   data: inputObj.body,
-                   alternative: true
-               }]
+                from: inputObj.brand.brandName + ' <' + inputObj.brand.email + '>',
+                to: inputObj.to,
+                bcc: inputObj.bcc,
+                subject: inputObj.subject,
+                text: inputObj.text,
+                attachment: [{
+                    data: inputObj.body,
+                    alternative: true
+                }]
             }, function (err, message) {
                 if (err) {
                     console.log('sendMail error: ', err);
                     return q.reject(err);
                 }
-                console.log('sent mail: ', message);
                 return q.resolve(message);
             });
             return q.promise;
@@ -73,6 +73,7 @@ var email = require('emailjs'),
                     text = D1;
                     that.sendMail({
                         to: inputObj.recipient.email,
+                        bcc: inputObj.brand.email,
                         subject: '感謝您對' + inputObj.brand.brandName_cht + '的支持，這是您的訂單',
                         body: html,
                         text: text,
