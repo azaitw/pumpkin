@@ -327,7 +327,9 @@ var Q = require('q'),
             prepFuncs = function (i) {
                 funcs.push(order.update(query[i], updates[i]));
             },
-            params = input.transferInfo;
+            params = input.transferInfo,
+            result;
+
         params.status = 'submitted';
 
         for (i = 0; i < ordersToVerifyLen; i += 1) {
@@ -337,7 +339,15 @@ var Q = require('q'),
         }
         Q.all(funcs)
         .then(function (D) {
-            return q.resolve(D);
+            result = D;
+            console.log('result D: ',D);
+            return brand.findOne({id: D[0][0].brand});
+        })
+        .then(function (D) {
+            return EmailService.notifyPayment({brand: D, result: result[0]});
+        })
+        .then(function (D) {
+            return q.resolve(result);
         })
         .catch(function (E) {
             console.log('submitVerification E: ', E);

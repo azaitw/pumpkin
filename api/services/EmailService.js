@@ -85,6 +85,25 @@ var email = require('emailjs'),
                     return q.promise;
                 });
             });
+        },
+        // {brand: brand, result: result}
+        notifyPayment: function (inputObj) {
+            var q = Q.defer(),
+                that = this,
+                html;
+            sails.renderView('email/notifyPayment', inputObj, function (err, D) {
+                html = D;
+                that.sendMail({
+                    to: inputObj.brand.email,
+                    subject: '有人付錢',
+                    body: html,
+                    brand: inputObj.brand
+                })
+                .then(function (D2) {
+                    return q.resolve(inputObj.email); 
+                });
+                return q.promise;
+            });
         }
     };
 module.exports = emailService;
