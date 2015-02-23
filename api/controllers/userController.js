@@ -49,14 +49,17 @@ var bcrypt = require('bcrypt-nodejs'),
             var q = Q.defer(),
                 output = {
                     isAdmin: false,
-                    user: input.email
-                };
+                    user: input.email,
+                    brands: []
+                },
+                brandData;
             brand.findOne({brandName: brandName})
             .then(function (D) {
                 if (D.email !== input.email) {
                     console.log('email doesnt match');
                     return q.resolve(output);
                 }
+                brandData = D;
                 return user.findOne({email: input.email});
             })
             .then(function (D) {
@@ -68,6 +71,7 @@ var bcrypt = require('bcrypt-nodejs'),
                         if (D1) { // credential correct
                             output.isAdmin = true;
                         }
+                        output.brands.push(brandData.id);
                         return q.resolve(output);
                     });
                 } else {
