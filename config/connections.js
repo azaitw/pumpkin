@@ -60,11 +60,6 @@ module.exports.connections = {
     // Run:
     // npm install sails-mongo
     //
-    localMongo: {
-       adapter: 'sails-mongo',
-       host: 'localhost',
-       database: 'x'
-    },
 
     beardudeMongodbServer: {
         adapter: 'sails-mongo',
