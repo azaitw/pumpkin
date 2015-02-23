@@ -18,11 +18,11 @@ module.exports.policies = {
   // (`true` allows public access) 
 //  '*': false,
   brandController: {
-
-      managePage: 'isAdmin'
+      'findOne': 'isAuthorized',
+      'managePage': 'isAuthorized'
   },
   cartController: {
-//      managePage: 'isAdmin'
+
   },
   customer: {
       'create': false, 
@@ -30,28 +30,30 @@ module.exports.policies = {
        'findAll': false,
        'update': false,
        'destroy': false
-//      managePage: 'isAdmin'
   },
   orderController: {
-//      managePage: 'isAdmin'
+
   },
   pageController: {
-//      managePage: 'isAdmin'
+
   },
   portalController: {
-//      managePage: 'isAdmin'
+
   },
   productController: {
-//      addProductPage: 'isAdmin'
+
   },
   productSpecificController: {
-//      managePage: 'isAdmin'
+
   },
   testController: {
-//      managePage: 'isAdmin'
+
   },
   userController: {
-//      managePage: 'isAdmin'
+      'findOne': 'isAuthorized',
+      'update': 'isAuthorized',
+      'delete': false
+
   }
 
   /*
