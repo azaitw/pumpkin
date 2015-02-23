@@ -1,9 +1,24 @@
 <style>
+@media print {
+    html, body {
+        height: 842px;
+    }
+    .print {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
 .hd, .ft {
     display: none;
 }
 </style>
-<div class="M-0a W-80">
+<div class="M-0a W-80 print">
     <div class="Mt-10 Mb-30 P-30" style="border-bottom: 1px dashed #ccc; padding-bottom: 50px">
         {{#brand}}
         <div class="sender">
@@ -28,7 +43,7 @@
             {{/content}}
         </div>
     </div>
-    <div class="Mb-30 Pb-30">
+    <div class="">
         <h2 class="Fw-3 Fz-5 Ta-c">您的訂單</h2>
         <div class="receiver Mb-30" style="margin-top:50px; margin-left: 40px; margin-bottom:40px">
             {{#content}}
