@@ -21,7 +21,7 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
     models: {
-            connection: 'beardudeMongodbServer'
+        connection: 'beardudeMongodbServer'
     },
     port: 80
 
