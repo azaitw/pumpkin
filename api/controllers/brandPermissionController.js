@@ -74,7 +74,7 @@ var brandController = {
                             res.render('index', {
                                 partials: {
                                     head: 'head',
-                                    body: 'portal'
+                                    body: 'site'
                                 },
                                 title: 'Pumpkin Lab, your branding specialist'
                             });

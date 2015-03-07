@@ -37,7 +37,7 @@ module.exports.policies = {
   pageController: {
 
   },
-  portalController: {
+  siteController: {
 
   },
   productController: {

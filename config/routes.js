@@ -1,6 +1,6 @@
 module.exports.routes = {
     '/': {
-        controller: 'portalController',
+        controller: 'siteController',
         action: 'index'
     },
     '/_test': {
