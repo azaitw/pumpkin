@@ -1,41 +1,11 @@
-<meta charset="UTF-8" />
-<title>{{title}}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<link rel="shortcut icon" href="/images/{{#brand}}{{slug}}{{/brand}}/favicon.ico" type="image/x-icon">
-<link rel="icon" href="/images/{{#brand}}{{slug}}{{/brand}}/favicon.ico" type="image/x-icon">
-<!--STYLES-->
-<link rel="stylesheet" href="/min/production.css">
-<!--STYLES END-->
-<!--
-    ;@@@@@@@@@@                           @@@@@@@@@@i    
-  ;@@@@@@@@@@@@@@     ;@@@@@@@@@@@i     @@@@@@@@@@@@@@i  
- t@@@@@@@@@@@@@@@@0@@@@@@@@@@@@@@@@@@@G@@@@@@@@@@@@@@@@f 
- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
- G@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@0 
-  G@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@G  
-    @@@@@@@@@:      ;@@@@@@@@@@@@@@@;      :@@@@@@@@@    
-     @@@@@@            @@@@@@@@@@@            @@@@@@     
-    @@@@@8              @@@@@@@@@              8@@@@8    
-   C@@@@@               ;@@@@@@@i               @@@@@1   
-   @@@@@@:              t@@@@@@@f              :@@@@@@   
-  t@@@@@@@              @@@@@@@@@              @@@@@@@:
-  @@@@@@@@@f          C@@@@@@@@@@@C          f@@@@@@@@C  
-  @@@@@@@@@@@@@.  ,@@@C    @@@    L@@@,  .@@@@@@@@@@@@0  
-  0@@@@@@@@@@@@@@@@@     @@@@@@@     @@@@@@@@@@@@@@@@@f  
-  ;@@@@@@@@@@@@@@@L     ;@@@@@@@i     t@@@@@@@@@@@@@@@.
-   @@@@@@@@@@@@@@G       f@@@@@C       L@@@@@@@@@@@@@@   
-   ;@@@@@@@@@@@@@          t@f          @@@@@@@@@@@@@,
-    G@@@@@@@@@@@@          t@f          @@@@@@@@@@@@1    
-     0@@@@@@@@@@@          1G1          @@@@@@@@@@@t     
-      i@@@@@@@@@@@                     8@@@@@@@@@@,      
-        @@@@@@@@@@@                   @@@@@@@@@@8        
-          @@@@@@@@@@:               :@@@@@@@@@@          
-            8@@@@@@@@@@,         ,@@@@@@@@@@0            
-               8@@@@@@@@@@@@@@@@@@@@@@@@@G               
-                   L@@@@@@@@@@@@@@@@@f                                                          
-     _____ _____ _____ _____ ____  _____ ____  _____ 
-    | __  |   __|  _  | __  |    \|  |  |    \|   __|
-    | __ -|   __|     |    -|  |  |  |  |  |  |   __|
-    |_____|_____|__|__|__|__|____/|_____|____/|_____|
--->
+<head>
+    <meta charset="UTF-8" />
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="/images/{{#brand}}{{slug}}{{/brand}}/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/{{#brand}}{{slug}}{{/brand}}/favicon.ico" type="image/x-icon">
+    {{> css }}
+    {{#if sourceDecoration}}
+        {{> sourceDecoration }}
+    {{/if}}
+</head>

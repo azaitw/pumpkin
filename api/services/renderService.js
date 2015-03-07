@@ -7,6 +7,9 @@ module.exports = {
             renderObj = {
                 partials: {
                     head: 'head',
+                    css: 'lib/css',
+                    script: 'lib/script',
+                    sourceDecoration: 'lib/sourceDecoration',
                     header: 'header',
                     footer: 'footer',
                     body: bodyTemplateName
@@ -18,20 +21,46 @@ module.exports = {
             }
         }
         return res.render('index', renderObj);
-        /*
-            return res.render('index', {
+    },
+    /*
+    params: {
+        templates: {
+            header: 'HEADER',
+            body: 'BODY',
+            footer: 'FOOTER'
+        },
+        sourceDecoration: true/false,
+        title: 'TITLE'
+    }
+    */
+    renderHtml: function (res, params) {
+        var replacePartials = ['header', 'footer'];
+        var i;
+        var key;
+        var renderObj = {
                 partials: {
                     head: 'head',
+                    css: 'lib/css',
+                    script: 'lib/script',
                     header: 'header',
-                    body: 'signup'
-                },
-                title: 'Register a Pumpkin Lab account',
-                h1: '註冊 Pumpkin Lab 帳號',
-                action: 'register',
-                js: ['signup.js'],
-                form: brandController.generateSignupForm()
-            });
-        */
+                    footer: 'footer',
+                    sourceDecoration: 'lib/sourceDecoration',
+                    body: params.templates.body || 'generic/form'
+                }
+            };
+        for (i = 0; i < replacePartials.length; i += 1) {
+            key = replacePartials[i];
+            if (typeof params.templates[key] !== 'undefined') {
+                if (params.templates[key] !== '') {
+                    renderObj.partials[key] = params.templates[key];
+                } else {
+                    renderObj.partials[key] = 'lib/empty';
+                }
+            }
+        }
+        console.log('renderObj: ', renderObj);
+        renderObj.title = params.title;
+        return res.render('index', renderObj);
     },
     email: function (res, templateName, params) {
         var i,
