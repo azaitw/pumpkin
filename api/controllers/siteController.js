@@ -1,8 +1,10 @@
 var site = {
     index: function (req, res) {
 //        return res.redirect('/beardude');
-
-        renderService.html(res, 'site', {
+        renderService.renderHtml(res, {
+            templates: {
+                body: 'site'
+            },
             title: 'Beardude Shop, your branding specialist'
         });
     }
