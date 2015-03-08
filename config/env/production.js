@@ -20,6 +20,15 @@ module.exports = {
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
+    connections: {
+        beardudeMongodbServer: {
+            adapter: 'sails-mongo',
+            url: process.env.MONGO_URL
+            // user: 'username',
+            // password: 'password',
+            // database: 'your_mongo_db_name_here'
+        }
+    }
     models: {
         connection: 'beardudeMongodbServer'
     },

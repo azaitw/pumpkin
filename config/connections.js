@@ -20,48 +20,11 @@
  */
 
 module.exports.connections = {
-
-    // Local disk storage for DEVELOPMENT ONLY
-    //
-    // Installed by default.
-    //
-/*
-    localDiskDb: {
-        adapter: 'sails-disk'
-    },
-*/
     s3: {
         adapter: require('skipper-s3'),
         key: process.env.S3_KEY,
         secret: process.env.S3_SECRET,
         bucket: process.env.S3_BUCKET,
         region: process.env.S3_REGION
-    },
-
-    // MySQL is the world's most popular relational database.
-    // http://en.wikipedia.org/wiki/MySQL
-    //
-    // Run:
-    // npm install sails-mysql
-    //
-    // url : 'mysql2://USER:PASSWORD@HOST:PORT/DATABASENAME'
-
-    // MongoDB is the leading NoSQL database.
-    // http://en.wikipedia.org/wiki/MongoDB
-    //
-    // Run:
-    // npm install sails-mongo
-    //
-
-    beardudeMongodbServer: {
-        adapter: 'sails-mongo',
-        url: process.env.MONGO_URL
-        // user: 'username',
-        // password: 'password',
-        // database: 'your_mongo_db_name_here'
     }
-
-    // More adapters:
-    // https://github.com/balderdashy/sails
-
 };

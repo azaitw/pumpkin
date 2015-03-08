@@ -23,14 +23,6 @@ module.exports = {
            database: 'x'
         }
     },
-    localMysql: {
-        adapter: 'sails-mysql',
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'x1',
-        port: 8889
-    },
     models: {
             connection: 'localMongo'
     },
