@@ -38,16 +38,20 @@ module.exports = {
     */
     renderHtml: function (res, params) {
         var i;
-        var renderObj = {
-                partials: {
-                    css: 'lib/css',
-                    script: 'lib/script',
-                    header: params.templates.header || 'header',
-                    footer: params.templates.footer || 'footer',
-                    sourceDecoration: 'lib/sourceDecoration',
-                    body: params.templates.body || 'lib/form'
-                }
-            };
+        var renderObj;
+        if (typeof params.templates === 'undefined') {
+            params.templates = {};
+        }
+        renderObj = {
+            partials: {
+                css: 'lib/css',
+                script: 'lib/script',
+                header: params.templates.header || 'header',
+                footer: params.templates.footer || 'footer',
+                sourceDecoration: 'lib/sourceDecoration',
+                body: params.templates.body || 'lib/form'
+            }
+        };
         for (i in params) {
             if (params.hasOwnProperty(i) && i !== 'templates') { // data
                 renderObj[i] = params[i];

@@ -8,6 +8,7 @@ describe('services/renderService', function() {
             return data;
         }
     };
+    sinon.mock(res);
     it('.html should inject partials and specified params', function (done) {
         var params = {
             title: 'test title',
@@ -27,7 +28,6 @@ describe('services/renderService', function() {
             title: 'test title',
             desc: 'test desc'
         }; 
-        sinon.mock(res);
         result = renderService.html(res, 'test', params);
         assert.deepEqual(result, expected);
         done();
@@ -44,7 +44,6 @@ describe('services/renderService', function() {
             desc: 'test desc',
             email: 'test email'
         };
-        sinon.mock(res);
         result = renderService.email(res, 'test', params);
         assert.deepEqual(result, expected);
         done();
@@ -68,9 +67,32 @@ describe('services/renderService', function() {
             },
             title: 'test title'
         };
-        sinon.mock(res);
         result = renderService.renderHtml(res, params);
         assert.deepEqual(result, expected);
+        done();
+    });
+    it('.renderHtml should apply default header and footer when not specified', function (done) {
+        var params = {
+            title: 'test title'
+        };
+        var result;
+        result = renderService.renderHtml(res, params);
+        assert.equal(result.partials.header, 'header');
+        assert.equal(result.partials.footer, 'footer');
+        done();
+    });
+    it('.renderHtml should apply specified header and footer', function (done) {
+        var params = {
+            templates: {
+                header: 'myheader',
+                footer: 'myfooter'
+            },
+            title: 'test title'
+        };
+        var result;
+        result = renderService.renderHtml(res, params);
+        assert.equal(result.partials.header, 'myheader');
+        assert.equal(result.partials.footer, 'myfooter');
         done();
     });
 });
