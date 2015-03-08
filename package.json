@@ -42,9 +42,7 @@
     "sails": "./node_modules/.bin/sails",
     "debug": "node debug app.js",
     "hbs": "./node_modules/.bin/grunt handlebars",
-    "test": "./node_modules/.bin/grunt test",
-    "gulptest": "./node_modules/.bin/gulp test",
-    "mocha": "mocha"
+    "test": "./node_modules/.bin/gulp unit_test"
   },
   "main": "app.js",
   "repository": "",
