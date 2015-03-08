@@ -1,4 +1,4 @@
-var handlebars = require('handlebars');
+//var handlebars = require('handlebars');
 
 module.exports = {
     _config: {
@@ -38,25 +38,23 @@ module.exports = {
     */
     renderHtml: function (res, params) {
         var i;
-        var renderObj;
-        if (typeof params.templates === 'undefined') {
-            params.templates = {};
-        }
-        renderObj = {
-            partials: {
-                css: 'lib/css',
-                script: 'lib/script',
-                header: params.templates.header || 'header',
-                footer: params.templates.footer || 'footer',
-                sourceDecoration: 'lib/sourceDecoration',
-                body: params.templates.body || 'lib/form'
-            }
-        };
+        var renderObj = {};
         for (i in params) {
-            if (params.hasOwnProperty(i) && i !== 'templates') { // data
+            if (params.hasOwnProperty(i) && i !== 'templates') { // populate data
                 renderObj[i] = params[i];
             }
         }
+        if (typeof params.templates === 'undefined') { // create empty template obj when not present
+            params.templates = {};
+        }
+        renderObj.partials = {
+            css: 'lib/css',
+            script: 'lib/script',
+            header: params.templates.header || 'header',
+            footer: params.templates.footer || 'footer',
+            sourceDecoration: 'lib/sourceDecoration',
+            body: params.templates.body || 'lib/form'
+        };
         return res.render('index-new', renderObj);
     },
     email: function (res, templateName, params) {

@@ -40,11 +40,11 @@ module.exports = function (grunt) {
    * `sails-linker:devJs` task below for more options.
    */
 
-  var jsFilesCommon = [
+//  var jsFilesCommon = [
 
     // All of the rest of your app scripts imported here
-      'js/**/*.js'
-  ];
+//      'js/**/*.js'
+//  ];
 
 
   var jsFilesToInject = [
@@ -150,16 +150,16 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec'
         },
-        src: ['tests/**/*.spec.js']
+        src: ['test/**/*.spec.js']
       }
     },
 
     handlebars: {
         all: {
             files: {
-//                "assets/templates/account.js": ["views/account.handlebars", "views/pop.handlebars"]
-                ".tmp/public/templates/account.js": ["views/account.handlebars", "views/pop.handlebars", "views/cart.handlebars"],
-                ".tmp/public/templates/product.js": ["views/cart.handlebars"]
+//                'assets/templates/account.js': ['views/account.handlebars', 'views/pop.handlebars']
+                '.tmp/public/templates/account.js': ['views/account.handlebars', 'views/pop.handlebars', 'views/cart.handlebars'],
+                '.tmp/public/templates/product.js': ['views/cart.handlebars']
             }
         }
     },

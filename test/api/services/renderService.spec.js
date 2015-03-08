@@ -1,3 +1,5 @@
+/* global describe, it */
+
 var renderService = require('../../../api/services/renderService.js');
 var sinon = require('sinon');
 var assert = require('assert');

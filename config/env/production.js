@@ -28,7 +28,7 @@ module.exports = {
             // password: 'password',
             // database: 'your_mongo_db_name_here'
         }
-    }
+    },
     models: {
         connection: 'beardudeMongodbServer'
     },

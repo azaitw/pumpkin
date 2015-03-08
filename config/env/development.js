@@ -27,6 +27,6 @@ module.exports = {
             connection: 'localMongo'
     },
     log: {
-        level: "verbose"
+        level: 'verbose'
     }
 };

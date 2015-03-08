@@ -1,5 +1,6 @@
+/* global describe, it */
+
 var user = require('../../../api/models/user.js');
-var sinon = require('sinon');
 var assert = require('assert');
 
 describe('/models/user', function() {
@@ -8,7 +9,7 @@ describe('/models/user', function() {
             name: 'azai',
             password: 'password'
         };
-        user.beforeCreate(mockData, function (err, D) {
+        user.beforeCreate(mockData, function () {
             assert.notEqual(mockData.password, 'password');
             done();
         });

@@ -1,3 +1,4 @@
+/* global sails */
 var email = require('emailjs'),
     Q = require('q'),
     emailService = {
@@ -79,7 +80,7 @@ var email = require('emailjs'),
                         text: text,
                         brand: inputObj.brand
                     })
-                    .then(function (D2) {
+                    .then(function () {
                         return q.resolve(inputObj.email); 
                     });
                     return q.promise;
@@ -99,7 +100,7 @@ var email = require('emailjs'),
                     body: html,
                     brand: inputObj.brand
                 })
-                .then(function (D2) {
+                .then(function () {
                     return q.resolve(inputObj.email); 
                 });
                 return q.promise;
