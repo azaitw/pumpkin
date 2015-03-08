@@ -60,7 +60,13 @@ module.exports = {
                 }
             }
         }
-        renderObj.title = params.title;
+        for (i in params) {
+            if (params.hasOwnProperty(i)) {
+                if (i !== 'templates') { // data
+                    renderObj[i] = params[i];
+                }
+            }
+        }
         return res.render('index-new', renderObj);
     },
     email: function (res, templateName, params) {
