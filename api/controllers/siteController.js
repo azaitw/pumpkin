@@ -3,11 +3,9 @@ var site = {
 //        res.redirect('/beardude');
         renderService.renderHtml(res, {
             templates: {
-                body: 'site',
-                header: '',
-                footer: ''
+                body: 'site'
             },
-            title: 'Beardude 網路商店引擎, 建立您的品牌',
+            title: 'Beardude Engine 建立您專屬的網路商店',
             features: [
                 {
                     title: '客製化',
@@ -29,11 +27,14 @@ var site = {
                     title: '促銷工具',
                     desc: '可以依需求設定各種促銷方案，發送商店專屬的促銷郵件'
                     /*
-                    coupon
+                    coupon:
+                        unlimited
+                        單一
+                        多個
+                    限時折扣
                     買滿 x 元打 y 折
                     買滿 x 元折 y 元
                     買滿 x 件 免運費
-                    限時折扣
                     */
                 },
                 {
