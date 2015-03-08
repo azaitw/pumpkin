@@ -2,8 +2,8 @@ var user = require('../../../api/models/user.js');
 var sinon = require('sinon');
 var assert = require('assert');
 
-describe.only('UsersModel', function() {
-    it('should encrypt pasword', function (done) {
+describe('/models/user', function() {
+    it('.beforeCreate should encrypt pasword', function (done) {
         var mockData = {
             name: 'azai',
             password: 'password'

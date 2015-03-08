@@ -7,7 +7,7 @@ var jscs = require('gulp-jscs');
 var testCommands = ['cd <%=file.path %>;npm install ../..;npm prune;cp -R ../../node_modules node_modules;npm install;npm run-script disc;npm test'];
 
 gulp.task('test', function () {
-    return gulp.src('test/**/*.js', {read: false})
+    return gulp.src('test/**/*.spec.js', {read: false})
         .pipe(mocha({reporter: 'nyan'}));
 });
 
