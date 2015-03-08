@@ -17,19 +17,24 @@
     "handlebars": "2.0.0",
     "jquery.cookie": "*",
     "optimist": "0.3.4",
-    "sails-disk": "~0.10.1",
     "node-uuid": "*",
     "q": "*",
     "emailjs": "~0.3.11",
     "forever": "*",
     "skipper-s3": "*",
-    "lwip": "0.0.6"
+    "lwip": "0.0.6",
+    "gulp": "3.8.11"
   },
   "devDependencies": {
       "jshint": "*",
-      "mocha": "*",
+      "mocha": "2.0.1",
       "grunt-mocha-test": "*",
       "grunt-contrib-jshint": "*",
+      "sinon": "*",
+      "assert": "*",
+      "gulp-mocha": "2.0.0",
+      "gulp-jscs": "1.3.1",
+      "gulp-shell": "0.2.11",
       "sinon": "*",
       "assert": "*"
   },
@@ -37,7 +42,9 @@
     "sails": "./node_modules/.bin/sails",
     "debug": "node debug app.js",
     "hbs": "./node_modules/.bin/grunt handlebars",
-    "test": "./node_modules/.bin/grunt test"
+    "test": "./node_modules/.bin/grunt test",
+    "gulptest": "./node_modules/.bin/gulp test",
+    "mocha": "mocha"
   },
   "main": "app.js",
   "repository": "",
