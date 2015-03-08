@@ -41,7 +41,6 @@ module.exports = {
         var key;
         var renderObj = {
                 partials: {
-                    head: 'head',
                     css: 'lib/css',
                     script: 'lib/script',
                     header: 'header',

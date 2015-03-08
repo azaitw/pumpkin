@@ -1,12 +1,6 @@
-var site = {
-    index: function (req, res) {
-//        res.redirect('/beardude');
-        renderService.renderHtml(res, {
-            templates: {
-                body: 'site'
-            },
-            title: 'Beardude Engine 建立您專屬的網路商店',
-            features: [
+var siteController = {
+    returnFeatures: function () {
+        var features = [
                 {
                     title: '客製化',
                     desc: 'Beardude Engine 提供完全的頁面客製化自由度，讓您打造符合品牌風格的網站門面。我們也提供額外的客製化服務，為您精製專為電腦、平板與手機優化的網站。'
@@ -53,8 +47,18 @@ var site = {
                     title: 'Facebook整合',
                     desc: '粉絲團/帳號自動上架'
                 }
-            ]
+            ];
+            return features;
+    },
+    index: function (req, res) {
+//        res.redirect('/beardude');
+        renderService.renderHtml(res, {
+            templates: {
+                body: 'site'
+            },
+            title: 'Beardude Engine 建立您專屬的網路商店',
+            features: siteController.returnFeatures()
         });
     }
 };
-module.exports = site;
+module.exports = siteController;
