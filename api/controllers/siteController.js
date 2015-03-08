@@ -51,7 +51,7 @@ var siteController = {
             return features;
     },
     index: function (req, res) {
-//        res.redirect('/beardude');
+        return res.redirect('/beardude');
         renderService.renderHtml(res, {
             templates: {
                 body: 'site'
