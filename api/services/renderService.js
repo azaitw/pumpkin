@@ -55,7 +55,7 @@ module.exports = {
             sourceDecoration: 'lib/sourceDecoration',
             body: params.templates.body || 'lib/form'
         };
-        return res.render('index-new', renderObj);
+        return res.render('layout', renderObj);
     },
     email: function (res, templateName, params) {
         var i,
