@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var shell = require('gulp-shell');
-var jscs = require('gulp-jscs');
+var jshint = require('gulp-jshint');
 var testCommands = ['cd <%=file.path %>;npm install ../..;npm prune;cp -R ../../node_modules node_modules;npm install;npm run-script disc;npm test'];
 
 gulp.task('unit_test', function () {
@@ -27,7 +27,8 @@ gulp.task('watch_document', ['build_document'], function () {
 
 gulp.task('build_document', shell.task('jsdoc -p README.md index.js lib/*.js extra/*.js -d documents'));
 
-gulp.task('jscs', function () {
-    gulp.src(['index.js', 'gulpfile.js', 'lib/*.js'])
-    .pipe(jscs());
+gulp.task('lint', function() {
+  return gulp.src(['api/**/*.js', 'config/**/*.js', 'test/**/*.js', '*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
