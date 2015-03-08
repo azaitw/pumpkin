@@ -25,6 +25,7 @@ module.exports = {
         return res.render('index', renderObj);
     },
     /*
+    Use this with index-new.handlebars
     params: {
         templates: {
             header: 'HEADER',
@@ -36,34 +37,20 @@ module.exports = {
     }
     */
     renderHtml: function (res, params) {
-        var replacePartials = ['header', 'footer'];
         var i;
-        var key;
         var renderObj = {
                 partials: {
                     css: 'lib/css',
                     script: 'lib/script',
-                    header: 'header',
-                    footer: 'footer',
+                    header: params.templates.header || 'header',
+                    footer: params.templates.footer || 'footer',
                     sourceDecoration: 'lib/sourceDecoration',
                     body: params.templates.body || 'lib/form'
                 }
             };
-        for (i = 0; i < replacePartials.length; i += 1) {
-            key = replacePartials[i];
-            if (typeof params.templates[key] !== 'undefined') {
-                if (params.templates[key] !== '') {
-                    renderObj.partials[key] = params.templates[key];
-                } else {
-                    renderObj.partials[key] = 'lib/empty';
-                }
-            }
-        }
         for (i in params) {
-            if (params.hasOwnProperty(i)) {
-                if (i !== 'templates') { // data
-                    renderObj[i] = params[i];
-                }
+            if (params.hasOwnProperty(i) && i !== 'templates') { // data
+                renderObj[i] = params[i];
             }
         }
         return res.render('index-new', renderObj);
