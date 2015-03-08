@@ -1,3 +1,5 @@
+var handlebars = require('handlebars');
+
 module.exports = {
     _config: {
 
@@ -45,7 +47,7 @@ module.exports = {
                     header: 'header',
                     footer: 'footer',
                     sourceDecoration: 'lib/sourceDecoration',
-                    body: params.templates.body || 'generic/form'
+                    body: params.templates.body || 'lib/form'
                 }
             };
         for (i = 0; i < replacePartials.length; i += 1) {
@@ -58,9 +60,8 @@ module.exports = {
                 }
             }
         }
-        console.log('renderObj: ', renderObj);
         renderObj.title = params.title;
-        return res.render('index', renderObj);
+        return res.render('index-new', renderObj);
     },
     email: function (res, templateName, params) {
         var i,

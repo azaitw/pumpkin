@@ -28,6 +28,10 @@ html {
 .C-5 {
     color: #777;
 }
+.C-white-s {
+    color: #fff;
+    text-shadow: #555 0 1px 3px;
+}
 .Bgc-0 {
     background: none;
 }
@@ -123,4 +127,19 @@ html {
     -moz-transform: rotate(315deg);
     -webkit-transform: rotate(315deg);
     transform: rotate(315deg);
+}
+.Btn-orang {
+    display: inline-block;
+    padding: 5px 20px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    text-indent: -2px;
+    border-radius: 3px;
+    border: 1px solid #d87423;
+    background: #ff8828; /* Old browsers */
+    background: -moz-linear-gradient(top, #ff8828 0%, #ff7200 100%); /* FF3.6+ */
+    background: -webkit-linear-gradient(top, #ff8828 0%,#ff7200 100%); /* Chrome10+,Safari5.1+ */
+    background: -ms-linear-gradient(top, #ff8828 0%,#ff7200 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ff8828 0%,#ff7200 100%); /* W3C */
 }
