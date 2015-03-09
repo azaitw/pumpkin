@@ -21,12 +21,16 @@ module.exports = {
             delete D.createdAt;
             delete D.updatedAt;
             return q.resolve(D);
+        })
+        .catch(function (E) {
+            return q.resolve(false);
         });
         return q.promise;
     },
     html: function (req, res, params) {
         var i;
         var renderObj = {};
+        var brandName = req.params.brand;
         for (i in params) {
             if (params.hasOwnProperty(i) && i !== 'templates') { // populate data
                 renderObj[i] = params[i];
@@ -44,9 +48,14 @@ module.exports = {
             body: params.templates.body || 'lib/form'
         };
         renderObj.time = this.returnTimeObj();
+        if (typeof brandName !== 'undefined') {
+            
+        }
         this.returnBrandObj(req.params.brand)
         .then(function (D) {
-            renderObj.brand = D;
+            if (D) {
+                renderObj.brand = D;
+            }
             return res.render('layout', renderObj);
         });
     },

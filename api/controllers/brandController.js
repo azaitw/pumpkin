@@ -83,7 +83,7 @@ var Q = require('q'),
             if (typeof results !== 'undefined') {
                 brandController.register(req, res);
             } else {
-                renderService.renderHtml(res, {
+                renderService.html(req, res, {
                     templates: {
                         body: 'signup'
                     },
