@@ -9,7 +9,11 @@ var testCommands = ['cd <%=file.path %>;npm install ../..;npm prune;cp -R ../../
 
 gulp.task('unit_test', function () {
     return gulp.src('test/**/*.spec.js', {read: false})
-        .pipe(mocha({reporter: 'nyan'}));
+        .pipe(mocha({
+            reporter: 'spec',
+            globals: '*',
+            timeout: 5000
+        }));
 });
 
 gulp.task('coverage', function () {
