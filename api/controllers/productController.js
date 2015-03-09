@@ -178,7 +178,10 @@ var Q = require('q'),
             // get
             brand.findOne({brandName: brandName})
             .then(function (D) {
-                return renderService.html(res, 'form', {
+                return renderService.renderHtml(res, {
+                    templates: {
+                        body: 'form'  
+                    },
                     title: '新增產品',
                     js: ['addProduct.js'],
                     brand: D,
