@@ -22,7 +22,18 @@ module.exports = {
                 renderObj[i] = params[i];
             }
         }
+        renderObj.time = this.returnTimeObj();
         return res.render('index', renderObj);
+    },
+    returnTimeObj: function () {
+        if (typeof dateTimeService !== 'undefined') {
+            return {
+                year: dateTimeService.getYear(),
+                month: dateTimeService.getMonth(),
+                day: dateTimeService.getDay()
+            };
+        }
+        return {};
     },
     /*
     Use this with index-new.handlebars
@@ -55,6 +66,7 @@ module.exports = {
             sourceDecoration: 'lib/sourceDecoration',
             body: params.templates.body || 'lib/form'
         };
+        renderObj.time = this.returnTimeObj();
         return res.render('layout', renderObj);
     },
     email: function (res, templateName, params) {
