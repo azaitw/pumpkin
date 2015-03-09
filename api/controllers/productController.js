@@ -255,21 +255,13 @@ var Q = require('q'),
                 uuid = uuidCookieRaw.substring(1, uuidCookieRaw.length - 1);
             }
             output.uuid = uuid;
-            brand.find({slug: brandName})
-            .then(function (D) {
-                if (D.length > 0) {
-                    output.brand = D;
-                    output.b_id = D.id;
-                    return productController.listProducts(brandName);
-                }
-                throw new Error('已迷路, brandName: ' + brandName);
-            })
+            productController.listProducts(brandName)
             .then(function (D1) {
                 output.products = D1;
                 output.templates = {
                     body: 'products'
                 };
-                return renderService.renderHtml(res, output);
+                return renderService.html(req, res, output);
             })
             .catch(function (E) {
                 console.log('listProductsPage E: ', E);
@@ -437,35 +429,24 @@ var Q = require('q'),
             return q.promise;
         },
         checkoutPage: function (req, res) {
-            var uuidRaw = req.cookies.uuid,
-                uuid,
-                brandName = req.params.brand,
-                content,
-                finalResult = {},
-                renderPage = function (result) {
-                    //Shipping use model
-                    brand.findOne({brandName: brandName})
-                    .then(function (D) {
-                        content = {
-                            cart: result,
-                            form: productController.generateCheckoutForm(),
-                            shipping: 80
-                        };
-                        renderService.renderHtml(res, {
-                            templates: {
-                                body: 'checkout'  
-                            },
-                            title: '結帳',
-                            js: ['checkout.js'],
-                            uuid: uuid,
-                            brand: D,
-                            content: content
-                        });  
-                    })
-                    .catch(function (E) {
-                        console.log('checkoutPage E: ', E);
-                    });
+            var uuidRaw = req.cookies.uuid;
+            var uuid;
+            var renderPage = function (result) {
+                var content = {
+                    cart: result,
+                    form: productController.generateCheckoutForm(),
+                    shipping: 80 // TO DO: use shipping model
                 };
+                renderService.html(req, res, {
+                    templates: {
+                        body: 'checkout'  
+                    },
+                    title: '結帳',
+                    js: ['checkout.js'],
+                    uuid: uuid,
+                    content: content
+                });  
+            };
             if (typeof uuidRaw !== 'undefined') {
                 uuid = uuidRaw.substring(1, uuidRaw.length - 1);
 
