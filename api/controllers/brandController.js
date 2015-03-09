@@ -15,25 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var Q = require('q'),
-    brandController = {
-        createBrand: function (brandData) {
-            var deferred = Q.defer();
-            brand.findOne({brandName: brandData.brandName})
-            .then(function (D) {
-                if (typeof D !== 'undefined') {
-                    return deferred.reject('brand exists');
-                }
-                return brand.create(brandData);
-            })
-            .catch(function (E) {
-                deferred.reject(E);
-            })
-            .then(function (D1) {
-               deferred.resolve(D1);
-            });
-            return deferred.promise;
-        },
+var Q = require('q');
+var brandController = {
         generateSignupForm: function () {
             var form = [{
                         type: 'text',
@@ -116,7 +99,7 @@ var Q = require('q'),
                 //return res.send(E);
             })
             .then(function (D1) { // Create brand
-                return brandController.createBrand({
+                return brand.create({
                     brandName: results.brandName,
                     brandName_cht: results.brandName_cht,
                     slug: results.brandName.toLowerCase(),
@@ -138,17 +121,11 @@ var Q = require('q'),
             });
         },
         managePage: function (req, res) {
-            var brandName = req.params.brand;
-
-            brand.findOne({brandName: brandName})
-            .then(function (D) {
-                return renderService.renderHtml(res, {
-                    templates: {
-                        body: 'manage'
-                    },
-                    title: D.brandName + ' 管理頁面',
-                    brand: D
-                });
+            return renderService.html(req, res, {
+                templates: {
+                    body: 'manage'
+                },
+                title: 'Beardude Engine 管理頁面'
             });
         }
 };
