@@ -51,13 +51,17 @@ module.exports = {
         if (typeof brandName !== 'undefined') {
             
         }
-        this.returnBrandObj(req.params.brand)
-        .then(function (D) {
-            if (D) {
-                renderObj.brand = D;
-            }
+        if (typeof params.brand === 'undefined') {
+            this.returnBrandObj(req.params.brand)
+            .then(function (D) {
+                if (D) {
+                    renderObj.brand = D;
+                }
+                return res.render('layout', renderObj);
+            });
+        } else {
             return res.render('layout', renderObj);
-        });
+        }
     },
     /*
     Use this with index-new.handlebars
