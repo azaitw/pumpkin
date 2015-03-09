@@ -1,61 +1,67 @@
-<div class="account W-100" style="margin-top:30px;min-width:600px">
-    <div class="W-30 P-10 Mb-30 Pt-1 Bdr-2 M-0a" style="border-radius: 5px">
-        <h2 class="Fz-3">轉帳帳號</h2>
-        <ul class="Lh-5 Fz-3" style="border-radius: 5px">
-            {{#brand}}
-            <li><span>銀行代碼：</span><span>{{bankCode}}</span></li>
-            <li><span>帳號：</span><span>{{bankAccountNumber}}</span></li>
-            <li><span>戶名：</span><span>{{bankAccountName}}</span></li>
-            {{/brand}}
-        </ul>
-    </div>
-    <h2>{{h1}}</h2>
-    <table class="W-80 M-0a Zebra-3 Fw-1 Fz-3 Mb-30" style="line-height:30px;">
-        <tr class="Ta-l Ws-nw">
-            <th>收件人</th>
-            <th>電話</th>
-            <th>地址</th>
-            <th>訂購項目</th>
-            <th>運費</th>
-            <th>小計</th>
-            <th>備註</th>
-            <th>訂單</th>
-        </tr>
-        {{#each content}}
-        <tr class="item Lh-8" data-index="{{id}}" data-disabled="{{disabled}}" data-price="{{subtotal}}">
-            <td class="Pl-5 Pr-5 Va-t">{{recipient}}</td>
-            <td class="Pr-5 Va-t">{{phone}}</td>
-            <td class="Pr-5 Va-t">{{zip}} {{address}}</td>
-            <td class="Pr-5 Va-t">
-                <ul>
-                {{#each items}}
-                    <li>
-                        • <span>{{{productName}}}</span>
-                        <span>{{price}}</span>
-                        x <span>{{count}}</span>
-                    </li>
-                {{/each}}
+<div class="Pos-r W-100" style="min-height:100%; page-break-after:none">
+    {{> header}}
+    <div class="bd main" style="min-height:60%">
+        <div class="account W-100" style="margin-top:30px;min-width:600px">
+            <div class="W-30 P-10 Mb-30 Pt-1 Bdr-2 M-0a" style="border-radius: 5px">
+                <h2 class="Fz-3">轉帳帳號</h2>
+                <ul class="Lh-5 Fz-3" style="border-radius: 5px">
+                    {{#brand}}
+                    <li><span>銀行代碼：</span><span>{{bankCode}}</span></li>
+                    <li><span>帳號：</span><span>{{bankAccountNumber}}</span></li>
+                    <li><span>戶名：</span><span>{{bankAccountName}}</span></li>
+                    {{/brand}}
                 </ul>
-            </td>
-            <td class="Pr-5 Va-t">{{shipping}}</td>
-            <td class="Pr-5 Va-t">{{subtotal}}</td>
-            <td class="Pr-5 Va-t">{{note}}</td>
-            <td class=" Va-t">
-                {{#if bankAccountTail}}
-                    {{#if paymentVerified}}
-                        轉帳確認
-                    {{else}}
-                        已通知轉帳
-                    {{/if}}
-                {{else}}
-                <button class="verify-btn Ws-nw M-3 Lh-3" style="height:32px" data-index={{@index}}>通知已轉帳</button>
-                {{/if}}
-                <a class="D-n" href="#">取消訂單</a>
-            </td>
-        </tr>
-        {{/each}}
-    </table>
-    <div class="pop-wrap D-n Pos-a W-100 H-100 T-0 L-0 Bgc-1 Z-5" style="">
-        <div class="Pos-r pop M-0a Pb-10" style="width: 400px; top: 100px; border: 1px solid #999;background:#fff;border-radius: 5px"></div>    
+            </div>
+            <h2>{{h1}}</h2>
+            <table class="W-80 M-0a Zebra-3 Fw-1 Fz-3 Mb-30" style="line-height:30px;">
+                <tr class="Ta-l Ws-nw">
+                    <th>收件人</th>
+                    <th>電話</th>
+                    <th>地址</th>
+                    <th>訂購項目</th>
+                    <th>運費</th>
+                    <th>小計</th>
+                    <th>備註</th>
+                    <th>訂單</th>
+                </tr>
+                {{#each content}}
+                <tr class="item Lh-8" data-index="{{id}}" data-disabled="{{disabled}}" data-price="{{subtotal}}">
+                    <td class="Pl-5 Pr-5 Va-t">{{recipient}}</td>
+                    <td class="Pr-5 Va-t">{{phone}}</td>
+                    <td class="Pr-5 Va-t">{{zip}} {{address}}</td>
+                    <td class="Pr-5 Va-t">
+                        <ul>
+                        {{#each items}}
+                            <li>
+                                • <span>{{{productName}}}</span>
+                                <span>{{price}}</span>
+                                x <span>{{count}}</span>
+                            </li>
+                        {{/each}}
+                        </ul>
+                    </td>
+                    <td class="Pr-5 Va-t">{{shipping}}</td>
+                    <td class="Pr-5 Va-t">{{subtotal}}</td>
+                    <td class="Pr-5 Va-t">{{note}}</td>
+                    <td class=" Va-t">
+                        {{#if bankAccountTail}}
+                            {{#if paymentVerified}}
+                                轉帳確認
+                            {{else}}
+                                已通知轉帳
+                            {{/if}}
+                        {{else}}
+                        <button class="verify-btn Ws-nw M-3 Lh-3" style="height:32px" data-index={{@index}}>通知已轉帳</button>
+                        {{/if}}
+                        <a class="D-n" href="#">取消訂單</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+            <div class="pop-wrap D-n Pos-a W-100 H-100 T-0 L-0 Bgc-1 Z-5" style="">
+                <div class="Pos-r pop M-0a Pb-10" style="width: 400px; top: 100px; border: 1px solid #999;background:#fff;border-radius: 5px"></div>    
+            </div>
+        </div>
     </div>
+    {{> footer}}
 </div>

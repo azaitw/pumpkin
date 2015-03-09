@@ -1,136 +1,143 @@
-    <div class="Mb-30 Pb-30">
-        <ul>
-        {{#each products}}
-            <li class="Pos-r">
-                <ul class="ul-images Cf Ov-h Ws-nw Pos-r" style="height:460px">
-                    {{#images}}
-                    <li class="W-100 H-100 Pos-a T-0 L-0 Op-0" data-index={{@index}}>
-                        <img class="D-b M-0a Mw-100 Mh-100 W-a H-a" src="{{.}}" />
-                    </li>
-                    {{/images}}
-                </ul>
-                <ul class="ul-images-thumbs Cf Ta-c Ov-h Ws-nw Mt-10">
-                    {{#imageThumbnails}}
-                    <li class="D-ib Bdr-2" style="width:80px;height:80px">
-                        <button class="D-b P-0 Bg-n Bdr-0 W-100 H-100" data-index={{@index}}>
-                            <img class="D-b M-0a" style="max-width:100%;max-height:100%" src="{{.}}" />
-                        </button>
-                    </li>
-                    {{/imageThumbnails}}
-                </ul>
+<div class="Pos-r W-100" style="min-height:100%; page-break-after:none">
+    {{> header}}
+    <div class="bd main" style="min-height:60%">
+        <div class="Mb-30 Pb-30">
+            <ul>
+            {{#each products}}
+                <li class="Pos-r">
+                    <ul class="ul-images Cf Ov-h Ws-nw Pos-r" style="height:460px">
+                        {{#images}}
+                        <li class="W-100 H-100 Pos-a T-0 L-0 Op-0" data-index={{@index}}>
+                            <img class="D-b M-0a Mw-100 Mh-100 W-a H-a" src="{{.}}" />
+                        </li>
+                        {{/images}}
+                    </ul>
+                    <ul class="ul-images-thumbs Cf Ta-c Ov-h Ws-nw Mt-10">
+                        {{#imageThumbnails}}
+                        <li class="D-ib Bdr-2" style="width:80px;height:80px">
+                            <button class="D-b P-0 Bg-n Bdr-0 W-100 H-100" data-index={{@index}}>
+                                <img class="D-b M-0a" style="max-width:100%;max-height:100%" src="{{.}}" />
+                            </button>
+                        </li>
+                        {{/imageThumbnails}}
+                    </ul>
 
-                <div class="M-0a Mt-20 Mb-20 W-100" style="max-width:600px;">
-                    <h2 class="Fz-6 Fw-1 Mt-1 Mb-10 Ls-1 Ta-c">{{productName}}</h2>
-                    <div class="price Fz-3 Fw-1 Mb-20 Ls-1 Ta-c">
-                        <span class="retail {{#if onSale}}Td-2{{/if}}">NT${{retail}}</span>
-                        {{#if onSale}}
-                        <span class="sale-price Ml-7" style="color:#FF423E">預購特價 NT${{sale}}</span>
+                    <div class="M-0a Mt-20 Mb-20 W-100" style="max-width:600px;">
+                        <h2 class="Fz-6 Fw-1 Mt-1 Mb-10 Ls-1 Ta-c">{{productName}}</h2>
+                        <div class="price Fz-3 Fw-1 Mb-20 Ls-1 Ta-c">
+                            <span class="retail {{#if onSale}}Td-2{{/if}}">NT${{retail}}</span>
+                            {{#if onSale}}
+                            <span class="sale-price Ml-7" style="color:#FF423E">預購特價 NT${{sale}}</span>
+                            {{/if}}
+                        </div>
+                        <div class="add-to-cart Pos-r M-0a Mb-20 Ta-c GU" style="height:40px;">
+                            <div class="GU-1-2">
+                                <select class="add-select Pos-r Bdr-1 Bgc-4 Pl-10 Pr-10 NA H-100 Fz-3" style="border-radius:6px;width:95%;padding:0.6em">
+                                    <option value="0">選擇尺寸</option>
+                                    {{#each productSpecific.male}}
+                                    <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
+                                    {{/each}}
+                                    {{#each productSpecific.female}}
+                                    <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
+                                    {{/each}}
+                                    {{#each productSpecific.unisex}}
+                                    <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            {{!
+                            <div class="count GU-1-4 Pos-r" style="">
+                                <div class="GU M-0a" style="width:90%">
+                                    <button class="GU-1-5 count-btn minus NA Bdr-1 Bgc-4 P-0 C-4" style="border-radius:6px 0 0 6px;">-</button>
+                                    <input placeholder="數量" type="text" value="1" class="GU-3-5 count-input Ta-c Bdr-1 H-100" style="border-right:0"/>
+                                    <button class="GU-1-5 count-btn plus NA Bdr-1 Bgc-4 P-0 C-4" style="border-radius:0 6px 6px 0;">+</button>
+                                </div>
+                            </div>
+                            }}
+                            <div class="GU-1-4">
+                                <button class="add-button Pos-r D-ib Pt-3 Pb-3 NA Bdr-1 Bgc-4 H-100 Fz-3" style="border-radius:6px;width:90%">加入購物車</button>
+                            </div>
+                            <div class="GU-1-4">
+                                <a href="/{{#../brand}}{{slug}}{{/../brand}}/checkout" class="checkout-btn D-b Pos-r D-ib NA Bgc-4 H-100 Fz-3 Td-0 C-2 Ta-c" style="border-radius:6px;line-height:40px; width:90%">櫃檯結帳</a>
+                            </div>
+                        </div>
+                        <div class="shortDesc Fz-3 M-0a Mb-7 Lh-5 Ls-1 W-90">
+                            {{shortDesc}}
+                        </div>
+                    </div>
+                    <div class="GU M-0a W-80 specs">
+                        {{#if productSpecific.female}}
+                            <div class="GU-1-2 spec">
+                                <div class="W-90 M-0a">
+                                    <h3 class="Fw-1 Fz-3 Ta-c Pb-10 Mb-7" style="border-bottom:1px solid #ccc">女版尺寸</h3>
+                                    <table class="W-100 Ta-c Lh-5 Fw-1 Zebra-2">
+                                        <tr>
+                                            <th class="Fw-1 Ws-nw">(單位:cm)</th>
+                                            <th class="Fw-1 Ws-nw">胸圍</th>
+                                            <th class="Fw-1 Ws-nw">腰圍</th>
+                                            <th class="Fw-1 Ws-nw">臀圍</th>
+                                        </tr>
+                                        {{#each productSpecific.female}}
+                                        <tr>
+                                            <td class="Ws-nw Pr-10">{{size}}</td>
+                                            <td class="Ws-nw Pr-10">{{chest_diameter}}</td>
+                                            <td class="Ws-nw Pr-10">{{waist_diameter}}</td>
+                                            <td class="Ws-nw Pr-10">{{hip_diameter}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </table>
+                                </div>
+                            </div>
+                        {{/if}}
+
+                        {{#if productSpecific.male}}
+                            <div class="GU-1-2 spec">
+                                <div class="W-90 M-0a">
+                                    <h3 class="Fw-1 Fz-3 Ta-c Pb-10 Mb-7" style="border-bottom:1px solid #ccc">男版尺寸</h3>
+                                    <table class="W-100 Ta-c Lh-5 Fw-1 Zebra-1">
+                                        <tr>
+                                            <th class="Fw-1 Ws-nw">(單位:cm)</th>
+                                            <th class="Fw-1 Ws-nw">胸圍</th>
+                                            <th class="Fw-1 Ws-nw">腰圍</th>
+                                            <th class="Fw-1 Ws-nw">臀圍</th>
+                                        </tr>
+                                        {{#each productSpecific.male}}
+                                        <tr>
+                                            <td class="Ws-nw Pr-10">{{size}}</td>
+                                            <td class="Ws-nw Pr-10">{{chest_diameter}}</td>
+                                            <td class="Ws-nw Pr-10">{{waist_diameter}}</td>
+                                            <td class="Ws-nw Pr-10">{{hip_diameter}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </table>
+                                </div>
+                            </div>
+                        {{/if}}
+
+                        {{#if productSpecific.unisex}}
+                        <table class="W-100 Ta-c">
+                            <tr>
+                                <th class="Fw-1">尺寸</th>
+                                <th class="Fw-1">胸圍</th>
+                                <th class="Fw-1">腰圍</th>
+                                <th class="Fw-1">臀圍</th>
+                            </tr>
+                            {{#each productSpecific.male}}
+                            <tr>
+                                <td>{{size}}</td>
+                                <td>{{chest_diameter}}</td>
+                                <td>{{waist_diameter}}</td>
+                                <td>{{hip_diameter}}</td>
+                            </tr>
+                            {{/each}}
+                        </table>
                         {{/if}}
                     </div>
-                    <div class="add-to-cart Pos-r M-0a Mb-20 Ta-c GU" style="height:40px;">
-                        <div class="GU-1-2">
-                            <select class="add-select Pos-r Bdr-1 Bgc-4 Pl-10 Pr-10 NA H-100 Fz-3" style="border-radius:6px;width:95%;padding:0.6em">
-                                <option value="0">選擇尺寸</option>
-                                {{#each productSpecific.male}}
-                                <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
-                                {{/each}}
-                                {{#each productSpecific.female}}
-                                <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
-                                {{/each}}
-                                {{#each productSpecific.unisex}}
-                                <option value="pid_{{id}}" data-ps_id="{{id}}" data-p_name="{{productName}}" data-ps_sex="{{sex}}" data-ps_size="{{size}}">{{sex}} {{size}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                        {{!
-                        <div class="count GU-1-4 Pos-r" style="">
-                            <div class="GU M-0a" style="width:90%">
-                                <button class="GU-1-5 count-btn minus NA Bdr-1 Bgc-4 P-0 C-4" style="border-radius:6px 0 0 6px;">-</button>
-                                <input placeholder="數量" type="text" value="1" class="GU-3-5 count-input Ta-c Bdr-1 H-100" style="border-right:0"/>
-                                <button class="GU-1-5 count-btn plus NA Bdr-1 Bgc-4 P-0 C-4" style="border-radius:0 6px 6px 0;">+</button>
-                            </div>
-                        </div>
-                        }}
-                        <div class="GU-1-4">
-                            <button class="add-button Pos-r D-ib Pt-3 Pb-3 NA Bdr-1 Bgc-4 H-100 Fz-3" style="border-radius:6px;width:90%">加入購物車</button>
-                        </div>
-                        <div class="GU-1-4">
-                            <a href="/{{#../brand}}{{slug}}{{/../brand}}/checkout" class="checkout-btn D-b Pos-r D-ib NA Bgc-4 H-100 Fz-3 Td-0 C-2 Ta-c" style="border-radius:6px;line-height:40px; width:90%">櫃檯結帳</a>
-                        </div>
-                    </div>
-                    <div class="shortDesc Fz-3 M-0a Mb-7 Lh-5 Ls-1 W-90">
-                        {{shortDesc}}
-                    </div>
-                </div>
-                <div class="GU M-0a W-80 specs">
-                    {{#if productSpecific.female}}
-                        <div class="GU-1-2 spec">
-                            <div class="W-90 M-0a">
-                                <h3 class="Fw-1 Fz-3 Ta-c Pb-10 Mb-7" style="border-bottom:1px solid #ccc">女版尺寸</h3>
-                                <table class="W-100 Ta-c Lh-5 Fw-1 Zebra-2">
-                                    <tr>
-                                        <th class="Fw-1 Ws-nw">(單位:cm)</th>
-                                        <th class="Fw-1 Ws-nw">胸圍</th>
-                                        <th class="Fw-1 Ws-nw">腰圍</th>
-                                        <th class="Fw-1 Ws-nw">臀圍</th>
-                                    </tr>
-                                    {{#each productSpecific.female}}
-                                    <tr>
-                                        <td class="Ws-nw Pr-10">{{size}}</td>
-                                        <td class="Ws-nw Pr-10">{{chest_diameter}}</td>
-                                        <td class="Ws-nw Pr-10">{{waist_diameter}}</td>
-                                        <td class="Ws-nw Pr-10">{{hip_diameter}}</td>
-                                    </tr>
-                                    {{/each}}
-                                </table>
-                            </div>
-                        </div>
-                    {{/if}}
-
-                    {{#if productSpecific.male}}
-                        <div class="GU-1-2 spec">
-                            <div class="W-90 M-0a">
-                                <h3 class="Fw-1 Fz-3 Ta-c Pb-10 Mb-7" style="border-bottom:1px solid #ccc">男版尺寸</h3>
-                                <table class="W-100 Ta-c Lh-5 Fw-1 Zebra-1">
-                                    <tr>
-                                        <th class="Fw-1 Ws-nw">(單位:cm)</th>
-                                        <th class="Fw-1 Ws-nw">胸圍</th>
-                                        <th class="Fw-1 Ws-nw">腰圍</th>
-                                        <th class="Fw-1 Ws-nw">臀圍</th>
-                                    </tr>
-                                    {{#each productSpecific.male}}
-                                    <tr>
-                                        <td class="Ws-nw Pr-10">{{size}}</td>
-                                        <td class="Ws-nw Pr-10">{{chest_diameter}}</td>
-                                        <td class="Ws-nw Pr-10">{{waist_diameter}}</td>
-                                        <td class="Ws-nw Pr-10">{{hip_diameter}}</td>
-                                    </tr>
-                                    {{/each}}
-                                </table>
-                            </div>
-                        </div>
-                    {{/if}}
-
-                    {{#if productSpecific.unisex}}
-                    <table class="W-100 Ta-c">
-                        <tr>
-                            <th class="Fw-1">尺寸</th>
-                            <th class="Fw-1">胸圍</th>
-                            <th class="Fw-1">腰圍</th>
-                            <th class="Fw-1">臀圍</th>
-                        </tr>
-                        {{#each productSpecific.male}}
-                        <tr>
-                            <td>{{size}}</td>
-                            <td>{{chest_diameter}}</td>
-                            <td>{{waist_diameter}}</td>
-                            <td>{{hip_diameter}}</td>
-                        </tr>
-                        {{/each}}
-                    </table>
-                    {{/if}}
-                </div>
-            </li>
-        {{/each}}
-        </ul>
+                </li>
+            {{/each}}
+            </ul>
+        </div>
     </div>
+    {{> footer}}
+</div>
+

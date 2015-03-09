@@ -83,7 +83,10 @@ var Q = require('q'),
             if (typeof results !== 'undefined') {
                 brandController.register(req, res);
             } else {
-                renderService.html(res, 'signup', {
+                renderService.renderHtml(res, {
+                    templates: {
+                        body: 'signup'
+                    },
                     title: '註冊 Pumpkin Lab 帳號',
                     js: ['signup.js'],
                     form: brandController.generateSignupForm()
@@ -139,7 +142,10 @@ var Q = require('q'),
 
             brand.findOne({brandName: brandName})
             .then(function (D) {
-                return renderService.html(res, 'manage', {
+                return renderService.renderHtml(res, {
+                    templates: {
+                        body: 'manage'
+                    },
                     title: D.brandName + ' 管理頁面',
                     brand: D
                 });

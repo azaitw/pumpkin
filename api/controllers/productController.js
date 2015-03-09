@@ -263,7 +263,10 @@ var Q = require('q'),
             })
             .then(function (D1) {
                 output.products = D1;
-                return renderService.html(res, 'products', output);
+                output.templates = {
+                    body: 'products'
+                };
+                return renderService.renderHtml(res, output);
             })
             .catch(function (E) {
                 console.log('listProductsPage E: ', E);
@@ -445,7 +448,10 @@ var Q = require('q'),
                             form: productController.generateCheckoutForm(),
                             shipping: 80
                         };
-                        renderService.html(res, 'checkout', {
+                        renderService.renderHtml(res, {
+                            templates: {
+                                body: 'checkout'  
+                            },
                             title: '結帳',
                             js: ['checkout.js'],
                             uuid: uuid,

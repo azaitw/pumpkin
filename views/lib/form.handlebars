@@ -1,0 +1,74 @@
+{{> header}}
+<form class="form">
+    <ul>
+    {{#form}}
+        <li>
+        {{#if textarea}}
+            <label>{{label}}</label>
+            <textarea class="{{textarea}}" />
+            {{#if description}}
+                <p>{{description}}</p>
+            {{/if}}
+        {{/if}}
+
+        {{#if text}}
+            <label>{{label}}</label>
+            <input type="text" class="{{text}}" />
+            {{#if description}}
+                <p>{{description}}</p>
+            {{/if}}
+        {{/if}}
+
+        {{#if number}}
+            <label>{{label}}</label>
+            <input type="number" class="{{number}}" />
+            {{#if description}}
+                <p>{{description}}</p>
+            {{/if}}
+        {{/if}}
+{{!--
+        {{#if datalist}}
+            <label>{{label}}</label>
+            <input type="text" class="{{field}}" />
+        {{/if}}
+--}}
+        {{#if select}}
+            <label>{{label}}</label>
+            <select class="{{select}}" />
+            {{#selectOptions}}
+                <option value={{value}} data-description={{description}}>{{key}}</option>
+            {{/selectOptions}}
+            </select>
+        {{/if}}
+
+        {{#if radio}}
+            {{#radioOptions}}
+                <label>{{key}}</label>
+                <input type="radio" class="" value={{value}}/>
+                <p>{{description}}</p>
+            {{/radioOptions}}
+        {{/if}}
+
+        {{#if button}}
+            {{#buttonOptions}}
+                <label>{{label}}</label>
+                <button class="{{field}}" />{{label}}</button>
+                <p>{{description}}</p>
+            {{/buttonOptions}}
+        {{/if}}
+        </li>
+   {{/form}}
+    </ul>
+{{!-- 
+ //x input text
+ //x input number
+ //x textarea
+
+ // input radio
+ //x select
+ // button
+ // input datalist
+--}}
+</form>
+
+{{> footer}}

@@ -1,195 +1,202 @@
-<div class="checkout W-100">
-    <div class="main W-60 M-0a" style="min-width:480px">
-        <div class="hd">
-            <h1>{{h1}}</h1>
-        </div>
-        <div class="bd">
-            {{#if content.cart }}
-            <div class="Bgc-4 P-10 Mt-30 Mb-10" style="border-radius:4px;">
-                <table class="cart W-100 Fz-3 Lh-5">
-                    <tr class="D-n">
-                        <th class="W-40">品名 性別</th>
-                        <th class="W-20">數量</th>
-                        <th class="W-20">價格</th>
-                        <th class="W-20">加總</th>
-                    </tr>
-                    {{#each content.cart.items}}
-                    <tr class="item" data-ps_id="{{productSpecific}}" data-cartitem_id="{{id}}" style="height:32px">
-                        <td class="name W-40">
-                            <span class="name Ml-10 Mr-10">
-                                {{productName}}
-                            </span>
-                            <span class="sex Mr-10">
-                                {{sex}}
-                            </span>
-                            <span class="size">
-                                {{size}}
-                            </span>
-                        </td>
-                        <td class="price W-30 Ta-r">
-                            <span class="{{#if onSale}}Td-2{{/if}}">
-                                <span>$</span>
-                                <span class="retail">{{retail}}</span>
-                            </span>
-                            {{#if onSale}}
-                            <span style="color:#FF423E">
-                                <span>特價 $</span>
-                                <span class="sale">{{sale}}</span>
-                            </span>
-                            {{/if}}
-                        </td>
-                        <td class="count W-20 Ta-r">
-                            <button class="count-btn minus NA Bdr-2 Bgc-2 C-2 P-0" style="width:18px;height:18px;line-height:0;border-radius:20px">-</button>
-                            <input type="text" value="{{count}}" class="count-input Ta-c" style="width:26px" />
-                            <button class="count-btn plus NA Bdr-2 Bgc-2 C-2 P-0" style="width:18px;height:18px;line-height:0;border-radius:20px">+</button>
-                        </td>
-                        <td class="Ta-r W-10">
-                            <span>$</span>
-                            <span class="item-sum">{{itemSum}}</span>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </table>
-            </div>
-            <div class="P-10 Pt-1 Pb-20 Mb-20" style="border-bottom: 1px solid #ddd">
-                <table class="cart-calc W-100 Fz-3 Lh-5">
-                    <tr>
-                        <td class="W-80 Ta-r">小計</td>
-                        <td class="W-20 Ta-r numToUpdate">
-                            <span>$</span>
-                            <span class="sum"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="Ta-r">運費</td>
-                        <td class="Ta-r">
-                            <span>$</span>
-                            <span class="shipping">{{content.shipping}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="Ta-r">加總</td>
-                        <td class="Ta-r numToUpdate">
-                            <span>$</span>
-                            <span class="subtotal"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="Ta-r"></td>
-                        <td class="Ta-r">
-                            <button class="refresh-cart disabled" disabled>更新購物車</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <ul class="W-100 M-0a Mt-10">
-                <li class="D-n b_id"></li>
-                {{#content.form}}
-                <li class="li-input GU Mb-10" style="min-height: 24px;line-height:24px">
-                    <div class="hd GU-1-3 Ta-r">
-                        <label for="{{key}}" class="Mr-20">{{label}}</label>
+<div class="Pos-r W-100" style="min-height:100%; page-break-after:none">
+    {{> header}}
+    <div class="bd main" style="min-height:60%">
+        <div class="checkout W-100">
+            <div class="main W-60 M-0a" style="min-width:480px">
+                <div class="hd">
+                    <h1>{{h1}}</h1>
+                </div>
+                <div class="bd">
+                    {{#if content.cart }}
+                    <div class="Bgc-4 P-10 Mt-30 Mb-10" style="border-radius:4px;">
+                        <table class="cart W-100 Fz-3 Lh-5">
+                            <tr class="D-n">
+                                <th class="W-40">品名 性別</th>
+                                <th class="W-20">數量</th>
+                                <th class="W-20">價格</th>
+                                <th class="W-20">加總</th>
+                            </tr>
+                            {{#each content.cart.items}}
+                            <tr class="item" data-ps_id="{{productSpecific}}" data-cartitem_id="{{id}}" style="height:32px">
+                                <td class="name W-40">
+                                    <span class="name Ml-10 Mr-10">
+                                        {{productName}}
+                                    </span>
+                                    <span class="sex Mr-10">
+                                        {{sex}}
+                                    </span>
+                                    <span class="size">
+                                        {{size}}
+                                    </span>
+                                </td>
+                                <td class="price W-30 Ta-r">
+                                    <span class="{{#if onSale}}Td-2{{/if}}">
+                                        <span>$</span>
+                                        <span class="retail">{{retail}}</span>
+                                    </span>
+                                    {{#if onSale}}
+                                    <span style="color:#FF423E">
+                                        <span>特價 $</span>
+                                        <span class="sale">{{sale}}</span>
+                                    </span>
+                                    {{/if}}
+                                </td>
+                                <td class="count W-20 Ta-r">
+                                    <button class="count-btn minus NA Bdr-2 Bgc-2 C-2 P-0" style="width:18px;height:18px;line-height:0;border-radius:20px">-</button>
+                                    <input type="text" value="{{count}}" class="count-input Ta-c" style="width:26px" />
+                                    <button class="count-btn plus NA Bdr-2 Bgc-2 C-2 P-0" style="width:18px;height:18px;line-height:0;border-radius:20px">+</button>
+                                </td>
+                                <td class="Ta-r W-10">
+                                    <span>$</span>
+                                    <span class="item-sum">{{itemSum}}</span>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </table>
                     </div>
-                    {{#inputs}}
-                    <div class="bd GU-2-3" style="">
-                        {{#if sublabel}}
-                        <div class="GU">
-                            <div class="GU-1-3">
-                                <label for="{{key}}">{{sublabel}}</label>
-                            </div>
-                            <div class="GU-2-3">
-                                <input type="{{type}}" name="{{key}}" class="W-60 Bdr-2 {{key}} {{#toValidate}}toValidate{{/toValidate}}" value=""/>
-                            </div>
-                        </div>
-                        {{else}}
-                            <input type="{{type}}" name="{{key}}" class="W-60 Bdr-2 {{key}} {{#toValidate}}toValidate{{/toValidate}}" value=""/>
-                        {{/if}}
-                        <div class="ft">
-                            {{#errormsg}}
-                            <div class="error Fz-2">{{.}}</div>
-                            {{/errormsg}}
-                        </div>
-                    {{/inputs}}
-                </li>
-                {{/content.form}}
-                <li class="li-input GU" style="min-height:24px;line-height:24px;">
-                    <div class="hd GU-1-3 Ta-r">
-                        <label for="address" class="Mr-20">地址</label>
+                    <div class="P-10 Pt-1 Pb-20 Mb-20" style="border-bottom: 1px solid #ddd">
+                        <table class="cart-calc W-100 Fz-3 Lh-5">
+                            <tr>
+                                <td class="W-80 Ta-r">小計</td>
+                                <td class="W-20 Ta-r numToUpdate">
+                                    <span>$</span>
+                                    <span class="sum"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="Ta-r">運費</td>
+                                <td class="Ta-r">
+                                    <span>$</span>
+                                    <span class="shipping">{{content.shipping}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="Ta-r">加總</td>
+                                <td class="Ta-r numToUpdate">
+                                    <span>$</span>
+                                    <span class="subtotal"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="Ta-r"></td>
+                                <td class="Ta-r">
+                                    <button class="refresh-cart disabled" disabled>更新購物車</button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="bd GU-2-3">
-                        <ul class="">
-                            <li class="li-input Mb-10">
-                                <div class="hd D-n">
-                                    <label for="zip">郵遞區號</label>
+                    <ul class="W-100 M-0a Mt-10">
+                        <li class="D-n b_id"></li>
+                        {{#content.form}}
+                        <li class="li-input GU Mb-10" style="min-height: 24px;line-height:24px">
+                            <div class="hd GU-1-3 Ta-r">
+                                <label for="{{key}}" class="Mr-20">{{label}}</label>
+                            </div>
+                            {{#inputs}}
+                            <div class="bd GU-2-3" style="">
+                                {{#if sublabel}}
+                                <div class="GU">
+                                    <div class="GU-1-3">
+                                        <label for="{{key}}">{{sublabel}}</label>
+                                    </div>
+                                    <div class="GU-2-3">
+                                        <input type="{{type}}" name="{{key}}" class="W-60 Bdr-2 {{key}} {{#toValidate}}toValidate{{/toValidate}}" value=""/>
+                                    </div>
                                 </div>
-                                <div class="bd">
-                                    <input type="text" name="zip" class="W-60 Bdr-2 zip toValidate" style="height:24px" value="" placeholder="郵遞區號" />
-                                </div>
+                                {{else}}
+                                    <input type="{{type}}" name="{{key}}" class="W-60 Bdr-2 {{key}} {{#toValidate}}toValidate{{/toValidate}}" value=""/>
+                                {{/if}}
                                 <div class="ft">
-                                    <div class="error Fz-2">請輸入郵遞區號</div>
+                                    {{#errormsg}}
+                                    <div class="error Fz-2">{{.}}</div>
+                                    {{/errormsg}}
                                 </div>
-                            </li>
-                            <li class="li-input Mb-10">
-                                <div class="hd D-n">
-                                    <label for="address">地址</label>
-                                </div>
-                                <div class="bd">
-                                    <input type="text" name="address" class="W-60 Bdr-2 address toValidate" style="height:24px" value="" placeholder="地址" />
-                                </div>
-                                <div class="ft">
-                                    <div class="error Fz-2">請輸入寄件地址</div>
-                                </div>
-                            </li>
-                            <li class="li-input D-n">
-                                <div class="hd">
-                                    <label for="country">國家</label>
-                                </div>
-                                <div class="bd">
-                                    <input name="country" class="country" type="radio" value="台灣" checked="checked" />台灣
-                                </div>
-                                <div class="ft">
+                            {{/inputs}}
+                        </li>
+                        {{/content.form}}
+                        <li class="li-input GU" style="min-height:24px;line-height:24px;">
+                            <div class="hd GU-1-3 Ta-r">
+                                <label for="address" class="Mr-20">地址</label>
+                            </div>
+                            <div class="bd GU-2-3">
+                                <ul class="">
+                                    <li class="li-input Mb-10">
+                                        <div class="hd D-n">
+                                            <label for="zip">郵遞區號</label>
+                                        </div>
+                                        <div class="bd">
+                                            <input type="text" name="zip" class="W-60 Bdr-2 zip toValidate" style="height:24px" value="" placeholder="郵遞區號" />
+                                        </div>
+                                        <div class="ft">
+                                            <div class="error Fz-2">請輸入郵遞區號</div>
+                                        </div>
+                                    </li>
+                                    <li class="li-input Mb-10">
+                                        <div class="hd D-n">
+                                            <label for="address">地址</label>
+                                        </div>
+                                        <div class="bd">
+                                            <input type="text" name="address" class="W-60 Bdr-2 address toValidate" style="height:24px" value="" placeholder="地址" />
+                                        </div>
+                                        <div class="ft">
+                                            <div class="error Fz-2">請輸入寄件地址</div>
+                                        </div>
+                                    </li>
+                                    <li class="li-input D-n">
+                                        <div class="hd">
+                                            <label for="country">國家</label>
+                                        </div>
+                                        <div class="bd">
+                                            <input name="country" class="country" type="radio" value="台灣" checked="checked" />台灣
+                                        </div>
+                                        <div class="ft">
 
-                                </div>
-                            </li>
-                        </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="ft">
+                            </div>
+                        </li>
+                        <li class="li-input GU Mb-10" style="min-height:24px;line-height:24px;">
+                            <div class="hd GU-1-3 Ta-r">
+                                <label for="payment" class="Mr-20">付款方式</label>
+                            </div>
+                            <div class="bd GU-2-3">
+                                <input name="payment_type" type="radio" checked="checked" value="pay on delivery"/> 貨到付款
+                                <input name="payment_type" type="radio" value="bank transfer" /> 銀行轉帳
+                            </div>
+                            <div class="ft"></div>
+                        </li>
+                        <li class="li-input GU Mb-10" style="min-height:24px;line-height:24px;">
+                            <div class="hd GU-1-3 Ta-r">
+                                <label for="note" class="Mr-20">備註</label>
+                            </div>
+                            <div class="bd GU-2-3">
+                                <textarea name="note" class="note W-60 Bdr-2" value="" style="height:48px"></textarea>
+                            </div>
+                            <div class="ft">
+                            </div>
+                        </li>
+                        <li class="li-input GU Mb-10" style="min-height:24px;line-height:24px;">
+                            <div class="GU-1-3"></div>
+                            <div class="GU-2-3">
+                                <button class="submit-order Mb-10 P-5 Pl-10 Pr-10">送出訂單</button>
+                            </div>
+                        </li>
+                    </ul>
+                    {{ else }}
+                    <div class="Ta-c">
+                        <p class="Pt-30 Mt-30 Ta-c Row">購物車是空的</p>
+                        <a class="D-b Ta-c C-5 Fz-3" href="/{{brand.slug}}/">回上頁</a>
                     </div>
-                    <div class="ft">
-                    </div>
-                </li>
-                <li class="li-input GU Mb-10" style="min-height:24px;line-height:24px;">
-                    <div class="hd GU-1-3 Ta-r">
-                        <label for="payment" class="Mr-20">付款方式</label>
-                    </div>
-                    <div class="bd GU-2-3">
-                        <input name="payment_type" type="radio" checked="checked" /> 銀行轉帳
-                    </div>
-                    <div class="ft"></div>
-                </li>
-                <li class="li-input GU Mb-10" style="min-height:24px;line-height:24px;">
-                    <div class="hd GU-1-3 Ta-r">
-                        <label for="note" class="Mr-20">備註</label>
-                    </div>
-                    <div class="bd GU-2-3">
-                        <textarea name="note" class="note W-60 Bdr-2" value="" style="height:48px"></textarea>
-                    </div>
-                    <div class="ft">
-                    </div>
-                </li>
-                <li class="li-input GU Mb-10" style="min-height:24px;line-height:24px;">
-                    <div class="GU-1-3"></div>
-                    <div class="GU-2-3">
-                        <button class="submit-order Mb-10 P-5 Pl-10 Pr-10">送出訂單</button>
-                    </div>
-                </li>
-            </ul>
-            {{ else }}
-            <div class="Ta-c">
-                <p class="Pt-30 Mt-30 Ta-c Row">購物車是空的</p>
-                <a class="D-b Ta-c C-5 Fz-3" href="/{{brand.slug}}/">回上頁</a>
-            </div>
             
-            {{/if}}
-        </div>
-        <div class="ft">
+                    {{/if}}
+                </div>
+                <div class="ft">
+                </div>
+            </div>
         </div>
     </div>
+    {{> footer}}
 </div>

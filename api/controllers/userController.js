@@ -91,7 +91,10 @@ var bcrypt = require('bcrypt-nodejs'),
             if (typeof input === 'undefined') { // request login page
                 brand.findOne({brandName: brandName})
                 .then(function (D) {
-                    return renderService.html(res, 'signup', {
+                    return renderService.renderHtml(res, {
+                        templates: {
+                            body: 'signup'
+                        },
                         title: '登入 ' + brandName,
                         brand: D,
                         js: ['login.js'],

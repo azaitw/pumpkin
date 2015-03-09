@@ -54,7 +54,10 @@ var Q = require('q'),
 
                 default: //read
                     customer.find({brand: D1.id}, function (err, D2) {
-                        return renderService.html(res, 'customer', {
+                        return renderService.renderHtml(res, {
+                            templates: {
+                                body: 'customer'
+                            },
                             title: brandName + '顧客管理頁面',
                             js: ['manage.js'],
                             brand: D1,

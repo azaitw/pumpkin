@@ -65,7 +65,7 @@ var Q = require('q'),
             shipping = parseInt(obj.order.shipping),
             sum = orderController.calcSum(obj.order.items),
             orderForm = {
-                orderNumber: obj.order.uuid + '-' + DateTimeService.getDate(),
+                orderNumber: obj.order.uuid + '-' + dateTimeService.getDate(),
                 brand: obj.brand.id,
                 brandName: obj.brandName,
                 customer: obj.customer.id,
@@ -270,6 +270,9 @@ var Q = require('q'),
             output,
             brandName = req.params.brand,
             renderParams = {
+                templates: {
+                    body: 'signup'
+                },
 //                brand: req.params.brand,
                 title: '查詢訂單',
                 js: ['account.js']
@@ -280,7 +283,7 @@ var Q = require('q'),
                     key: 'email',
                     label: '輸入電子信箱'
                 }];
-                renderService.html(res, 'signup', renderParams);
+                renderService.renderHtml(res, renderParams);
             };
         if (typeof post !== 'undefined') {
             orderController.lookupOrder(post)
@@ -308,7 +311,10 @@ var Q = require('q'),
                 return orderController.lookupOrder(query);
             }
             renderParams.content = D;
-            return renderService.html(res, 'account', renderParams);
+            renderParams.templates = {
+                body: 'account'
+            };
+            return renderService.renderHtml(res, renderParams);
         })
         .catch(function (E) {
             console.log('lookupOrderPage E: ', E);
@@ -340,7 +346,6 @@ var Q = require('q'),
         Q.all(funcs)
         .then(function (D) {
             result = D;
-            console.log('result D: ',D);
             return brand.findOne({id: D[0][0].brand});
         })
         .then(function (D) {
@@ -393,11 +398,14 @@ var Q = require('q'),
         })
         .then(function (D) {
             var renderParams = {
+                templates: {
+                    body: 'shiplabel'
+                },
                 title: '出貨單',
                 brand: brandInfo,
                 content: D
             };
-            return renderService.html(res, 'shiplabel', renderParams);
+            return renderService.renderHtml(res, renderParams);
         });
 
     },
@@ -457,9 +465,12 @@ var Q = require('q'),
             default: //read
                 order.find({brand: D.id})
                 .then(function (D1) {
+                    output.templates = {
+                        body: 'order'
+                    };
                     output.body = statusChecker(D1);
                     output.js = ['manage.js'];
-                    return renderService.html(res, 'order', output);
+                    return renderService.renderHtml(res, output);
                 });
             }
         });
