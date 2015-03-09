@@ -1,6 +1,7 @@
 /* global describe, it */
 
 var renderService = require('../../../api/services/renderService.js');
+var dateTimeService = require('../../../api/services/dateTimeService.js');
 var sinon = require('sinon');
 var assert = require('assert');
 
@@ -11,6 +12,7 @@ describe('services/renderService', function() {
         }
     };
     sinon.mock(res);
+    
     it('.html should inject partials and specified params', function (done) {
         var params = {
             title: 'test title',
@@ -28,8 +30,9 @@ describe('services/renderService', function() {
                 body: 'test'
             },
             title: 'test title',
-            desc: 'test desc'
-        }; 
+            desc: 'test desc',
+            time: {}
+        };
         result = renderService.html(res, 'test', params);
         assert.deepEqual(result, expected);
         done();
@@ -67,7 +70,8 @@ describe('services/renderService', function() {
                 sourceDecoration: 'lib/sourceDecoration',
                 body: 'lib/form'
             },
-            title: 'test title'
+            title: 'test title',
+            time: {}
         };
         result = renderService.renderHtml(res, params);
         assert.deepEqual(result, expected);
@@ -89,7 +93,8 @@ describe('services/renderService', function() {
                 header: 'myheader',
                 footer: 'myfooter'
             },
-            title: 'test title'
+            title: 'test title',
+            time: {}
         };
         var result;
         result = renderService.renderHtml(res, params);
