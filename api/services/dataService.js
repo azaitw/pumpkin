@@ -10,22 +10,23 @@ module.exports = {
     */
     slug: function (string) {
         return string
-            .toLowerCase()
-            .replace(/[^\w ]+/g,'') // remove hythen
-            .replace(/ +/g,'-'); // condense
+        .toLowerCase()
+        .replace(/[^\w ]+/g,'') // remove hyphen
+        .replace(/ +/g,''); // condense
     },
     sort: function (object, params) {
-        var key = params.key,
-            validator = (params.descend) ? [1, -1] : [-1, 1],
-            compare = function (a,b) {
-                if (a[key] < b[key]) {
-                    return validator[0]; 
-                }
-                if (a[key] > b[key]) {
-                    return validator[1];
-                }
-                    return 0;
-            };
-        return object.sort(compare);
+        var newObj = object.slice(0);
+        var key = params.key;
+        var validator = (params.descend) ? [1, -1] : [-1, 1];
+        var compare = function (a,b) {
+            if (a[key] < b[key]) {
+                return validator[0]; 
+            }
+            if (a[key] > b[key]) {
+                return validator[1];
+            }
+                return 0;
+        };
+        return newObj.sort(compare);
     }
 };
