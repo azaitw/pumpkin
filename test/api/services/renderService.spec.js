@@ -5,8 +5,6 @@ var dateTimeService = require('../../../api/services/dateTimeService.js');
 var sinon = require('sinon');
 var assert = require('assert');
 var Q = require('q');
-var chai = require('chai');
-var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 describe('services/renderService', function() {
     var res = {
