@@ -4,7 +4,10 @@ var renderService = require('../../../api/services/renderService.js');
 var dateTimeService = require('../../../api/services/dateTimeService.js');
 var sinon = require('sinon');
 var assert = require('assert');
-
+var Q = require('q');
+var chai = require('chai');
+var chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
 describe('services/renderService', function() {
     var res = {
         render: function (key, data) {
@@ -15,13 +18,26 @@ describe('services/renderService', function() {
     
     it('.html should inject partials and specified params', function (done) {
         var params = {
+            templates: {
+                body: 'test'  
+            },
             title: 'test title',
-            desc: 'test desc'
+            desc: 'test desc',
+        };
+        var req = {
+            params: {
+                brand: 'mybrand'
+            }
         };
         var result;
+        var res = {
+            render: function (layout, obj) {
+                result = obj;
+            }
+        };
+        var q = Q.defer();
         var expected = {
             partials: {
-                head: 'head',
                 css: 'lib/css',
                 script: 'lib/script',
                 sourceDecoration: 'lib/sourceDecoration',
@@ -31,11 +47,19 @@ describe('services/renderService', function() {
             },
             title: 'test title',
             desc: 'test desc',
+            brand: {ok: 123},
             time: {}
         };
-        result = renderService.html(res, 'test', params);
-        assert.deepEqual(result, expected);
-        done();
+        sinon.stub(renderService, 'returnBrandObj').returns(Promise.resolve({ok: 123}));
+        renderService.html(req, res, params)
+        .then(function (D) {
+            assert.deepEqual(result, expected);
+            return q.resolve(done());
+        })
+        .catch(function (E) {
+            return q.reject(done(E));
+        });
+        return q.promise;
     });
     it('.email should inject partials', function (done) {
         var params = {

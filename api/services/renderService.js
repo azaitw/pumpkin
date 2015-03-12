@@ -31,6 +31,7 @@ module.exports = {
         var i;
         var renderObj = {};
         var brandName = req.params.brand;
+        var q = Q.defer();
         for (i in params) {
             if (params.hasOwnProperty(i) && i !== 'templates') { // populate data
                 renderObj[i] = params[i];
@@ -57,11 +58,12 @@ module.exports = {
                 if (D) {
                     renderObj.brand = D;
                 }
-                return res.render('layout', renderObj);
+                return q.resolve(res.render('layout', renderObj));
             });
         } else {
-            return res.render('layout', renderObj);
+            return resolve(res.render('layout', renderObj));
         }
+        return q.promise;
     },
     /*
     Use this with index-new.handlebars
