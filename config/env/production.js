@@ -30,7 +30,8 @@ module.exports = {
         }
     },
     models: {
-        connection: 'beardudeMongodbServer'
+        connection: 'beardudeMongodbServer',
+        migrate: 'safe'
     },
     port: 80
 

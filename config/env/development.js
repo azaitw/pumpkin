@@ -11,7 +11,6 @@
  */
 
 module.exports = {
-
   /***************************************************************************
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
@@ -21,10 +20,44 @@ module.exports = {
            adapter: 'sails-mongo',
            host: 'localhost',
            database: 'x'
+        },
+        /*  keys:
+            • Brand: slug
+
+            • brand permission: brand + email
+
+            • cart: brand + number
+            • order: brand + number
+
+            • customer: brand + email
+
+            • file: brand + filename + appendix
+
+            • product: brand + number
+                -> change name: product grouping
+
+            • productspecific: brand + number
+                -> change name: product
+
+            • shipping:
+                • brand + number
+
+            • site
+                • parameter as key
+
+            • User: email
+                -> change name: siteUser
+                
+        */
+        localMongo_PrimaryKey: {
+           adapter: 'sails-mongo',
+           host: 'localhost',
+           database: 'x1'
         }
     },
     models: {
-            connection: 'localMongo'
+        connection: 'localMongo',
+        migrate: 'alter'
     },
     log: {
         level: 'verbose'
