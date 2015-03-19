@@ -11,7 +11,7 @@ module.exports.routes = {
         controller: 'brandController',
         action: 'signup'
     },
-
+    '/zigzigzagzag': 'portalController.zigzigzagzag',
     '/:brand': 'productController.listProductsPage',
     
     '/:brand/login': 'userController.loginPage',
