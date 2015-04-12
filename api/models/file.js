@@ -11,18 +11,19 @@ var file = {
         brand: {
             model: 'brand'
         },
-        brandName: {
-            type: 'string',
-            required: true
+        id: {
+            type: 'integer',
+            primaryKey: true,
+            required: true,
+            autoIncrement: true
         },
-        purpose: 'string',
         fd: 'string',
         size: 'string',
         type: 'string',
         filename: 'string',
         status: 'string',
         field: 'string',
-        extra: 'json',
+        extra: 'string',
         published: {
             type: 'boolean',
             defaultsTo: false

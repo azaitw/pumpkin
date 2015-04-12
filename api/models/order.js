@@ -11,18 +11,19 @@ var order = {
         brand: {
             model: 'brand'
         },
-        brandName: {
-            type: 'string',
-            required: true
-        },
-        orderNumber: {
-            type: 'string',
-            required: true
-        },
         customer: {
             model: 'customer'
         },
-        items: 'JSON',
+        orderNumber: {
+            type: 'string',
+            required: true,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        items: {
+            type: 'array',
+            required: true
+        },
         recipient: {
             type: 'string',
             required: true
@@ -38,11 +39,6 @@ var order = {
         shipping: 'string',
         subtotal: 'string',
         status: 'string',
-        paymentType: 'string',
-        bankCode: 'string',
-        bankAccountTail: 'string',
-        transferAmount: 'string',
-        paymentVerified: 'boolean',
         note: 'string'
     }
 };

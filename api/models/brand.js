@@ -8,25 +8,18 @@
 
 var brand = {
     attributes: {
-        brandName: {
+        name: { // sluggified. e.g. Beardude -> beardude
             type: 'string',
-            required: true
+            required: true,
+            unique: true,
+            primaryKey: true
         },
-        slug: 'string',
-        brandName_cht: 'string',
+        brandNames: 'array', // multi-language name
         logo: 'string',
-        email: {
-            type: 'string',
-            required: true
-        },
         business: 'string',
         phone: 'string',
         address: 'string',
         style: 'string',
-        colorset: 'string',
-        bankCode: 'string',
-        bankAccountNumber: 'string',
-        bankAccountName: 'string',
         creator: {
             model: 'user'
         }
@@ -38,3 +31,16 @@ var brand = {
 };
 
 module.exports = brand;
+
+/*
+brandNames: [
+    {
+        lang: 'zh-tw',
+        value: '貝哥哥指南'
+    },
+    {
+        lang: 'en',
+        value: 'Beardude'
+    },
+];
+*/

@@ -7,5 +7,5 @@
  */
 
 module.exports.models = {
-//    autoPK: false
+    autoPK: false
 };

@@ -1,11 +1,11 @@
 {{> header}}
-<form class="form">
+<form class="form" action="{{formAction}}" method="POST">
     <ul>
-    {{#form}}
+        {{#form}}
         <li>
         {{#if textarea}}
             <label>{{label}}</label>
-            <textarea class="{{textarea}}" />
+            <textarea name="{{textarea}}" class="{{textarea}}" />
             {{#if description}}
                 <p>{{description}}</p>
             {{/if}}
@@ -13,7 +13,7 @@
 
         {{#if text}}
             <label>{{label}}</label>
-            <input type="text" class="{{text}}" />
+            <input type="text" name="{{text}}" class="{{text}}" />
             {{#if description}}
                 <p>{{description}}</p>
             {{/if}}
@@ -21,20 +21,15 @@
 
         {{#if number}}
             <label>{{label}}</label>
-            <input type="number" class="{{number}}" />
+            <input type="number" name="{{number}}" class="{{number}}" />
             {{#if description}}
                 <p>{{description}}</p>
             {{/if}}
         {{/if}}
-{{!--
-        {{#if datalist}}
-            <label>{{label}}</label>
-            <input type="text" class="{{field}}" />
-        {{/if}}
---}}
+
         {{#if select}}
             <label>{{label}}</label>
-            <select class="{{select}}" />
+            <select name="{{select}}" class="{{select}}" />
             {{#selectOptions}}
                 <option value={{value}} data-description={{description}}>{{key}}</option>
             {{/selectOptions}}
@@ -44,7 +39,7 @@
         {{#if radio}}
             {{#radioOptions}}
                 <label>{{key}}</label>
-                <input type="radio" class="" value={{value}}/>
+                <input type="radio" name="{{key}}" class="{{key}}" value={{value}}/>
                 <p>{{description}}</p>
             {{/radioOptions}}
         {{/if}}
@@ -52,23 +47,13 @@
         {{#if button}}
             {{#buttonOptions}}
                 <label>{{label}}</label>
-                <button class="{{field}}" />{{label}}</button>
+                <button name="{{label}}" class="{{label}}" />{{label}}</button>
                 <p>{{description}}</p>
             {{/buttonOptions}}
         {{/if}}
         </li>
-   {{/form}}
+       {{/form}}
+       <input type="submit" value="Submit" />
     </ul>
-{{!-- 
- //x input text
- //x input number
- //x textarea
-
- // input radio
- //x select
- // button
- // input datalist
---}}
 </form>
-
 {{> footer}}

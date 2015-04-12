@@ -19,7 +19,7 @@ module.exports = {
         localMongo: {
            adapter: 'sails-mongo',
            host: 'localhost',
-           database: 'x'
+           database: 'x1'
         },
         /*  keys:
             • Brand: slug

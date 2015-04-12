@@ -11,25 +11,33 @@ var product = {
         brand: {
             model: 'brand'
         },
-        brandName: {
+        id: {
+            type: 'integer',
+            required: true,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
             type: 'string',
             required: true
         },
-        productName: {
-            type: 'string',
-            required: true
-        },
-        type: {
-            type: 'string',
-            required: true
-        },
-        shortDesc: 'string',
+        description: 'string',
         images: 'array',
-        imageThumbnails: 'array',
-        retail: 'string',
+        sex: 'string',
+        size: 'string',
+        price: 'string',
         sale: 'string',
-        onSale: 'boolean',
-        shipping: 'string'
+        specs: 'array',
+        spec1: 'string',
+        spec2: 'string',
+        spec3: 'string',
+        spec4: 'string',
+        spec5: 'string',
+        spec6: 'string',
+        spec7: 'string',
+        spec8: 'string',
+        spec9: 'string',
+        spec10: 'string'
     }
 };
 module.exports = product;

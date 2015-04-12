@@ -1,7 +1,7 @@
 module.exports.routes = {
     '/': {
         controller: 'siteController',
-        action: 'index'
+        action: 'indexPage'
     },
     '/_test': {
         controller: 'testController',
@@ -9,7 +9,7 @@ module.exports.routes = {
     },
     '/signup': {
         controller: 'brandController',
-        action: 'signup'
+        action: 'signupPage'
     },
 
     '/:brand': 'productController.listProductsPage',

@@ -54,7 +54,7 @@ var Q = require('q'),
 
                 default: //read
                     customer.find({brand: D1.id}, function (err, D2) {
-                        return renderService.html(req, res, {
+                        return renderService.htmlOld(req, res, {
                             templates: {
                                 body: 'customer'
                             },

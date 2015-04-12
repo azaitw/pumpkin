@@ -261,7 +261,7 @@ var Q = require('q'),
                 output.templates = {
                     body: 'products'
                 };
-                return renderService.html(req, res, output);
+                return renderService.htmlOld(req, res, output);
             })
             .catch(function (E) {
                 console.log('listProductsPage E: ', E);
@@ -437,7 +437,7 @@ var Q = require('q'),
                     form: productController.generateCheckoutForm(),
                     shipping: 80 // TO DO: use shipping model
                 };
-                renderService.html(req, res, {
+                renderService.htmlOld(req, res, {
                     templates: {
                         body: 'checkout'  
                     },

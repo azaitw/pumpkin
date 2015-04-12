@@ -50,15 +50,18 @@ var siteController = {
             ];
             return features;
     },
-    index: function (req, res) {
-        return res.redirect('/beardude');
-        renderService.renderHtml(res, {
-            templates: {
-                body: 'site'
-            },
+    indexPage: function (req, res) {
+//        return res.redirect('/beardude');
+        var params = {
             title: 'Beardude Engine 建立您專屬的網路商店',
             features: siteController.returnFeatures()
-        });
+        };
+        var options = {
+            templates: {
+                body: 'site'
+            }
+        };
+        renderService.html(req, res, params, options);
     }
 };
 module.exports = siteController;

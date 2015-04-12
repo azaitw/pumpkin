@@ -17,69 +17,57 @@
 
 var Q = require('q');
 var brandController = {
-        generateSignupForm: function () {
-            var form = [{
-                        type: 'text',
-                        key: 'brandName',
-                        label: '品牌名稱 (英文)'
-                    },
+        createUserForm: function () {
+            var form = [
                     {
-                        type: 'text',
-                        key: 'brandName_cht',
-                        label: '品牌名稱 (中文)'   
-                    },
-                    {
-                        type: 'text',
-                        key: 'phone',
-                        label: '電話'
-                    },
-                    {
-                        type: 'text',
-                        key: 'email',
+                        text: 'email',
                         label: 'Email'
                     },
                     {
-                        type: 'password',
-                        key: 'password',
+                        text: 'password',
                         label: '密碼'
-                    },
-                    {
-                        type: 'text',
-                        key: 'bankCode',
-                        label: '銀行代碼'
-                    },
-                    {
-                        type: 'text',
-                        key: 'bankAccountNumber',
-                        label: '銀行帳號'
-                    },
-                    {
-                        type: 'text',
-                        key: 'bankAccountName',
-                        label: '銀行帳戶名稱'
                     }
                 ];
             return form;
         },
-        signup: function (req, res) {
+        createBrandForm: function () {
+            var form = [
+                {
+                    text: 'brand'
+                }
+            ];
+            return form;
+        },
+        signupPage: function (req, res) {
+            var results = req.body;
+            if (typeof results !== 'undefined') {
+                user.create(results)
+                .then(function (D) {
+                    console.log('D: ', D);
+                    
+                });
+//                brandController.register(req, res);
+            } else {
+                renderService.html(req, res, {
+                    title: '註冊 Pumpkin Lab 帳號',
+                    form: brandController.createUserForm()
+                });
+            }
+        },
+        signupPageOld: function (req, res) {
             var results = req.body;
             if (typeof results !== 'undefined') {
                 brandController.register(req, res);
             } else {
-                renderService.html(req, res, {
-                    templates: {
-                        body: 'signup'
-                    },
+                renderService.htmlOld(req, res, {
                     title: '註冊 Pumpkin Lab 帳號',
-                    js: ['signup.js'],
-                    form: brandController.generateSignupForm()
+                    form: brandController.generateSignupForm1()
                 });
             }
         },
         register: function (req, res) {
             var results = req.body;
 
-            //brandController.readBrand({brandName: results.brandName}) // Make sure brand doesn't exist
             brand.findOne({brandName: results.brandName}) // Make sure brand doesn't exist
             .then(function (D) {
                 if (typeof result !== 'undefined') {
@@ -121,7 +109,7 @@ var brandController = {
             });
         },
         managePage: function (req, res) {
-            return renderService.html(req, res, {
+            return renderService.htmlOld(req, res, {
                 templates: {
                     body: 'manage'
                 },

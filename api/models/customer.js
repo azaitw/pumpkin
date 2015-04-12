@@ -11,13 +11,10 @@ var customer = {
         brand: {
             model: 'brand'
         },
-        brandName: {
-            type: 'string',
-            required: true
-        },
         email: {
             type: 'string',
-            required: true
+            required: true,
+            primaryKey: true
         },
         customerName: 'string',
         phone: 'string',
