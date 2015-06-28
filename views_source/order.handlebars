@@ -1,0 +1,171 @@
+<style>
+.table-manage .tr-manage:hover {
+    background: #83baeb;
+}
+.table-manage .btn-toggle {
+    display: none;
+}
+.table-manage .btn-edit {
+    visibility: hidden;
+}
+.table-manage .tr-manage:hover .btn-edit {
+    visibility: visible;
+}
+.table-manage .editmode button.btn-toggle {
+    display: block;
+}
+.table-manage .editmode .btn-edit {
+    display: none;
+}
+</style>
+<div class="Pos-r W-100" style="min-height:100%; page-break-after:none">
+    {{> header}}
+    <div class="bd main" style="min-height:60%">
+        <h1>{{h1}}</h1>
+        <div class="Bdr-2 W-80 M-0a P-10 Mb-10">
+            <h3 class="Fw-3 Fz-4 Fl-l D-i Mr-20">過濾</h3>
+            <label for="filter1">付款狀態</label>
+            <select name="filter1" data-filter="paymentVerified" class="select-filter Mr-20">
+                <option name="filter1" value="all">顯示全部</option>
+                <option name="filter1" value="true">已確認</option>
+                <option name="filter1" value="">尚未確認</option>
+            </select>
+
+            <label for="filter2">寄送狀態</label>
+            <select name="filter2" data-filter="status" class="select-filter Mr-20">
+                <option name="filter2" value="all">顯示全部</option>        
+                <option name="filter2" value="submitted" {{#if statusChecker.submitted}}selected{{/if}}>已下訂</option>
+                <option name="filter2" value="processed" {{#if statusChecker.processed}}selected{{/if}}>寄送準備</option>
+                <option name="filter2" value="in-transit" {{#if statusChecker.inTransit}}selected{{/if}}>已寄出</option>
+                <option name="filter2" value="shipped">已送達</option>
+                </select>
+            </select>
+            <button class="filter-btn">套用</button>
+        </div>
+        <div class="mod-signup W-100">
+            <table class="table-manage W-100" data-table="order">
+                <tr>
+                    <th>訂單號碼</th>
+        <!--            <th>客戶名稱</th>-->
+                    <th style="width:200px">購買項目</th>
+                    <th>總價</th>
+                    <th>收件人</th>
+                    <th>轉帳銀行</th>
+                    <th>轉帳確認</th>
+                    <th>狀態</th>
+                    <th>備註</th>
+                    <th>管理</th>
+                </tr>
+                {{#each body}}
+                <tr class="tr-manage" data-index="{{@index}}">
+                    <td>
+                        <span data-oid={{id}} data-field="id" class="item">
+                            {{id}}
+                        </span>
+                    </td>
+        <!--            <td>
+                        <span data-oid={{id}} data-field="customer" class="item">
+                            {{customer}}
+                        </span>
+                    </td>
+        -->
+                    <td>
+                        <ul class="item" data-oid={{id}}  data-field="items" data-aggregate="items">
+                        {{#each items}}
+                            <li data-pid="{{@key}}">
+                                <span>{{name}}</span>
+                                <span>{{sex}}</span>
+                                <span>{{size}}</span>
+                                {{#if sale}}
+                                <span>{{sale}}</span>
+                                {{else}}
+                                <span>{{retail}}</span>
+                                {{/if}}
+                                <span>x</span>
+                                <span data-field="count">
+                                    {{count}}
+                                </span>
+                            </li>
+                        {{/each}}
+                        </ul>
+                    </td>
+                    <td>
+                        <span data-oid={{id}} data-field="subtotal" class="item">
+                            {{subtotal}}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="D-b">
+                            {{recipient}}
+                        </div>
+                        <div class="D-b">
+                            {{zip}} {{address}} {{country}}
+                        </div>
+                        <div>
+                            {{phone}}
+                        </div>
+                    </td>
+                    <td>
+                        {{#if bankCode}}
+                        <ul>
+                            <li>
+                                <span data-oid={{id}} data-field="bankCode" class="item">
+                                    {{bankCode}}
+                                </span>
+                            </li>
+                            <li>
+                                <span data-oid={{id}} data-field="bankAccountTail" class="item">
+                                    {{bankAccountTail}}
+                                </span>
+                            </li>
+                            <li>
+                                <span data-oid={{id}} data-field="transferAmount" class="item">
+                                    ${{transferAmount}}
+                                </span>
+                            </li>
+                        </ul>
+                        {{/if}}
+                    </td>
+                    <td>
+                        <span class="item paymentVerified">
+
+                            <select name="paymentVerified" class="paymentVerified select-edit" data-oid={{id}} data-field="paymentVerified" data-value="{{paymentVerified}}" disabled>
+                                <option name="paymentVerified" value="true" {{#if paymentVerified}}selected{{/if}}>已確認</option>
+                                <option name="paymentVerified" value="" {{#if paymentVerified}}{{else}}selected{{/if}}>尚未確認</option>
+                            </select>
+                            <button class="btn-edit">編輯</button>
+                            <button class="btn-save btn-toggle">儲存修改</button>
+                            <button class="btn-cancel btn-toggle">取消</button>
+
+                        </span>
+                    </td>
+                    <td>
+                        <span class="item status">
+
+                            <select name="status" class="status select-edit" data-oid={{id}} data-field="status" data-value="{{status}}" disabled>
+                                <option name="status" value="submitted" {{#if statusChecker.submitted}}selected{{/if}}>已下訂</option>
+                                <option name="status" value="processed" {{#if statusChecker.processed}}selected{{/if}}>寄送準備</option>
+                                <option name="status" value="in-transit" {{#if statusChecker.inTransit}}selected{{/if}}>已寄出</option>
+                                <option name="status" value="shipped" {{#if statusChecker.shipped}}selected{{/if}}>已送達</option>
+                            </select>
+                            <button class="btn-edit">編輯</button>
+                            <button class="btn-save btn-toggle">儲存修改</button>
+                            <button class="btn-cancel btn-toggle">取消</button>
+
+                        </span>
+                    </td>
+                    <td>
+                        <span>{{note}}</span>
+                    </td>
+                    <td class="W-10">
+                        <button class="btn-editall">編輯</button>
+                        <a target="_blank" href="orderDetail/{{id}}" class="btn btn-print">出貨單</a>
+        <!--                <a class="btn-delete">刪除</a>-->
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+    </div>
+    {{> footer}}
+</div>

@@ -1,0 +1,12 @@
+<!--SCRIPTS-->
+<script src="/js/zepto.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/handlebars.runtime-v3.0.1.js"></script>
+<script src="/js/templates.js"></script>
+<!--SCRIPTS END-->
+<script>
+app.params = {{{paramsRaw}}};
+</script>
+{{#js}}
+<script src="{{{.}}}"></script>
+{{/js}}

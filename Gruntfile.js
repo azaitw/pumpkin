@@ -29,7 +29,12 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
-      'styles/**/*.css'
+      'styles/normalize.css',
+      'styles/bricks.css',
+      'styles/grid.css',
+      'styles/common.css',
+      'styles/theme.css'
+//      'styles/**/*.css'
   ];
 
   /**
@@ -51,10 +56,13 @@ module.exports = function (grunt) {
 
     // All of the rest of your app scripts imported here
 //      'js/*.js'
-      'js/jquery-1.11.1.js',
-      'js/jquery.cookie.js',
-      'js/handlebars.runtime-v2.0.0.js',
-      'js/common.js'
+//      'js/jquery-1.11.1.js',
+//      'js/jquery.cookie.js',
+//      'js/common.js'
+      'js/zepto.min.js',
+      'js/app.js',
+      'js/handlebars.runtime-v3.0.1.js',
+      'js/templates.js'
   ];
 
   /**
@@ -134,7 +142,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-handlebars');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  
+  grunt.loadNpmTasks('grunt-handlebars-min');
+    
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -142,7 +151,7 @@ module.exports = function (grunt) {
     jshint: {
           // You get to make the name
           // The paths tell JSHint which files to validate
-          myFiles: ['api/**/*.js', 'assets/common.js', 'assets/page/*.js']
+          myFiles: ['api/**/*.js', 'assets/*.js', 'assets/page/*.js']
     },
 
     mochaTest: {
@@ -154,12 +163,23 @@ module.exports = function (grunt) {
       }
     },
 
+    handlebarsmin: {
+        dist: {
+            cwd: 'views_source',
+            src: "**/*.handlebars",
+            dest: "views",
+            expand: true,
+            ext: ".handlebars" // optional
+        }
+    },
+
     handlebars: {
         all: {
             files: {
 //                'assets/templates/account.js': ['views/account.handlebars', 'views/pop.handlebars']
                 '.tmp/public/templates/account.js': ['views/account.handlebars', 'views/pop.handlebars', 'views/cart.handlebars'],
-                '.tmp/public/templates/product.js': ['views/cart.handlebars']
+                '.tmp/public/templates/product.js': ['views/cart.handlebars'],
+                '.tmp/public/js/templates.js': ['views/*.handlebars']
             }
         }
     },
@@ -205,7 +225,7 @@ module.exports = function (grunt) {
     },
 
     clean: {
-      dev: ['.tmp/public/**'],
+      dev: ['.tmp/public/**', 'views'],
       build: ['www']
     },
 
@@ -472,6 +492,7 @@ module.exports = function (grunt) {
     'jshint',
     'clean:dev',
 //    'jst:dev',
+    'handlebarsmin',
     'handlebars:all',
     'less:dev',
     'copy:dev',    

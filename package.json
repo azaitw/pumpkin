@@ -23,7 +23,8 @@
     "forever": "*",
     "skipper-s3": "*",
     "lwip": "0.0.6",
-    "gulp": "3.8.11"
+    "gulp": "3.8.11",
+    "validator": "3.39.0"
   },
   "devDependencies": {
       "grunt-mocha-test": "*",
@@ -36,7 +37,8 @@
       "gulp-jshint": "1.9.2",
       "gulp-istanbul": "0.6.0",
       "sinon": "*",
-      "assert": "*"
+      "assert": "*",
+      "grunt-handlebars-min": "0.3.0"
   },
   "scripts": {
     "sails": "./node_modules/.bin/sails",
