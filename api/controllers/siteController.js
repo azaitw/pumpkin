@@ -189,39 +189,114 @@ var siteController = {
         }
         return this.renderLoginPage(req, res);
     },
+    renderCreateBrandPage: function (req, res, value) {
+        var params = {
+            title: '建立您的第一個品牌'
+        };
+        var options = {
+            modules: ['createBrandForm'],
+            templates: {
+                body: 'engineIgnite'
+            }
+        };
+        if (typeof value !== 'undefined') {
+            params.errors = value.errors;
+        }
+        return renderService.html(req, res, params, options);
+    },
     engineIgnitePage: function (req, res) {
         var email = req.session.credentials;
         brand.find({creator: email})
         .then(function (D) {
             var brandCount = D.length;
             var brandName;
-            var params;
-            var options;
-            if (brandCount === 1) {
+            if (brandCount === 0) {
+                return siteController.renderCreateBrandPage(req, res);
+            } else {
                 brandName = D[0].name;
                 return res.redirect('/engine/' + brandName);
-            } else if (brandCount === 0) {
-                params = {
-                    title: '建立您的第一個品牌'
-                };
-                options = {
-                    modules: ['createBrandForm'],
-                    templates: {
-                        body: 'engineIndex'
-                    }
-                };
-                if (typeof value !== 'undefined') {
-                    params.email = value.email;
-                    params.errors = value.errors;
-                }
-                return renderService.html(req, res, params, options);
-            } else { // More than one brand
-                console.log('to be completed')
-            }       
+                // TO DO: differentiate one brand or more than one brand
+            }
+     
         });
     },
+    renderEngineIndex: function (req, res, params) {
+        var options = {
+            templates: {
+                body: 'engineIndex'
+            }
+        };
+        return renderService.html(req, res, params, options);
+    },
+    returnMenu: function (brandName, currentPage) {
+        var brandUrl = '/engine/' + brandName;
+        var menuObj = {
+            dashboard: {
+                name: '商店概況',
+                url: brandUrl + '/dashboard'
+            },
+            products: {
+                name: '管理商品',
+                url: brandUrl + '/products'
+            },
+            content: {
+                name: '管理內容頁面',
+                url: brandUrl + '/content'
+            },
+            payment: {
+                name: '管理收費方式',
+                url: brandUrl + '/payment'
+            },
+            shipping: {
+                name: '管理運送方式',
+                url: brandUrl + '/shipping'
+            },
+            style: {
+                name: '管理網站樣式',
+                url: brandUrl + '/style'
+            },
+            editBrand: {
+                name: '管理品牌基本資料',
+                url: brandUrl + '/edit'
+            },
+            hire: {
+                name: '申請其他付費服務',
+                url: brandUrl + '/hire'
+            }
+        };
+        delete menuObj[currentPage].url;
+        menuObj[currentPage].on = true;
+        return [menuObj.dashboard, menuObj.products, menuObj.content, menuObj.payment, menuObj.shipping, menuObj.style, menuObj.editBrand, menuObj.hire];
+    },
     engineIndexPage: function (req, res) {
-        
+        var brandName = req.params.brand;
+        var userEmail = authService.whoAmI(req);
+
+        brand.find({creator: userEmail})
+        .then(function (D) {
+            var params = {
+                brandName: brandName,
+                showBrandTab: false,
+                menu: siteController.returnMenu(brandName, 'dashboard')
+            };
+            var returnBrandTab = function (D) {
+                var brands = [];
+                var i;
+                for (i = 0; i < D.length; i += 1) {
+                    brands.push({
+                        name: D.brandNames.en,
+                        url: '/engine/' + D.name
+                    });
+                }
+                return brands;
+            };
+            if (D.length > 1) {
+                params.showBrandTab = true;
+                params.brands = returnBrandTab(D);
+                params.title = '管理' + brandName;
+            }
+            return siteController.renderEngineIndex(req, res, params);
+        });
     }
 };
 module.exports = siteController;

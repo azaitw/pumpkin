@@ -1,5 +1,36 @@
 <div class="Pos-r W-100">
-    <div class="W-60 M-0a Mt-30">
-        {{>createBrandForm}}
+    <div class="hd">
+        {{#if brands}}
+            <ul class="brand-ul">
+            {{#brands}}
+                <li>
+                    <a href="{url}">{{name}}</a>
+                </li>
+            {{/brands}}
+            </ul>
+        {{/if}}
+    </div>
+    <div class="bd">
+        <div class="menu">
+            <ul class="menu-ul">
+                {{#menu}}
+                    <li class="menu-li">
+                        {{#if url}}
+                            <a class="menu-li-a" href="{{url}}">
+                                {{name}}
+                            </a>
+                        {{else}}
+                            <div class="menu-i">{{name}}</div>
+                        {{/if}}
+                    </li>
+                {{/menu}}
+            </ul>
+        </div>
+        <div class="content">
+            {{content}}
+        </div>
+    </div>
+    <div class="ft">
+        footer
     </div>
 </div>

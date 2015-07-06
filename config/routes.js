@@ -13,7 +13,7 @@ module.exports.routes = {
     
     '/engine': 'siteController.engineIgnitePage',
 
-    '/engine/:brand': 'siteController.engineIndexPage'
+    '/engine/:brand': 'siteController.engineIndexPage',
 
 // To be revised
 
