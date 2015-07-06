@@ -137,13 +137,15 @@ module.exports = function (grunt) {
   grunt.loadTasks(depsPath + '/grunt-contrib-less/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-coffee/tasks');
 
-  // Azai: For compiling handlebars templates
-  // Use JST instead
+  // Azai
+  // For compiling handlebars templates. Use JST instead
   grunt.loadNpmTasks('grunt-contrib-handlebars');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+
+  // Compressing handlebar files
   grunt.loadNpmTasks('grunt-handlebars-min');
-    
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -162,7 +164,6 @@ module.exports = function (grunt) {
         src: ['test/**/*.spec.js']
       }
     },
-
     handlebarsmin: {
         dist: {
             cwd: 'views_source',
@@ -225,30 +226,20 @@ module.exports = function (grunt) {
     },
 
     clean: {
-      dev: ['.tmp/public/**', 'views'],
+      dev: ['.tmp/public/**', 'views', 'assets/styles'],
       build: ['www']
     },
 
     less: {
-      dev: {
-        files: [
-          {
+      dist: {
+          cwd: 'assets/less',
+          src: ['**/*.less'],
           expand: true,
-          cwd: 'assets/styles/',
-          src: ['*.less'],
-          dest: '.tmp/public/styles/',
+          dest: 'assets/styles',
           ext: '.css'
-        }, {
-          expand: true,
-          cwd: 'assets/linker/styles/',
-          src: ['*.less'],
-          dest: '.tmp/public/linker/styles/',
-          ext: '.css'
-        }
-        ]
       }
     },
-    
+
     coffee: {
       dev: {
         options:{
@@ -494,7 +485,7 @@ module.exports = function (grunt) {
 //    'jst:dev',
     'handlebarsmin',
     'handlebars:all',
-    'less:dev',
+    'less',
     'copy:dev',    
     'coffee:dev'
   ]);
@@ -525,7 +516,7 @@ module.exports = function (grunt) {
     'clean:dev',
 //    'jst:dev',
     'handlebars:all',
-    'less:dev',
+    'less',
     'copy:dev',
     'coffee:dev',
     'concat',
