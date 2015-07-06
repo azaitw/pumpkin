@@ -14,12 +14,12 @@ var brand = {
             unique: true,
             primaryKey: true
         },
-        brandNames: 'array', // multi-language name
-        logo: 'string',
-        business: 'string',
+        brandNames: 'json', // multi-language names. {zh_tw: '貝哥哥指南', en: 'Beardude', jp, 'ベルヅド'}
+        logo: 'json', // urls {size_128: 'beardude-128.png', 'size_64': 'beardude-64.png', 'favicon': 'beardude.fav'}
         phone: 'string',
+        url: 'string',
         address: 'string',
-        style: 'string',
+        email: 'string',
         creator: {
             model: 'user'
         }

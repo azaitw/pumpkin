@@ -8,21 +8,22 @@
 var bcrypt = require('bcrypt-nodejs');
 var user = {
     attributes: {
-        name: 'string',
-        password: {
-            type: 'string',
-            required: true
-        },
         email: {
             type: 'email',
             required: true,
             unique: true,
             primaryKey: true
         },
+        password: {
+            type: 'string',
+            required: true
+        },
+        name: 'string',
         phone: 'string',
+        defaultBrand: 'string',
         language: {
             type: 'string',
-            defaultsTo: 'zh-tw'
+            defaultsTo: 'zh_tw'
         }
     },
     beforeCreate: function (values, next) {
