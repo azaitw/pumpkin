@@ -1,0 +1,48 @@
+@import "../lib/form.less";
+
+.form-ul {
+    border-radius: 3px;
+}
+
+@media only screen and (max-width : 480px) { /* cellphone */
+    .index {
+        h1 {
+            font-size: 30px;
+        }
+        h3 {
+            font-size: 20px;
+        }        
+    }
+    .cover {
+        height: 300px;
+        .txt {
+            padding: 40px 0 5px 0;
+        }
+    }
+
+    .feature {
+        line-height: 30px;
+    }
+    .img {
+        background-image:url(/images/mainsite/cover-1-s.jpg);
+    }
+}
+@media only screen and (min-width : 480px) { /* desktop and tablet */
+    .index {
+        h1 {
+            font-size: 40px;
+        }
+        h3 {
+            font-size: 30px;
+        }        
+    }
+    .cover {
+        height: 400px;
+        .txt {
+            padding: 110px 0 5px 0;
+        }
+    }
+    .img {
+        background-image:url(/images/mainsite/cover-1-l.jpg);
+    }
+}

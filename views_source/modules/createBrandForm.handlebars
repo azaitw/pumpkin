@@ -1,0 +1,14 @@
+<div class="form-wrap mod-createBrandForm">
+    <form class="form" action="/brand/create" method="POST">
+        <div class="bd">
+            {{#errors.brandName}}<div class="err-msg">{{.}}</div>{{/errors.brandName}}
+            <div class="item">
+                <label class="" for="brandName">品牌名稱</label>
+                <input type="text" name="brandName" class="brandName" placeholder="品牌名稱" value="{{brandName}}" />
+            </div>
+        </div>
+        <div class="ft">
+            <input class="Pos-r btn Btn-orang Z-2 P-5 Fz-4" type="submit" value="確認" />
+        </div>
+    </form>
+</div>

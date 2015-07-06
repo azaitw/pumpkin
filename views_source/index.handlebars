@@ -1,0 +1,48 @@
+<div class="index bd main W-100" style="min-height:60%">
+    <div class="links Pos-f Fz-3 Fw-1 Z-2" style="top:15px; right:20px">
+        <ul>
+        {{#if isLoggedIn}}
+            <li class="D-ib Bgc-grey Bdrs-2 Ws-nw Ov-h">
+                <a class="C-wht D-b Td-0 Pl-15 Pr-15 Pt-5 Pb-5" href="/engine">進入管理頁面</a>
+            </li>            
+        {{else}}
+            <li class="D-ib Bgc-grey Bdrs-2 Ws-nw Ov-h Mr-10">
+                <a class="C-wht D-b Td-0 Pl-15 Pr-15 Pt-5 Pb-5 signup-btn" href="/signup">註冊</a>
+            </li>
+            <li class="D-ib Bgc-grey Bdrs-2 Ws-nw Ov-h">
+                <a class="C-wht D-b Td-0 Pl-15 Pr-15 Pt-5 Pb-5" href="/login">登入</a>
+            </li>
+        {{/if}}
+        </ul>
+    </div>
+    <div class="cover Pos-r M-0a" style="max-width:1440px; background:#000">
+        <div class="txt Ta-c">
+            <div class="Pos-r Z-2">
+                <h1 class="Fw-1 C-white-s M-0">Beardude Engine</h1>
+                <h2 class="Pt-3 C-white-s Mt-5 Mb-10 Fw-1 Fz-5" style="letter-spacing:1px;">輕鬆打造品牌網路商店</h2>
+            </div>
+            <div class=" Pos-a W-100 H-100 T-0 L-0 Z-1">
+                <div class="img Pos-r W-100 H-100 M-0a" style="background-position: 50% 50%; background-size:cover;"></div>
+            </div>
+        </div>
+        <div class="signup-form Pos-r Z-2 M-0a Cf {{#if isLoggedIn}}D-n{{/if}}" style="width:260px">
+        {{>signupForm}}
+        </div>
+    </div>
+    <div class="feature M-0a Fw-1 Lh-8 Pt-10" style="width:90%; max-width:800px; font-size:16px">
+        <p class="Ta-c">Beardude Engine 幫助您迅速建立質感獨到的網路商店，讓您在最短的時間內將熱騰騰的商品上架販售。內建電子商務必備的金流與物流工具，在這裏不用花大錢就可以擁有品牌的專屬電子商務網站。</p>
+        <ul>
+            {{#features}}
+            <li>
+                <h3 class="Fw-1 M-0">{{title}}</h3>
+                <p>{{desc}}</p>
+            </li>            
+            {{/features}}
+        </ul>
+    </div>
+    <div class="footer">
+        <ul>
+
+        </ul>
+    </div>
+</div>

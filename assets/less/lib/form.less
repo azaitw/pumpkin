@@ -1,0 +1,50 @@
+.err-msg {
+    display: none;
+    color: red;
+    &.general {
+        display: block;        
+    }
+}
+
+.form {
+    .bd {
+        label {
+            display: none;
+        }
+        input {
+            background: none;
+            border: 0;
+            display: block;
+            margin: 0 auto;
+            color: #333;
+            font-size: 17px;
+            font-weight: 100;
+            letter-spacing: 0.1px;
+            height: 42px;
+            line-height: 42px;
+            outline: none;
+            width: 95%;
+        }
+    }
+    .ft {
+        text-align: center;
+        margin-top: 10px;
+        input {
+            width: 100%;
+        }
+    }
+}
+.form-ul {
+    background: #fff;
+}
+.form-li {
+    border-bottom: 1px solid #ddd;
+    &:last-child {
+        border: 0;
+    }
+    &.err {
+      .err-msg {
+          display: block;
+      }
+    }
+}
