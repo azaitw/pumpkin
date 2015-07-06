@@ -8,7 +8,7 @@ module.exports = {
             descend: false // default: ascend
         }
     */
-    slug: function (string) {
+    sluggify: function (string) {
         return string
         .toLowerCase()
         .replace(/[^\w ]+/g,'') // remove hyphen
