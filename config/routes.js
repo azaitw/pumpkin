@@ -1,20 +1,24 @@
 module.exports.routes = {
-    '/': {
-        controller: 'siteController',
-        action: 'indexPage'
-    },
-    '/_test': {
-        controller: 'testController',
-        action: 'index'
-    },
-    '/signup': {
-        controller: 'brandController',
-        action: 'signupPage'
-    },
+//    '/_test': 'testController.index',
+
+// Verified
+
+    '/': 'siteController.indexPage',
+
+    'post /signup': 'siteController.signup',
+    'get /signup': 'siteController.signupPage',
+
+    'post /login': 'siteController.login',
+    'get /login': 'siteController.loginPage',
+    
+    '/engine': 'siteController.engineIgnitePage',
+
+    '/engine/:brand': 'siteController.engineIndexPage'
+
+// To be revised
+
 
     '/:brand': 'productController.listProductsPage',
-    
-    '/:brand/login': 'userController.loginPage',
 
     '/:brand/updateCart': 'cartController.accessPage',
 
@@ -26,11 +30,6 @@ module.exports.routes = {
 
     '/:brand/account/verify': 'orderController.submitVerificationPage',
 
-    // Admin page START
-    '/:brand/manage': {
-        controller: 'brandController',
-        action: 'managePage'
-    },
     // product: create
     '/:brand/manage/addProduct': {
         controller: 'productController',

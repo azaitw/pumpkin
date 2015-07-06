@@ -10,20 +10,9 @@
 
 module.exports.sockets = {
 
-  // This custom onConnect function will be run each time AFTER a new socket connects
-  // (To control whether a socket is allowed to connect, check out `authorization` config.)
-  // Keep in mind that Sails' RESTful simulation for sockets 
-  // mixes in socket.io events for your routes and blueprints automatically.
-  onConnect: function(session, socket) {
-      console.log('session: ', session);
-      console.log('socket: ', socket);
-    // By default: do nothing
-    // This is a good place to subscribe a new socket to a room, inform other users that
-    // someone new has come online, or any other custom socket.io logic
-  },
 
   // This custom onDisconnect function will be run each time a socket disconnects
-  onDisconnect: function(session, socket) {
+  afterDisconnect: function(session, socket) {
       console.log('session: ', session);
       console.log('socket: ', socket);
     // By default: do nothing
@@ -119,7 +108,7 @@ module.exports.sockets = {
         // to report an error, call `cb(err)`
     }
   */
-  authorization: true,
+  beforeConnect: undefined,
 
   // Match string representing the origins that are allowed to connect to the Socket.IO server
   origins: '*:*',
