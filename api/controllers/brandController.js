@@ -17,105 +17,27 @@
 
 var Q = require('q');
 var brandController = {
-        createUserForm: function () {
-            var form = [
-                    {
-                        text: 'email',
-                        label: 'Email'
-                    },
-                    {
-                        text: 'password',
-                        label: '密碼'
-                    }
-                ];
-            return form;
-        },
-        createBrandForm: function () {
-            var form = [
-                {
-                    text: 'brand'
-                }
-            ];
-            return form;
-        },
-        signupPage: function (req, res) {
-            var results = req.body;
-            if (typeof results !== 'undefined') {
-                user.create(results)
-                .then(function (D) {
-                    console.log('D: ', D);
-                    
-                });
-//                brandController.register(req, res);
-            } else {
-                renderService.html(req, res, {
-                    title: '註冊 Pumpkin Lab 帳號',
-                    form: brandController.createUserForm()
-                });
-            }
-        },
-        signupPageOld: function (req, res) {
-            var results = req.body;
-            if (typeof results !== 'undefined') {
-                brandController.register(req, res);
-            } else {
-                renderService.htmlOld(req, res, {
-                    title: '註冊 Pumpkin Lab 帳號',
-                    form: brandController.generateSignupForm1()
-                });
-            }
-        },
-        register: function (req, res) {
-            var results = req.body;
-
-            brand.findOne({brandName: results.brandName}) // Make sure brand doesn't exist
-            .then(function (D) {
-                if (typeof result !== 'undefined') {
-                    return res.send({
-                        status: 0,
-                        message: 'brand exists'
-                    });
-                }
-                return sails.controllers.user.createUser({ // If brand doesn't exist, create user first
-                    email: results.email,
-                    phone: results.phone,
-                    password: results.password
-                });
-            })
-            .catch(function (E) { // If user exists, assume user creating another brand
-                return sails.controllers.user.readUser({email: results.email});
-                //return res.send(E);
-            })
-            .then(function (D1) { // Create brand
-                return brand.create({
-                    brandName: results.brandName,
-                    brandName_cht: results.brandName_cht,
-                    slug: results.brandName.toLowerCase(),
-                    creator: D1.id,
-                    logo: ['/images/beardude/logo/beardude.png'],
-                    email: results.email,
-                    phone: results.phone,
-                    bankCode: results.bankCode,
-                    bankAccountNumber: results.bankAccountNumber,
-                    bankAccountName: results.bankAccountName
-                });
-            })
-            .catch(function (E1) { // If creating brand has error
-                return res.send(E1);
-            })
-            .then(function (D2) { // Return brand
-                D2.status = 1;
-                return res.send(D2);
-            });
-        },
-        managePage: function (req, res) {
-            return renderService.htmlOld(req, res, {
-                templates: {
-                    body: 'manage'
-                },
-                title: 'Beardude Engine 管理頁面'
-            });
-        }
+    create: function (req, res) { // POST
+        var brandName = req.body.brandName;
+        var brandObj = {
+            name: dataService.sluggify(brandName),
+            brandNames: {
+                en: brandName
+            },
+            creator: authService.whoAmI(req)
+        };
+        brand.create(brandObj)
+        .then(function (D) {
+            // 1. success
+            var brandName = D.name;
+            return res.redirect('/engine/' + brandName); // for testing
+        })
+        .catch(function (E) {
+            // 2. duplicate
+            // 3. unknown error
+            console.log('E: ', E);
+        });
+    }
 };
 
 module.exports = brandController;
